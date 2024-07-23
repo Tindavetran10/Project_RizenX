@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using World_Manager;
@@ -6,17 +7,21 @@ namespace Character.Player
 {
     public class PlayerInputManager : MonoBehaviour
     {
-    
         //Goals:
         // 1. Read input from player
         // 2. Move the player based on the input
 
-        private static PlayerInputManager Instance { get; set; }
+        public static PlayerInputManager Instance { get; set; }
 
         private PlayerController _playerController;
 
         [SerializeField] private Vector2 movementInput;
-
+        [SerializeField] public float verticalInput;
+        [SerializeField] public float horizontalInput;
+        
+        // Combine Vertical Input and Horizontal Input to get the move direction
+        [SerializeField] public float moveAmount;
+        
         private void Awake()
         {
             if (Instance == null)
@@ -59,6 +64,28 @@ namespace Character.Player
         {
             // When the game object is destroyed, stop the OnSceneChanged method
             SceneManager.activeSceneChanged -= OnSceneChanged;
+        }
+
+        private void Update()
+        {
+            HandleMovementInput();
+        }
+
+        // This method will handle the movement input from the player,
+        // not the movement speed
+        private void HandleMovementInput()
+        {
+            verticalInput = movementInput.y;
+            horizontalInput = movementInput.x;
+            
+            // Return the absolute value of the horizontal and vertical input
+            moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
+            
+            // We clamp the moveAmount to 0.5 or 1
+            if(moveAmount <= 0.5 && moveAmount > 0)
+                moveAmount = 0.5f;
+            else if (moveAmount > 0.5 && moveAmount <= 1)
+                moveAmount = 1;
         }
     }
 }
