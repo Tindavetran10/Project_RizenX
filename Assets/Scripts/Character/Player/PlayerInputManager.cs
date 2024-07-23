@@ -11,7 +11,7 @@ namespace Character.Player
         // 1. Read input from player
         // 2. Move the player based on the input
 
-        public static PlayerInputManager Instance { get; set; }
+        public static PlayerInputManager Instance { get; private set; }
 
         private PlayerController _playerController;
 
@@ -64,6 +64,16 @@ namespace Character.Player
         {
             // When the game object is destroyed, stop the OnSceneChanged method
             SceneManager.activeSceneChanged -= OnSceneChanged;
+        }
+
+        private void OnApplicationFocus(bool hasFocus)
+        {
+            if (enabled)
+            {
+                if(hasFocus)
+                    _playerController.Enable();
+                else _playerController.Disable();
+            }
         }
 
         private void Update()
