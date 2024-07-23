@@ -7,6 +7,8 @@ namespace Character.Player
     {
         public static PlayerCamera Instance { get; private set; }
 
+        public Camera cameraObject;
+        
         private void Awake()
         {
             if (Instance == null)

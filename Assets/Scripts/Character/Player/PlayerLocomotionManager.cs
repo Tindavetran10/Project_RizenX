@@ -13,8 +13,10 @@ namespace Character.Player
 
         [SerializeField] private float walkingSpeed;
         [SerializeField] private float runningSpeed;
+        [SerializeField] private float rotationSpeed;
 
         private Vector3 _moveDirection;
+        private Vector3 _targetRotationDirection;
         
         protected override void Awake()
         {
@@ -27,6 +29,7 @@ namespace Character.Player
             // Handle all movement related methods
             // Grounded Movement
             HandleGroundedMovement();
+            HandleRotation();
             // Airborne Movement
         }
         
@@ -48,17 +51,33 @@ namespace Character.Player
             _moveDirection.Normalize();
             _moveDirection.y = 0;
 
-            if (PlayerInputManager.Instance.moveAmount > 0.5f)
+            switch (PlayerInputManager.Instance.moveAmount)
             {
-                // Move the player at the running speed
-                _playerManager.characterController.Move(_moveDirection * (runningSpeed * Time.deltaTime));
+                case > 0.5f:
+                    // Move the player at the running speed
+                    _playerManager.characterController.Move(_moveDirection * (runningSpeed * Time.deltaTime));
+                    break;
+                case <= 0.5f:
+                    // Move the player at the walking speed
+                    _playerManager.characterController.Move(_moveDirection * (walkingSpeed * Time.deltaTime));
+                    break;
             }
-            else if (PlayerInputManager.Instance.moveAmount <= 0.5f)
-            {
-                // Move the player at the walking speed
-                _playerManager.characterController.Move(_moveDirection * (walkingSpeed * Time.deltaTime));
-            }
+        }
+
+        private void HandleRotation()
+        {
+            _targetRotationDirection = Vector3.zero;
+            _targetRotationDirection = PlayerCamera.Instance.cameraObject.transform.forward * verticalMovement;
+            _targetRotationDirection += PlayerCamera.Instance.cameraObject.transform.right * horizontalMovement;
+            _targetRotationDirection.Normalize();
+            _targetRotationDirection.y = 0;
             
+            if(_targetRotationDirection == Vector3.zero)
+                _targetRotationDirection = transform.forward;
+            
+            Quaternion newRotation = Quaternion.LookRotation(_targetRotationDirection);
+            Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * rotationSpeed);
+            transform.rotation = targetRotation;
         }
     }
 }
