@@ -1,15 +1,19 @@
-using System;
 using State_Machines;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Character.Player.Player_States
 {
     public class PlayerStateMachine : StateMachine
     {
-        private void Start()
+        public CharacterController characterController;
+        
+        private void Awake()
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            DontDestroyOnLoad(this);
+            characterController = GetComponent<CharacterController>();
         }
+        
+        
     }
 }

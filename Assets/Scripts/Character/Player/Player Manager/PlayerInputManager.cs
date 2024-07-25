@@ -6,16 +6,18 @@ namespace Character.Player.Player_Manager
 {
     public class PlayerInputManager : MonoBehaviour
     {
-    
         //Goals:
         // 1. Read input from player
         // 2. Move the player based on the input
 
-        private static PlayerInputManager Instance { get; set; }
+        public static PlayerInputManager Instance { get; private set; }
 
         private PlayerController _playerController;
 
         [SerializeField] private Vector2 movementInput;
+        [SerializeField] public float verticalInput;
+        [SerializeField] public float horizontalInput;
+        [SerializeField] public float moveAmount;
 
         private void Awake()
         {
@@ -59,6 +61,21 @@ namespace Character.Player.Player_Manager
         {
             // When the game object is destroyed, stop the OnSceneChanged method
             SceneManager.activeSceneChanged -= OnSceneChanged;
+        }
+        
+        private void Update() => HandleMovementInput();
+
+        private void HandleMovementInput()
+        {
+            verticalInput = movementInput.y;
+            horizontalInput = movementInput.x;
+            
+            moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
+            
+            if(moveAmount <= 0.5f && moveAmount > 0f)
+                moveAmount = 0.5f;
+            else if (moveAmount > 0.5f && moveAmount <= 1f)
+                moveAmount = 1;
         }
     }
 }
