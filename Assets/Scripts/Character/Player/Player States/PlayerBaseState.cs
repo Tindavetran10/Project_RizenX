@@ -14,7 +14,6 @@ namespace Character.Player.Player_States
         [SerializeField] private float _walkingSpeed;
         [SerializeField] private float _runningSpeed;
         
-        
         protected readonly PlayerStateMachine StateMachine;
         protected PlayerBaseState(PlayerStateMachine stateMachine) => StateMachine = stateMachine;
 
@@ -35,13 +34,9 @@ namespace Character.Player.Player_States
             moveDirection.y = 0;
 
             if (PlayerInputManager.Instance.moveAmount > 0.5f)
-            {
                 StateMachine.characterController.Move(moveDirection * _runningSpeed * Time.deltaTime);
-            }
-            else if (PlayerInputManager.Instance.moveAmount <= 0.5f)
-            {
+            else if (PlayerInputManager.Instance.moveAmount <= 0.5f) 
                 StateMachine.characterController.Move(moveDirection * _walkingSpeed * Time.deltaTime);
-            }
         }
     }
 }
