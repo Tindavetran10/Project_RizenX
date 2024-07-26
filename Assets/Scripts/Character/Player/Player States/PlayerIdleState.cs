@@ -1,3 +1,5 @@
+using Character.Player.Player_Manager;
+
 namespace Character.Player.Player_States
 {
     public class PlayerIdleState : PlayerBaseState
@@ -8,7 +10,11 @@ namespace Character.Player.Player_States
 
         public override void Enter() {}
 
-        public override void Tick(float deltaTime) {}
+        public override void Tick(float deltaTime)
+        {
+            if(PlayerInputManager.Instance.moveAmount != 0f)
+                StateMachine.SwitchState(new PlayerMoveState(StateMachine));
+        }
 
         public override void Exit() {}
     }

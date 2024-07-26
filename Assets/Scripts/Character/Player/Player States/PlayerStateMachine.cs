@@ -16,6 +16,6 @@ namespace Character.Player.Player_States
             characterController = GetComponent<CharacterController>();
         }
         
-        private void Start() => SwitchState(new PlayerMoveState(this));
+        private void Start() => SwitchState(new PlayerIdleState(this));
     }
 }
