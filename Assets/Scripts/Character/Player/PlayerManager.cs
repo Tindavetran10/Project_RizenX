@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Character.Player
 {
     public class PlayerManager : CharacterManager

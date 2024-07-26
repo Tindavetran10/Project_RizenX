@@ -75,10 +75,7 @@ namespace Character.Player
             }
         }
 
-        private void Update()
-        {
-            HandleMovementInput();
-        }
+        private void Update() => HandleMovementInput();
 
         // This method will handle the movement input from the player,
         // not the movement speed
@@ -89,12 +86,17 @@ namespace Character.Player
             
             // Return the absolute value of the horizontal and vertical input
             moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
-            
-            // We clamp the moveAmount to 0.5 or 1
-            if(moveAmount <= 0.5 && moveAmount > 0)
-                moveAmount = 0.5f;
-            else if (moveAmount > 0.5 && moveAmount <= 1)
-                moveAmount = 1;
+
+            switch (moveAmount)
+            {
+                // We clamp the moveAmount to 0.5 or 1
+                case <= 0.5f and > 0f:
+                    moveAmount = 0.5f;
+                    break;
+                case > 0.5f and <= 1f:
+                    moveAmount = 1f;
+                    break;
+            }
         }
     }
 }
