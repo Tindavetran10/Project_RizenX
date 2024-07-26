@@ -72,10 +72,11 @@ namespace Character.Player.Player_Manager
             
             moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
             
-            if(moveAmount <= 0.5f && moveAmount > 0f)
-                moveAmount = 0.5f;
-            else if (moveAmount > 0.5f && moveAmount <= 1f)
-                moveAmount = 1;
+            switch (moveAmount)
+            {
+                case <= 0.5f and > 0f: moveAmount = 0.5f; break;
+                case > 0.5f and <= 1f: moveAmount = 1f; break;
+            }
         }
     }
 }

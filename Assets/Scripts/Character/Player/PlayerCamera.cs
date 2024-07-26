@@ -12,5 +12,7 @@ namespace Character.Player
                 Instance = this;
             else Destroy(gameObject);
         }
+        
+        private void Start() => DontDestroyOnLoad(gameObject);
     }
 }

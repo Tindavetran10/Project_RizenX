@@ -1046,7 +1046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4075371552
+  GlobalObjectIdHash: 4229697228
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1068,6 +1068,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterController: {fileID: -7226973976584720979}
+  PlayerInputManager: {fileID: 6062207519412933866, guid: e45a6bdcd45a5784b866976063409113,
+    type: 3}
 --- !u!114 &6040523466264911079
 MonoBehaviour:
   m_ObjectHideFlags: 0

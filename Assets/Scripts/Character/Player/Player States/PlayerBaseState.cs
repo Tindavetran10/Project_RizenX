@@ -18,8 +18,17 @@ namespace Character.Player.Player_States
         protected readonly PlayerStateMachine StateMachine;
         protected PlayerBaseState(PlayerStateMachine stateMachine) => StateMachine = stateMachine;
 
+        private void GetVerticalAndHorizontalInput()
+        {
+            verticalMovement = PlayerInputManager.Instance.verticalInput;
+            horizontalMovement = PlayerInputManager.Instance.horizontalInput;
+            moveAmount = PlayerInputManager.Instance.moveAmount;
+        }
+        
         private void HandleGroundedMovement()
         {
+            GetVerticalAndHorizontalInput();
+            
             moveDirection = PlayerCamera.Instance.transform.forward * verticalMovement;
             moveDirection += PlayerCamera.Instance.transform.right * horizontalMovement;
             moveDirection.Normalize();
