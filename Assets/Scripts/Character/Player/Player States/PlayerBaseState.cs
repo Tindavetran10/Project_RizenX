@@ -1,3 +1,4 @@
+using System;
 using State_Machines;
 using UnityEngine;
 using PlayerInputManager = Character.Player.Player_Manager.PlayerInputManager;
@@ -11,8 +12,6 @@ namespace Character.Player.Player_States
         public float moveAmount;
         
         public Vector3 moveDirection;
-        [SerializeField] private float _walkingSpeed;
-        [SerializeField] private float _runningSpeed;
         
         protected readonly PlayerStateMachine StateMachine;
         protected PlayerBaseState(PlayerStateMachine stateMachine) => StateMachine = stateMachine;
@@ -23,8 +22,8 @@ namespace Character.Player.Player_States
             horizontalMovement = PlayerInputManager.Instance.horizontalInput;
             moveAmount = PlayerInputManager.Instance.moveAmount;
         }
-        
-        private void HandleGroundedMovement()
+
+        protected void HandleGroundedMovement()
         {
             GetVerticalAndHorizontalInput();
             
@@ -33,10 +32,15 @@ namespace Character.Player.Player_States
             moveDirection.Normalize();
             moveDirection.y = 0;
 
-            if (PlayerInputManager.Instance.moveAmount > 0.5f)
-                StateMachine.characterController.Move(moveDirection * _runningSpeed * Time.deltaTime);
-            else if (PlayerInputManager.Instance.moveAmount <= 0.5f) 
-                StateMachine.characterController.Move(moveDirection * _walkingSpeed * Time.deltaTime);
+            switch (PlayerInputManager.Instance.moveAmount)
+            {
+                case > 0.5f:
+                    StateMachine.characterController.Move(moveDirection * (StateMachine.RunningSpeed * Time.deltaTime));
+                    break;
+                case <= 0.5f:
+                    StateMachine.characterController.Move(moveDirection * (StateMachine.WalkingSpeed * Time.deltaTime));
+                    break;
+            }
         }
     }
 }

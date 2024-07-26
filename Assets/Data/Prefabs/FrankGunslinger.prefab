@@ -981,7 +981,6 @@ GameObject:
   - component: {fileID: 5060548902110767085}
   - component: {fileID: 783657843763313997}
   - component: {fileID: 4399081569149570199}
-  - component: {fileID: 6040523466264911079}
   - component: {fileID: -7226973976584720979}
   m_Layer: 0
   m_Name: FrankGunslinger
@@ -1046,7 +1045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4229697228
+  GlobalObjectIdHash: 4075371552
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1068,20 +1067,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterController: {fileID: -7226973976584720979}
-  PlayerInputManager: {fileID: 6062207519412933866, guid: e45a6bdcd45a5784b866976063409113,
-    type: 3}
---- !u!114 &6040523466264911079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2720785045488354669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 485525e6d50b49b6b73c982baa362c78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  <WalkingSpeed>k__BackingField: 2
+  <RunningSpeed>k__BackingField: 5
 --- !u!143 &-7226973976584720979
 CharacterController:
   m_ObjectHideFlags: 0
