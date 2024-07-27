@@ -10,13 +10,18 @@ namespace Character.Player
         
         // Change these to tweak camera performance
         [Header("Camera Settings")] 
-        private Vector3 _cameraVelocity;
         
         // The bigger the value, the slower the camera will follow the player
         private const float CameraSmoothSpeed = 1f;
-
+        [SerializeField] private float leftAndRightLookSpeed = 220f;
+        [SerializeField] private float upAndDownLookSpeed = 220f;
+        [SerializeField] private float minimumPivot = -30f; // Minimum angle the camera can look down
+        [SerializeField] private float maximumPivot = 60f; // Maximum angle the camera can look up
+        
         [Header("Camera Values")] 
-        private Vector3 cameraVelocity;
+        private Vector3 _cameraVelocity;
+        [SerializeField] private float leftAndRightLookAngle;
+        [SerializeField] private float upAndDownLookAngle;
 
         private void Awake()
         {
@@ -52,6 +57,11 @@ namespace Character.Player
         {
             // If locked on, force rotation towards target,
             // If not locked on, rotates around the player
+            
+            // Normal Rotations
+            leftAndRightLookAngle += (PlayerInputManager.Instance.cameraHorizontalInput * leftAndRightLookSpeed) * Time.deltaTime;
+            upAndDownLookAngle -= (PlayerInputManager.Instance.cameraVerticalInput * upAndDownLookSpeed) * Time.deltaTime;
+            upAndDownLookAngle = Mathf.Clamp(upAndDownLookAngle, minimumPivot, maximumPivot);
         }
     }
 }

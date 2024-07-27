@@ -14,6 +14,7 @@ namespace Character.Player
 
         private PlayerController _playerController;
 
+        [Header("Player Movement Input")]
         [SerializeField] private Vector2 movementInput;
         [SerializeField] public float verticalInput;
         [SerializeField] public float horizontalInput;
@@ -21,6 +22,10 @@ namespace Character.Player
         // Combine Vertical Input and Horizontal Input to get the move direction
         [SerializeField] public float moveAmount;
         
+        [Header("Camera Movement Input")]
+        [SerializeField] private Vector2 cameraInput;
+        [SerializeField] public float cameraVerticalInput;
+        [SerializeField] public float cameraHorizontalInput;
         private void Awake()
         {
             if (Instance == null)
@@ -55,6 +60,8 @@ namespace Character.Player
             
                 // give the input value from the Movement in the PlayerController to the movementInput
                 _playerController.PlayerMovement.Movement.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
+                _playerController.PlayerCamera.Movement.performed += ctx => cameraInput = ctx.ReadValue<Vector2>();
+
             }
             _playerController.Enable();
         }
@@ -75,11 +82,15 @@ namespace Character.Player
             }
         }
 
-        private void Update() => HandleMovementInput();
+        private void Update()
+        {
+            HandlePlayerMovementInput();
+            HandleCameraMovementInput();
+        }
 
         // This method will handle the movement input from the player,
         // not the movement speed
-        private void HandleMovementInput()
+        private void HandlePlayerMovementInput()
         {
             verticalInput = movementInput.y;
             horizontalInput = movementInput.x;
@@ -97,6 +108,12 @@ namespace Character.Player
                     moveAmount = 1f;
                     break;
             }
+        }
+
+        private void HandleCameraMovementInput()
+        {
+            cameraVerticalInput = cameraInput.y;
+            cameraHorizontalInput = cameraInput.x;
         }
     }
 }
