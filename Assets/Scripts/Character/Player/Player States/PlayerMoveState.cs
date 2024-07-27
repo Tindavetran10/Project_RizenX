@@ -1,3 +1,6 @@
+using UnityEngine.InputSystem;
+using PlayerInputManager = Character.Player.Player_Manager.PlayerInputManager;
+
 namespace Character.Player.Player_States
 {
     public class PlayerMoveState : PlayerBaseState
@@ -8,7 +11,12 @@ namespace Character.Player.Player_States
 
         public override void Enter(){}
 
-        public override void Tick(float deltaTime) => HandleGroundedMovement();
+        public override void Tick(float deltaTime)
+        {
+            if(PlayerInputManager.Instance.moveAmount == 0f)
+                StateMachine.SwitchState(new PlayerIdleState(StateMachine));
+            HandleGroundedMovement();
+        }
 
         public override void Exit() {}
     }

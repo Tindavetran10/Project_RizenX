@@ -6,6 +6,7 @@ namespace Character
     public class CharacterStateMachine : StateMachine
     {
         public CharacterController characterController;
+        public CharacterNetworkManager characterNetworkManager;
         
         [field: Header("Movement Speeds")]
         [field: SerializeField] public float WalkingSpeed { get; private set; }
@@ -15,6 +16,20 @@ namespace Character
         {
             DontDestroyOnLoad(this);
             characterController = GetComponent<CharacterController>();
+            characterNetworkManager = GetComponent<CharacterNetworkManager>();
+        }
+
+        protected void FixedUpdate()
+        {
+            if(IsOwner)
+               characterNetworkManager.networkPosition.Value = transform.position;
+            else
+            {
+                transform.position = Vector3.SmoothDamp(transform.position, 
+                    characterNetworkManager.networkPosition.Value, 
+                    ref characterNetworkManager.networkPositionVelocity, 
+                    characterNetworkManager.networkPositionSmoothTime);
+            }
         }
     }
 }

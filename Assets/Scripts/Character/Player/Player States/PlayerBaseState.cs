@@ -19,7 +19,6 @@ namespace Character.Player.Player_States
         {
             _verticalMovement = PlayerInputManager.Instance.verticalInput;
             _horizontalMovement = PlayerInputManager.Instance.horizontalInput;
-            moveAmount = PlayerInputManager.Instance.moveAmount;
         }
 
         protected void HandleGroundedMovement()
