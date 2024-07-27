@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Character
+namespace References
 {
     public class CharacterManager : MonoBehaviour
     {

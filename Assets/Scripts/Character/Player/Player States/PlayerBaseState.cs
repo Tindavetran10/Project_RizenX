@@ -1,4 +1,3 @@
-using System;
 using State_Machines;
 using UnityEngine;
 using PlayerInputManager = Character.Player.Player_Manager.PlayerInputManager;
@@ -7,19 +6,19 @@ namespace Character.Player.Player_States
 {
     public abstract class PlayerBaseState : State
     {
-        public float verticalMovement;
-        public float horizontalMovement;
+        private float _verticalMovement;
+        private float _horizontalMovement;
         public float moveAmount;
-        
-        public Vector3 moveDirection;
+
+        private Vector3 _moveDirection;
         
         protected readonly PlayerStateMachine StateMachine;
         protected PlayerBaseState(PlayerStateMachine stateMachine) => StateMachine = stateMachine;
 
         private void GetVerticalAndHorizontalInput()
         {
-            verticalMovement = PlayerInputManager.Instance.verticalInput;
-            horizontalMovement = PlayerInputManager.Instance.horizontalInput;
+            _verticalMovement = PlayerInputManager.Instance.verticalInput;
+            _horizontalMovement = PlayerInputManager.Instance.horizontalInput;
             moveAmount = PlayerInputManager.Instance.moveAmount;
         }
 
@@ -27,18 +26,18 @@ namespace Character.Player.Player_States
         {
             GetVerticalAndHorizontalInput();
             
-            moveDirection = PlayerCamera.Instance.transform.forward * verticalMovement;
-            moveDirection += PlayerCamera.Instance.transform.right * horizontalMovement;
-            moveDirection.Normalize();
-            moveDirection.y = 0;
+            _moveDirection = PlayerCamera.Instance.transform.forward * _verticalMovement;
+            _moveDirection += PlayerCamera.Instance.transform.right * _horizontalMovement;
+            _moveDirection.Normalize();
+            _moveDirection.y = 0;
 
             switch (PlayerInputManager.Instance.moveAmount)
             {
                 case > 0.5f:
-                    StateMachine.characterController.Move(moveDirection * (StateMachine.RunningSpeed * Time.deltaTime));
+                    StateMachine.characterController.Move(_moveDirection * (StateMachine.RunningSpeed * Time.deltaTime));
                     break;
                 case <= 0.5f:
-                    StateMachine.characterController.Move(moveDirection * (StateMachine.WalkingSpeed * Time.deltaTime));
+                    StateMachine.characterController.Move(_moveDirection * (StateMachine.WalkingSpeed * Time.deltaTime));
                     break;
             }
         }

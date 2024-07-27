@@ -57,12 +57,10 @@ namespace Character.Player.Player_Manager
             _playerController.Enable();
         }
 
-        private void OnDestroy()
-        {
+        private void OnDestroy() =>
             // When the game object is destroyed, stop the OnSceneChanged method
             SceneManager.activeSceneChanged -= OnSceneChanged;
-        }
-        
+
         private void Update() => HandleMovementInput();
 
         private void HandleMovementInput()

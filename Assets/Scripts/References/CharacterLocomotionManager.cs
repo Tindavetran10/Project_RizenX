@@ -1,4 +1,4 @@
-namespace Character
+namespace References
 {
     public class CharacterLocomotionManager
     {

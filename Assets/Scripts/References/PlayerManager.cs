@@ -1,4 +1,4 @@
-namespace Character.Player.Player_Manager
+namespace References
 {
     public class PlayerManager : CharacterManager
     {

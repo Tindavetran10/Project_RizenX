@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Character.Player.Player_Manager
+namespace References
 {
     public class PlayerLocomotionManager : MonoBehaviour
     {
