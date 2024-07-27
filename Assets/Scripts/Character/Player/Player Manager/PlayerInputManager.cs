@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using World_Manager;
@@ -60,6 +61,16 @@ namespace Character.Player.Player_Manager
         private void OnDestroy() =>
             // When the game object is destroyed, stop the OnSceneChanged method
             SceneManager.activeSceneChanged -= OnSceneChanged;
+
+        private void OnApplicationFocus(bool hasFocus)
+        {
+            if (enabled)
+            {
+                if(hasFocus)
+                    _playerController.Enable();
+                else _playerController.Disable();
+            }
+        }
 
         private void Update() => HandleMovementInput();
 

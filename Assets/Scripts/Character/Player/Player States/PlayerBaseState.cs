@@ -11,6 +11,7 @@ namespace Character.Player.Player_States
         public float moveAmount;
 
         private Vector3 _moveDirection;
+        private Vector3 _targetRotationDirection;
         
         protected readonly PlayerStateMachine StateMachine;
         protected PlayerBaseState(PlayerStateMachine stateMachine) => StateMachine = stateMachine;
@@ -19,6 +20,12 @@ namespace Character.Player.Player_States
         {
             _verticalMovement = PlayerInputManager.Instance.verticalInput;
             _horizontalMovement = PlayerInputManager.Instance.horizontalInput;
+        }
+        
+        public void HandleAllMovement()
+        {
+            HandleGroundedMovement();
+            HandleRotation();
         }
 
         protected void HandleGroundedMovement()
@@ -39,6 +46,25 @@ namespace Character.Player.Player_States
                     StateMachine.characterController.Move(_moveDirection * (StateMachine.WalkingSpeed * Time.deltaTime));
                     break;
             }
+        }
+
+        protected void HandleRotation()
+        {
+            _targetRotationDirection = Vector3.zero;
+            _targetRotationDirection = PlayerCamera.Instance.cameraObject.transform.forward * _verticalMovement;
+            _targetRotationDirection += PlayerCamera.Instance.cameraObject.transform.right * _horizontalMovement;
+            _targetRotationDirection.Normalize();
+            _targetRotationDirection.y = 0;
+            
+            if(_targetRotationDirection == Vector3.zero) 
+                _targetRotationDirection = StateMachine.transform.forward;
+            
+            Quaternion newRotation = Quaternion.LookRotation(_targetRotationDirection);
+            Quaternion targetRotation = Quaternion.Slerp(
+                StateMachine.transform.rotation, 
+                newRotation, StateMachine.RotationSpeed * Time.deltaTime);
+            
+            StateMachine.transform.rotation = targetRotation;
         }
     }
 }

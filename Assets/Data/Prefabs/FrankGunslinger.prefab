@@ -1071,6 +1071,7 @@ MonoBehaviour:
   characterNetworkManager: {fileID: -5542036628521068657}
   <WalkingSpeed>k__BackingField: 2
   <RunningSpeed>k__BackingField: 5
+  <RotationSpeed>k__BackingField: 15
 --- !u!114 &-5542036628521068657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1085,6 +1086,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   networkPosition:
     m_InternalValue: {x: 0, y: 0, z: 0}
+  networkRotation:
+    m_InternalValue: {x: 0, y: 0, z: 0, w: 1}
+  networkPositionVelocity: {x: 0, y: 0, z: 0}
+  networkPositionSmoothTime: 0.1
+  networkRotationSmoothTime: 0.1
 --- !u!143 &-7226973976584720979
 CharacterController:
   m_ObjectHideFlags: 0

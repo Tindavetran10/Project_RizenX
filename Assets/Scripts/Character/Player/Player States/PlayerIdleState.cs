@@ -12,6 +12,8 @@ namespace Character.Player.Player_States
 
         public override void Tick(float deltaTime)
         {
+            if(!StateMachine.IsOwner)
+                return;
             if(PlayerInputManager.Instance.moveAmount != 0f)
                 StateMachine.SwitchState(new PlayerMoveState(StateMachine));
         }
