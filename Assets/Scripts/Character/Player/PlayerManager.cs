@@ -19,5 +19,18 @@ namespace Character.Player
             // Handle all player related methods
             _playerLocomotionManager.HandleAllMovement();
         }
+
+        protected override void LateUpdate()
+        {
+            if (!IsOwner) return;
+            base.LateUpdate();
+            PlayerCamera.Instance.HandleAllCameraActions();
+        }
+        
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            if (IsOwner) PlayerCamera.Instance.playerManager = this;
+        }
     }
 }

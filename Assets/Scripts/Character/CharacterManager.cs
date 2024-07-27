@@ -40,5 +40,7 @@ namespace Character
                     _characterNetworkManager.networkRotationSmoothTime);
             }
         }
+
+        protected virtual void LateUpdate() {}
     }
 }
