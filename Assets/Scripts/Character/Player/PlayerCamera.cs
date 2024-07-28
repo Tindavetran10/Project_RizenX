@@ -18,12 +18,22 @@ namespace Character.Player
         [SerializeField] private float upAndDownLookSpeed = 220f;
         [SerializeField] private float minimumPivot = -30f; // Minimum angle the camera can look down
         [SerializeField] private float maximumPivot = 60f; // Maximum angle the camera can look up
+        [SerializeField] private float cameraCollisionRadius = 0.2f;
+        [SerializeField] private LayerMask collideWithLayers;
         
         [Header("Camera Values")] 
         private Vector3 _cameraVelocity;
+        
+        // The value used for camera collision
+        // (Move the camera object to this position upon collision)
+        private Vector3 _cameraObjectPosition; 
+        
         [SerializeField] private float leftAndRightLookAngle;
         [SerializeField] private float upAndDownLookAngle;
-
+        
+        private float _cameraZPosition; // The value used for camera collision
+        private float _targetCameraZPosition; // The value used for camera collision
+        
         private void Awake()
         {
             if (Instance == null)
@@ -31,24 +41,29 @@ namespace Character.Player
             else Destroy(gameObject);
         }
         
-        private void Start() => DontDestroyOnLoad(gameObject);
-        
+        private void Start()
+        {
+            DontDestroyOnLoad(gameObject);
+            _cameraZPosition = cameraObject.transform.localPosition.z;
+        }
+
         public void HandleAllCameraActions()
         {
-            if (playerManager != null)
-            {
-                HandleFollowTarget();
-                HandleRotates();
-            }
-            
             // Follow the Player
             // Rotate around the Player
             // Collide with the environment
+            
+            if (playerManager is not null)
+            {
+                HandleFollowTarget();
+                HandleRotates();
+                HandleCollisions();
+            }
         }
 
         private void HandleFollowTarget()
         {
-            Vector3 targetCameraPosition = Vector3.SmoothDamp(transform.position, 
+            var targetCameraPosition = Vector3.SmoothDamp(transform.position, 
                 playerManager.transform.position, 
                 ref _cameraVelocity, 
                 CameraSmoothSpeed * Time.deltaTime);
@@ -69,11 +84,10 @@ namespace Character.Player
             upAndDownLookAngle = Mathf.Clamp(upAndDownLookAngle, minimumPivot, maximumPivot);
             
             var cameraRotation = Vector3.zero;
-            Quaternion targetRotation;
-            
+
             // Rotate this game object left and right
             cameraRotation.y = leftAndRightLookAngle;
-            targetRotation = Quaternion.Euler(cameraRotation);
+            var targetRotation = Quaternion.Euler(cameraRotation);
             transform.rotation = targetRotation;
             
             // Rotate the camera pivot up and down
@@ -81,6 +95,37 @@ namespace Character.Player
             cameraRotation.x = upAndDownLookAngle;
             targetRotation = Quaternion.Euler(cameraRotation);
             cameraPivotTransform.localRotation = targetRotation;
+        }
+        
+        private void HandleCollisions()
+        {
+            // If the camera collides with the environment, move the camera to the closest point
+            // If the camera is not colliding with the environment,
+            // move the camera to the target position
+            
+            _targetCameraZPosition = _cameraZPosition;
+            // Get the direction for collision check
+            var direction = cameraObject.transform.position - cameraPivotTransform.position;
+            direction.Normalize();
+            
+            // We check if there is an object in front of our desired position (see the direction above)
+            if(Physics.SphereCast(cameraPivotTransform.position, cameraCollisionRadius, direction, out var hit, 
+                   Mathf.Abs(_cameraZPosition), collideWithLayers))
+            {
+                // if there is, we get our distance from it
+                var distanceFromHitObject = Vector3.Distance(cameraPivotTransform.position, hit.point);
+                // we then equate our target z position to the following
+                _targetCameraZPosition = -(distanceFromHitObject - cameraCollisionRadius);
+            }
+            
+            // If our target position is less than the camera collision radius, we subtract our collision radius
+            // (making it snap back)
+            if(Mathf.Abs(_targetCameraZPosition) < cameraCollisionRadius) 
+                _targetCameraZPosition = -cameraCollisionRadius;
+            
+            // we then apply our final position using lerp over a time of 0.2f
+            _cameraObjectPosition.z = Mathf.Lerp(cameraObject.transform.localPosition.z, _targetCameraZPosition, 0.2f);
+            cameraObject.transform.localPosition = _cameraObjectPosition;
         }
     }
 }
