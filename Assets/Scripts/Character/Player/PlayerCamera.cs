@@ -7,6 +7,7 @@ namespace Character.Player
         public static PlayerCamera Instance { get; private set; }
         public PlayerManager playerManager;
         public Camera cameraObject;
+        [SerializeField] private Transform cameraPivotTransform;
         
         // Change these to tweak camera performance
         [Header("Camera Settings")] 
@@ -37,6 +38,7 @@ namespace Character.Player
             if (playerManager != null)
             {
                 HandleFollowTarget();
+                HandleRotates();
             }
             
             // Follow the Player
@@ -59,9 +61,26 @@ namespace Character.Player
             // If not locked on, rotates around the player
             
             // Normal Rotations
+            // Rotate left and right based on the horizontal input
             leftAndRightLookAngle += (PlayerInputManager.Instance.cameraHorizontalInput * leftAndRightLookSpeed) * Time.deltaTime;
+            // Rotate up and down based on the vertical input
             upAndDownLookAngle -= (PlayerInputManager.Instance.cameraVerticalInput * upAndDownLookSpeed) * Time.deltaTime;
+            // Clamp the up and down look angle to the minimum and maximum pivot
             upAndDownLookAngle = Mathf.Clamp(upAndDownLookAngle, minimumPivot, maximumPivot);
+            
+            var cameraRotation = Vector3.zero;
+            Quaternion targetRotation;
+            
+            // Rotate this game object left and right
+            cameraRotation.y = leftAndRightLookAngle;
+            targetRotation = Quaternion.Euler(cameraRotation);
+            transform.rotation = targetRotation;
+            
+            // Rotate the camera pivot up and down
+            cameraRotation = Vector3.zero;
+            cameraRotation.x = upAndDownLookAngle;
+            targetRotation = Quaternion.Euler(cameraRotation);
+            cameraPivotTransform.localRotation = targetRotation;
         }
     }
 }
