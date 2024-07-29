@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using World_Manager;
@@ -54,6 +53,7 @@ namespace Character.Player.Player_Manager
             
                 // give the input value from the Movement in the PlayerController to the movementInput
                 _playerController.PlayerMovement.Movement.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
+                _playerController.PlayerCamera.Movement.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
             }
             _playerController.Enable();
         }
