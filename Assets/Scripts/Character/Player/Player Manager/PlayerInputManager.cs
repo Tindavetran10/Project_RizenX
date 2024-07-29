@@ -19,6 +19,10 @@ namespace Character.Player.Player_Manager
         public float horizontalInput;
         public float moveAmount;
 
+        [SerializeField] private Vector2 cameraInput;
+        public float cameraVerticalInput;
+        public float cameraHorizontalInput;
+        
         private void Awake()
         {
             if (Instance == null)
@@ -53,7 +57,7 @@ namespace Character.Player.Player_Manager
             
                 // give the input value from the Movement in the PlayerController to the movementInput
                 _playerController.PlayerMovement.Movement.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
-                _playerController.PlayerCamera.Movement.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
+                _playerController.PlayerCamera.Movement.performed += ctx => cameraInput = ctx.ReadValue<Vector2>();
             }
             _playerController.Enable();
         }
@@ -72,7 +76,11 @@ namespace Character.Player.Player_Manager
             }
         }
 
-        private void Update() => HandleMovementInput();
+        private void Update()
+        {
+            HandleMovementInput();
+            HandleCameraInput();
+        }
 
         private void HandleMovementInput()
         {
@@ -86,6 +94,12 @@ namespace Character.Player.Player_Manager
                 case <= 0.5f and > 0f: moveAmount = 0.5f; break;
                 case > 0.5f and <= 1f: moveAmount = 1f; break;
             }
+        }
+
+        private void HandleCameraInput()
+        {
+            cameraVerticalInput = cameraInput.y;
+            cameraHorizontalInput = cameraInput.x;
         }
     }
 }
