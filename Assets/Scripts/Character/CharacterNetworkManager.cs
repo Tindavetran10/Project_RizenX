@@ -7,12 +7,12 @@ namespace Character
     {
         [Header("Position")] 
         public NetworkVariable<Vector3> networkPosition =
-            new NetworkVariable<Vector3>(Vector3.zero, 
+            new(Vector3.zero, 
                 NetworkVariableReadPermission.Everyone,
                 NetworkVariableWritePermission.Owner);
         
         public NetworkVariable<Quaternion> networkRotation =
-            new NetworkVariable<Quaternion>(Quaternion.identity, 
+            new(Quaternion.identity, 
                 NetworkVariableReadPermission.Everyone,
                 NetworkVariableWritePermission.Owner);
 
