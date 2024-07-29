@@ -1,3 +1,4 @@
+using System;
 using State_Machines;
 using UnityEngine;
 
@@ -20,6 +21,8 @@ namespace Character
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
         }
 
+        protected virtual void Start() {}
+
         protected virtual void FixedUpdate()
         {
             if(IsOwner)
@@ -39,5 +42,7 @@ namespace Character
                     characterNetworkManager.networkRotationSmoothTime);
             }
         }
+
+        protected virtual void LateUpdate() {}
     }
 }
