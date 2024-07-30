@@ -14,11 +14,13 @@ namespace Character.Player.Player_Manager
 
         private PlayerController _playerController;
 
+        [Header("Player Movement Input")]
         [SerializeField] private Vector2 movementInput;
         public float verticalInput;
         public float horizontalInput;
         public float moveAmount;
 
+        [Header("Camera Movement Input")]
         [SerializeField] private Vector2 cameraInput;
         public float cameraVerticalInput;
         public float cameraHorizontalInput;
@@ -78,11 +80,11 @@ namespace Character.Player.Player_Manager
 
         private void Update()
         {
-            HandleMovementInput();
-            HandleCameraInput();
+            HandlePlayerMovementInput();
+            HandleCameraMovementInput();
         }
 
-        private void HandleMovementInput()
+        private void HandlePlayerMovementInput()
         {
             verticalInput = movementInput.y;
             horizontalInput = movementInput.x;
@@ -96,7 +98,7 @@ namespace Character.Player.Player_Manager
             }
         }
 
-        private void HandleCameraInput()
+        private void HandleCameraMovementInput()
         {
             cameraVerticalInput = cameraInput.y;
             cameraHorizontalInput = cameraInput.x;
