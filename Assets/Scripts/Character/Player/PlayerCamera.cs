@@ -102,19 +102,26 @@ namespace Character.Player
         private void HandleCollisions()
         {
             _targetCameraZPosition = _cameraZPosition;
+            // direction for collision check
             var direction = cameraObject.transform.position - cameraPivotTransform.position;
             direction.Normalize();
             
+            // We check if there is an object in front of our desired direction (see "direction" variable)
             if(Physics.SphereCast(cameraPivotTransform.position, cameraCollisionRadius, direction, 
                    out var hit, Mathf.Abs(_targetCameraZPosition), collisionLayer))
             {
+                // if there is, we get the distance from the camera pivot to the hit object
                 var distanceFromHitObject = Vector3.Distance(cameraPivotTransform.position, hit.point);
+                // we then equate our target z position to the following
                 _targetCameraZPosition = -(distanceFromHitObject - cameraCollisionRadius);
             }
             
+            // if our target position is less than our collision radius, we subtract the collision radius from it
+            // (making it snap back)
             if(Mathf.Abs(_targetCameraZPosition) < cameraCollisionRadius) 
                 _targetCameraZPosition = -cameraCollisionRadius;
             
+            // we then apply or final position using lerp
             _cameraObjectPosition.z = Mathf.Lerp(cameraObject.transform.localPosition.z, _targetCameraZPosition, 0.2f);
             cameraObject.transform.localPosition = _cameraObjectPosition;
         }
