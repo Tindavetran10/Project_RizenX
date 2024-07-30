@@ -1638,6 +1638,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4119775277043058703, guid: 318207802d8e39543bf0bfb318223dc3,
+        type: 3}
+      propertyPath: collisionLayer.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1646054289417801169, guid: 318207802d8e39543bf0bfb318223dc3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2408570159208794257, guid: 318207802d8e39543bf0bfb318223dc3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1646,7 +1656,7 @@ PrefabInstance:
     - target: {fileID: 2408570159208794257, guid: 318207802d8e39543bf0bfb318223dc3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2408570159208794257, guid: 318207802d8e39543bf0bfb318223dc3,
         type: 3}
@@ -1706,7 +1716,7 @@ PrefabInstance:
     - target: {fileID: 6106711681335121141, guid: 318207802d8e39543bf0bfb318223dc3,
         type: 3}
       propertyPath: m_Name
-      value: PlayerCamera
+      value: PlayerCamera (Left&Right)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
