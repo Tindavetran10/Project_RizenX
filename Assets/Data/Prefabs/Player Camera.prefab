@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04595a5148a947cbac98f866afee5115, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerManager: {fileID: 6989506328591937992, guid: 334aa9adaa868474c97ac02e425b7466,
+  playerManager: {fileID: 17347725282868985, guid: 0aa1d8663c4fbb842ba2040c9a740a7b,
     type: 3}
   cameraObject: {fileID: 2690041010968773337}
   cameraPivotTransform: {fileID: 579848263675029420}
