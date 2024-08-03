@@ -1,19 +1,24 @@
+using System;
 using UnityEngine;
 
 namespace Character
 {
     public class CharacterAnimatorManager : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
+        private CharacterManager characterManager;
+        private static readonly int Horizontal = Animator.StringToHash("Horizontal");
+        private static readonly int Vertical = Animator.StringToHash("Vertical");
+
+        protected virtual void Awake()
         {
-        
+           characterManager = GetComponent<CharacterManager>(); 
         }
 
-        // Update is called once per frame
-        void Update()
+        public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue)
         {
-        
+            // Optional: Cache the character manager
+            characterManager.animator.SetFloat(Horizontal, horizontalValue, 0.1f, Time.deltaTime);
+            characterManager.animator.SetFloat(Vertical, verticalValue,0.1f, Time.deltaTime);
         }
     }
 }

@@ -1,14 +1,15 @@
-﻿using UnityEngine;
+﻿using Invector.vCharacterController;
+using UnityEngine;
 
-namespace Invector.vCharacterController
+namespace Art.Models.Invector_3rdPersonController_LITE.Scripts.CharacterController
 {
-    public class vThirdPersonInput : MonoBehaviour
+    public sealed class VThirdPersonInput : MonoBehaviour
     {
         #region Variables       
 
         [Header("Controller Input")]
         public string horizontalInput = "Horizontal";
-        public string verticallInput = "Vertical";
+        public string verticalInput = "Vertical";
         public KeyCode jumpInput = KeyCode.Space;
         public KeyCode strafeInput = KeyCode.Tab;
         public KeyCode sprintInput = KeyCode.LeftShift;
@@ -23,33 +24,33 @@ namespace Invector.vCharacterController
 
         #endregion
 
-        protected virtual void Start()
+        private void Start()
         {
-            InitilizeController();
+            InitializeController();
             InitializeTpCamera();
         }
 
-        protected virtual void FixedUpdate()
+        private void FixedUpdate()
         {
             cc.UpdateMotor();               // updates the ThirdPersonMotor methods
-            cc.ControlLocomotionType();     // handle the controller locomotion type and movespeed
+            cc.ControlLocomotionType();     // handle the controller locomotion type and move speed
             cc.ControlRotationType();       // handle the controller rotation type
         }
 
-        protected virtual void Update()
+        private void Update()
         {
             InputHandle();                  // update the input methods
             cc.UpdateAnimator();            // updates the Animator Parameters
         }
 
-        public virtual void OnAnimatorMove()
+        public void OnAnimatorMove()
         {
             cc.ControlAnimatorRootMotion(); // handle root motion animations 
         }
 
         #region Basic Locomotion Inputs
 
-        protected virtual void InitilizeController()
+        private void InitializeController()
         {
             cc = GetComponent<vThirdPersonController>();
 
@@ -57,7 +58,7 @@ namespace Invector.vCharacterController
                 cc.Init();
         }
 
-        protected virtual void InitializeTpCamera()
+        private void InitializeTpCamera()
         {
             if (tpCamera == null)
             {
@@ -72,7 +73,7 @@ namespace Invector.vCharacterController
             }
         }
 
-        protected virtual void InputHandle()
+        private void InputHandle()
         {
             MoveInput();
             CameraInput();
@@ -81,13 +82,13 @@ namespace Invector.vCharacterController
             JumpInput();
         }
 
-        public virtual void MoveInput()
+        private void MoveInput()
         {
             cc.input.x = Input.GetAxis(horizontalInput);
-            cc.input.z = Input.GetAxis(verticallInput);
+            cc.input.z = Input.GetAxis(verticalInput);
         }
 
-        protected virtual void CameraInput()
+        private void CameraInput()
         {
             if (!cameraMain)
             {
@@ -107,19 +108,19 @@ namespace Invector.vCharacterController
             if (tpCamera == null)
                 return;
 
-            var Y = Input.GetAxis(rotateCameraYInput);
-            var X = Input.GetAxis(rotateCameraXInput);
+            var y = Input.GetAxis(rotateCameraYInput);
+            var x = Input.GetAxis(rotateCameraXInput);
 
-            tpCamera.RotateCamera(X, Y);
+            tpCamera.RotateCamera(x, y);
         }
 
-        protected virtual void StrafeInput()
+        private void StrafeInput()
         {
             if (Input.GetKeyDown(strafeInput))
                 cc.Strafe();
         }
 
-        protected virtual void SprintInput()
+        private void SprintInput()
         {
             if (Input.GetKeyDown(sprintInput))
                 cc.Sprint(true);
@@ -128,10 +129,10 @@ namespace Invector.vCharacterController
         }
 
         /// <summary>
-        /// Conditions to trigger the Jump animation & behavior
+        /// Conditions to trigger the Jump animation & behaviour
         /// </summary>
         /// <returns></returns>
-        protected virtual bool JumpConditions()
+        private bool JumpConditions()
         {
             return cc.isGrounded && cc.GroundAngle() < cc.slopeLimit && !cc.isJumping && !cc.stopMove;
         }
@@ -139,7 +140,7 @@ namespace Invector.vCharacterController
         /// <summary>
         /// Input to trigger the Jump 
         /// </summary>
-        protected virtual void JumpInput()
+        private void JumpInput()
         {
             if (Input.GetKeyDown(jumpInput) && JumpConditions())
                 cc.Jump();

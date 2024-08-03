@@ -11,7 +11,7 @@ namespace Character.Player
         // 2. Move the player based on the input
 
         public static PlayerInputManager Instance { get; private set; }
-
+        public PlayerManager playerManager;
         private PlayerController _playerController;
 
         [Header("Player Movement Input")]
@@ -108,6 +108,15 @@ namespace Character.Player
                     moveAmount = 1f;
                     break;
             }
+            // Why do we only pass 0 on the horizontal input?
+            // Because we are only using the horizontal input when we are strafing or locked on to an enemy
+            
+            if(playerManager == null) return;
+            
+            // If we are not strafing or locked on to an enemy, we only use the moveAmount
+            playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+            
+            // If we are strafing or locked on to an enemy, we use the horizontal input as well
         }
 
         private void HandleCameraMovementInput()

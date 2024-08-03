@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Art.Models.Invector_3rdPersonController_LITE.Scripts.CharacterController;
+using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -131,7 +132,7 @@ namespace Invector.vCharacterController
                 return;          
             _ThirdPerson.name = "vBasicController_" + charObj.gameObject.name;
             _ThirdPerson.AddComponent<vThirdPersonController>();
-            _ThirdPerson.AddComponent<vThirdPersonInput>();
+            _ThirdPerson.AddComponent<VThirdPersonInput>();
 
             var rigidbody = _ThirdPerson.AddComponent<Rigidbody>();
             var collider = _ThirdPerson.AddComponent<CapsuleCollider>();

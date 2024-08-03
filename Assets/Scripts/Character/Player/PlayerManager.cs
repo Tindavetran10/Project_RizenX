@@ -1,12 +1,16 @@
+using UnityEngine;
+
 namespace Character.Player
 {
     public class PlayerManager : CharacterManager
     {
-        private PlayerLocomotionManager _playerLocomotionManager;
+        [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
+        [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
         protected override void Awake()
         {
             base.Awake();
-            _playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
+            playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
+            playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         }
         
         protected override void Update()
@@ -17,7 +21,7 @@ namespace Character.Player
             if(!IsOwner) return;
          
             // Handle all player related methods
-            _playerLocomotionManager.HandleAllMovement();
+            playerLocomotionManager.HandleAllMovement();
         }
 
         protected override void LateUpdate()
@@ -30,7 +34,11 @@ namespace Character.Player
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
-            if (IsOwner) PlayerCamera.Instance.playerManager = this;
+            if (IsOwner)
+            {
+                PlayerCamera.Instance.playerManager = this;
+                PlayerInputManager.Instance.playerManager = this;
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ namespace Character
     public class CharacterManager : NetworkBehaviour
     {
         public CharacterController characterController;
+        [HideInInspector] public Animator animator;
         
         private CharacterNetworkManager _characterNetworkManager;
         
@@ -14,6 +15,7 @@ namespace Character
             DontDestroyOnLoad(this);
             
             characterController = GetComponent<CharacterController>();
+            animator = GetComponent<Animator>();
             _characterNetworkManager = GetComponent<CharacterNetworkManager>();
         }
         
