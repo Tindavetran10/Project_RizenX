@@ -5,10 +5,10 @@ namespace Character
 {
     public class CharacterManager : NetworkBehaviour
     {
-        public CharacterController characterController;
+        [HideInInspector] public CharacterController characterController;
         [HideInInspector] public Animator animator;
         
-        private CharacterNetworkManager _characterNetworkManager;
+        [HideInInspector] public CharacterNetworkManager characterNetworkManager;
         
         protected virtual void Awake()
         {
@@ -16,7 +16,7 @@ namespace Character
             
             characterController = GetComponent<CharacterController>();
             animator = GetComponent<Animator>();
-            _characterNetworkManager = GetComponent<CharacterNetworkManager>();
+            characterNetworkManager = GetComponent<CharacterNetworkManager>();
         }
         
         protected virtual void Update()
@@ -24,22 +24,22 @@ namespace Character
             // If this is the owner of the character, update the network position
             if (IsOwner)
             {
-                _characterNetworkManager.networkPosition.Value = transform.position;
-                _characterNetworkManager.networkRotation.Value = transform.rotation;
+                characterNetworkManager.networkPosition.Value = transform.position;
+                characterNetworkManager.networkRotation.Value = transform.rotation;
             }
             // If this is not the owner of the character, update the position of the character
             else
             {
                 // Smoothly move the character to the network position
                 transform.position = Vector3.SmoothDamp(transform.position, 
-                    _characterNetworkManager.networkPosition.Value, 
-                    ref _characterNetworkManager.networkPositionVelocity, 
-                    _characterNetworkManager.networkPositionSmoothTime);
+                    characterNetworkManager.networkPosition.Value, 
+                    ref characterNetworkManager.networkPositionVelocity, 
+                    characterNetworkManager.networkPositionSmoothTime);
                 
                 // Smoothly rotate the character to the network rotation
                 transform.rotation = Quaternion.Slerp(transform.rotation, 
-                    _characterNetworkManager.networkRotation.Value, 
-                    _characterNetworkManager.networkRotationSmoothTime);
+                    characterNetworkManager.networkRotation.Value, 
+                    characterNetworkManager.networkRotationSmoothTime);
             }
         }
 

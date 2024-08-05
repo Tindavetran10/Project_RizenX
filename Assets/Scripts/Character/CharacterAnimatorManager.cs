@@ -1,24 +1,24 @@
-using System;
 using UnityEngine;
 
 namespace Character
 {
     public class CharacterAnimatorManager : MonoBehaviour
     {
-        private CharacterManager characterManager;
+        private CharacterManager _characterManager;
+        private float _vertical;
+        private float _horizontal;
         private static readonly int Horizontal = Animator.StringToHash("Horizontal");
         private static readonly int Vertical = Animator.StringToHash("Vertical");
 
         protected virtual void Awake()
         {
-           characterManager = GetComponent<CharacterManager>(); 
+           _characterManager = GetComponent<CharacterManager>(); 
         }
 
-        public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue)
+        public void UpdateAnimatorMovementParameters(float horizontalMovement, float verticalMovement)
         {
-            // Optional: Cache the character manager
-            characterManager.animator.SetFloat(Horizontal, horizontalValue, 0.1f, Time.deltaTime);
-            characterManager.animator.SetFloat(Vertical, verticalValue,0.1f, Time.deltaTime);
+            _characterManager.animator.SetFloat(Horizontal, horizontalMovement, 0.1f, Time.deltaTime);
+            _characterManager.animator.SetFloat(Vertical, verticalMovement,0.1f, Time.deltaTime);
         }
     }
 }

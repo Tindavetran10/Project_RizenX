@@ -344,9 +344,9 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 78619ea0e9e2ea84f9d02ae4880f9382, type: 3}
   m_Controller: {fileID: 9100000, guid: b5a07db5500923041948a5a1fe3adfc3, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 2
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -388,6 +388,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterController: {fileID: 8781963894303378290}
+  animator: {fileID: 0}
+  characterNetworkManager: {fileID: 0}
+  playerAnimatorManager: {fileID: 0}
+  playerLocomotionManager: {fileID: 0}
 --- !u!114 &3506501358106247873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,8 +408,8 @@ MonoBehaviour:
   horizontalMovement: 0
   moveAmount: 0
   walkingSpeed: 5
-  runningSpeed: 10
-  rotationSpeed: 15
+  runningSpeed: 8
+  rotationSpeed: 10
 --- !u!114 &3033423106471134583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,6 +429,12 @@ MonoBehaviour:
   networkPositionVelocity: {x: 0, y: 0, z: 0}
   networkPositionSmoothTime: 0.1
   networkRotationSmoothTime: 0.1
+  horizontalMovement:
+    m_InternalValue: 0
+  verticalMovement:
+    m_InternalValue: 0
+  moveAmount:
+    m_InternalValue: 0
 --- !u!114 &2852494887956121610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -460,7 +470,7 @@ CharacterController:
   m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.01
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.91, z: 0}
 --- !u!1 &1340342052822982116

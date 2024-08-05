@@ -37,7 +37,7 @@ namespace Character.Player
             if (IsOwner)
             {
                 PlayerCamera.Instance.playerManager = this;
-                PlayerInputManager.Instance.playerManager = this;
+                PlayerInputManager.Instance.PlayerManager = this;
             }
         }
     }

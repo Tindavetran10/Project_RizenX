@@ -6,7 +6,12 @@ namespace Character
     {
         protected virtual void Awake()
         {
-            // Initialize the CharacterLocomotionManager
+            
+        }
+
+        protected virtual void Update()
+        {
+            
         }
     }
 }

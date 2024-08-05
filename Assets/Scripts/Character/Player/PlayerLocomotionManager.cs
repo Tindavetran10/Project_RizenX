@@ -23,7 +23,30 @@ namespace Character.Player
             base.Awake();
             _playerManager = GetComponent<PlayerManager>();
         }
-        
+
+        protected override void Update()
+        {
+            base.Update();
+
+            if (_playerManager.IsOwner)
+            {
+                _playerManager.characterNetworkManager.verticalMovement.Value = verticalMovement;
+                _playerManager.characterNetworkManager.horizontalMovement.Value = horizontalMovement;
+                _playerManager.characterNetworkManager.moveAmount.Value = moveAmount;
+            }
+            else
+            {
+                horizontalMovement = _playerManager.characterNetworkManager.horizontalMovement.Value;
+                verticalMovement = _playerManager.characterNetworkManager.verticalMovement.Value;
+                moveAmount = _playerManager.characterNetworkManager.moveAmount.Value;
+                
+                // If not locked on, pass the moveAmount
+                _playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+                
+                // If locked on, pass the horizontal and vertical movement
+            }
+        }
+
         public void HandleAllMovement()
         {
             // Handle all movement related methods
@@ -34,16 +57,17 @@ namespace Character.Player
         }
         
         // Get the vertical and horizontal movement from the PlayerInputManager
-        private void GetVerticalAndHorizontalMovement()
+        private void GetMovementValues()
         {
             verticalMovement = PlayerInputManager.Instance.verticalInput;
             horizontalMovement = PlayerInputManager.Instance.horizontalInput;
+            moveAmount = PlayerInputManager.Instance.moveAmount;
         }
 
         private void HandleGroundedMovement()
         {
             // Pass the vertical and horizontal movement to moveDirection
-            GetVerticalAndHorizontalMovement();
+            GetMovementValues();
             
             // Move direction is based on the camera's perspective and movement input
             _moveDirection = PlayerCamera.Instance.transform.forward * verticalMovement;
@@ -75,8 +99,8 @@ namespace Character.Player
             if(_targetRotationDirection == Vector3.zero)
                 _targetRotationDirection = transform.forward;
             
-            Quaternion newRotation = Quaternion.LookRotation(_targetRotationDirection);
-            Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * rotationSpeed);
+            var newRotation = Quaternion.LookRotation(_targetRotationDirection);
+            var targetRotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * rotationSpeed);
             transform.rotation = targetRotation;
         }
     }
