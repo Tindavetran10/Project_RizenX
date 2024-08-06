@@ -1,4 +1,3 @@
-using Character.Player.Player_States;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using World_Manager;
@@ -12,8 +11,7 @@ namespace Character.Player.Player_Manager
         // 2. Move the player based on the input
 
         public static PlayerInputManager Instance { get; private set; }
-        public PlayerStateMachine playerStateMachine;
-        
+
         private PlayerController _playerController;
 
         [Header("Player Movement Input")]
@@ -98,9 +96,6 @@ namespace Character.Player.Player_Manager
                 case <= 0.5f and > 0f: moveAmount = 0.5f; break;
                 case > 0.5f and <= 1f: moveAmount = 1f; break;
             }
-            
-            if(playerStateMachine == null) return;
-            playerStateMachine.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
         }
 
         private void HandleCameraMovementInput()

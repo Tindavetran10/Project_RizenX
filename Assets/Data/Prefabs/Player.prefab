@@ -420,7 +420,7 @@ MonoBehaviour:
   animator: {fileID: 1043773082791914264}
   characterNetworkManager: {fileID: 2306272661965159116}
   <WalkingSpeed>k__BackingField: 2
-  <RunningSpeed>k__BackingField: 5
+  <RunningSpeed>k__BackingField: 6.5
   <RotationSpeed>k__BackingField: 15
   playerAnimatorManager: {fileID: 0}
 --- !u!114 &2274904132569653267
@@ -477,7 +477,7 @@ CharacterController:
   m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.01
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.91, z: 0}
 --- !u!1 &1852822270857238148

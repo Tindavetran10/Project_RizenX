@@ -20,6 +20,7 @@ namespace Character.Player.Player_States
         {
             _verticalMovement = PlayerInputManager.Instance.verticalInput;
             _horizontalMovement = PlayerInputManager.Instance.horizontalInput;
+            moveAmount = PlayerInputManager.Instance.moveAmount;
         }
 
         protected void HandleAllMovement()
@@ -59,8 +60,8 @@ namespace Character.Player.Player_States
             if(_targetRotationDirection == Vector3.zero) 
                 _targetRotationDirection = StateMachine.transform.forward;
             
-            Quaternion newRotation = Quaternion.LookRotation(_targetRotationDirection);
-            Quaternion targetRotation = Quaternion.Slerp(
+            var newRotation = Quaternion.LookRotation(_targetRotationDirection);
+            var targetRotation = Quaternion.Slerp(
                 StateMachine.transform.rotation, 
                 newRotation, StateMachine.RotationSpeed * Time.deltaTime);
             

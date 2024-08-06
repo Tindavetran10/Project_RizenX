@@ -1,6 +1,5 @@
 using Character.Player.Player_Manager;
 using UnityEngine;
-using PlayerInputManager = Character.Player.Player_Manager.PlayerInputManager;
 
 namespace Character.Player.Player_States
 {
@@ -31,7 +30,6 @@ namespace Character.Player.Player_States
             if (IsOwner)
             {
                 PlayerCamera.Instance.PlayerStateMachine = this;
-                PlayerInputManager.Instance.playerStateMachine = this;
             }
         }
     }

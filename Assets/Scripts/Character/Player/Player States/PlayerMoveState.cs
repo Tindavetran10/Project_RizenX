@@ -1,4 +1,3 @@
-using UnityEngine.InputSystem;
 using PlayerInputManager = Character.Player.Player_Manager.PlayerInputManager;
 
 namespace Character.Player.Player_States
@@ -19,6 +18,10 @@ namespace Character.Player.Player_States
                 StateMachine.SwitchState(new PlayerIdleState(StateMachine));
             
             HandleAllMovement();
+            
+            if(StateMachine == null) return;
+            StateMachine.playerAnimatorManager.UpdateAnimatorMovementParameters(0,  
+                moveAmount);
         }
 
         public override void Exit() {}
