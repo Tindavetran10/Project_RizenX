@@ -30,6 +30,7 @@ namespace Character.Player.Player_States
             if (IsOwner)
             {
                 PlayerCamera.Instance.PlayerStateMachine = this;
+                PlayerInputManager.Instance.playerStateMachine = this;
             }
         }
     }

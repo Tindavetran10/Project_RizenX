@@ -1,3 +1,4 @@
+using Character.Player.Player_States;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using World_Manager;
@@ -11,7 +12,8 @@ namespace Character.Player.Player_Manager
         // 2. Move the player based on the input
 
         public static PlayerInputManager Instance { get; private set; }
-
+        public PlayerStateMachine playerStateMachine;
+        
         private PlayerController _playerController;
 
         [Header("Player Movement Input")]
