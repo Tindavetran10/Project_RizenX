@@ -1,4 +1,3 @@
-using System;
 using State_Machines;
 using UnityEngine;
 
@@ -7,6 +6,7 @@ namespace Character
     public class CharacterStateMachine : StateMachine
     {
         public CharacterController characterController;
+        public Animator animator;
         public CharacterNetworkManager characterNetworkManager;
         
         [field: Header("Movement Speeds")]
@@ -18,6 +18,7 @@ namespace Character
         {
             DontDestroyOnLoad(this);
             characterController = GetComponent<CharacterController>();
+            animator = GetComponent<Animator>();
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
         }
 

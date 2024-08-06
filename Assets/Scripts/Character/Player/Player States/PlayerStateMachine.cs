@@ -1,8 +1,19 @@
+using Character.Player.Player_Manager;
+using UnityEngine;
+using PlayerInputManager = Character.Player.Player_Manager.PlayerInputManager;
+
 namespace Character.Player.Player_States
 {
     public class PlayerStateMachine : CharacterStateMachine
     {
+        [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
         protected override void Start() => SwitchState(new PlayerIdleState(this));
+
+        protected override void Awake()
+        {
+            base.Awake();
+            playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+        }
 
         protected override void LateUpdate()
         {
@@ -20,6 +31,7 @@ namespace Character.Player.Player_States
             if (IsOwner)
             {
                 PlayerCamera.Instance.PlayerStateMachine = this;
+                PlayerInputManager.Instance.playerStateMachine = this;
             }
         }
     }

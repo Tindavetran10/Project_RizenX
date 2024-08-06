@@ -21,14 +21,14 @@ namespace Character.Player.Player_States
             _verticalMovement = PlayerInputManager.Instance.verticalInput;
             _horizontalMovement = PlayerInputManager.Instance.horizontalInput;
         }
-        
-        public void HandleAllMovement()
+
+        protected void HandleAllMovement()
         {
             HandleGroundedMovement();
             HandleRotation();
         }
 
-        protected void HandleGroundedMovement()
+        private void HandleGroundedMovement()
         {
             GetVerticalAndHorizontalInput();
             
@@ -48,7 +48,7 @@ namespace Character.Player.Player_States
             }
         }
 
-        protected void HandleRotation()
+        private void HandleRotation()
         {
             _targetRotationDirection = Vector3.zero;
             _targetRotationDirection = PlayerCamera.Instance.cameraObject.transform.forward * _verticalMovement;
