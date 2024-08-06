@@ -355,7 +355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5556358533142032527}
   m_Layer: 10
-  m_Name: Player
+  m_Name: ErikaPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
