@@ -4,7 +4,7 @@ namespace Character.Player.Player_States
 {
     public class PlayerIdleState : PlayerBaseState
     {
-        public PlayerIdleState(PlayerStateMachine stateMachine) : base(stateMachine) {}
+        public PlayerIdleState(PlayerStateMachine playerStateMachine) : base(playerStateMachine) {}
 
         public override void Awake() {}
 
@@ -12,12 +12,12 @@ namespace Character.Player.Player_States
 
         public override void Update()
         {
-            if(!StateMachine.IsOwner) return;
+            if(!PlayerStateMachine.IsOwner) return;
             if(PlayerInputManager.Instance.moveAmount != 0f)
-                StateMachine.SwitchState(new PlayerMoveState(StateMachine));
+                PlayerStateMachine.SwitchState(new PlayerMoveState(PlayerStateMachine));
             
-            if(StateMachine == null) return;
-            StateMachine.playerAnimatorManager.UpdateAnimatorMovementParameters(0, 0);
+            if(PlayerStateMachine == null) return;
+            PlayerStateMachine.playerAnimatorManager.UpdateAnimatorMovementParameters(0, 0);
         }
 
         public override void Exit() {}

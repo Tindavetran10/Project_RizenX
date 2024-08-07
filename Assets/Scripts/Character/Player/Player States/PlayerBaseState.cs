@@ -1,4 +1,5 @@
 using State_Machines;
+using Unity.Collections;
 using UnityEngine;
 using PlayerInputManager = Character.Player.Player_Manager.PlayerInputManager;
 
@@ -13,20 +14,33 @@ namespace Character.Player.Player_States
         private Vector3 _moveDirection;
         private Vector3 _targetRotationDirection;
         
-        protected readonly PlayerStateMachine StateMachine;
-        protected PlayerBaseState(PlayerStateMachine stateMachine) => StateMachine = stateMachine;
+        protected readonly PlayerStateMachine PlayerStateMachine;
+        protected PlayerBaseState(PlayerStateMachine playerStateMachine) => PlayerStateMachine = playerStateMachine;
 
         public override void Update()
         {
             base.Update();
             
-            if(StateMachine.IsOwner)
+            if(PlayerStateMachine.IsOwner)
             {
+                PlayerStateMachine.characterNetworkManager.verticalMovement.Value = _verticalMovement;
+                PlayerStateMachine.characterNetworkManager.horizontalMovement.Value = _horizontalMovement;
+                PlayerStateMachine.characterNetworkManager.moveAmount.Value = moveAmount;
+            }
+            else
+            {
+                _verticalMovement = PlayerStateMachine.characterNetworkManager.verticalMovement.Value;
+                _horizontalMovement = PlayerStateMachine.characterNetworkManager.horizontalMovement.Value;
+                moveAmount = PlayerStateMachine.characterNetworkManager.moveAmount.Value;
                 
+                // If not locked on, pass 0 as the first parameter
+                PlayerStateMachine.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+                
+                // If locked on, pass the horizontal movement
             }
         }
 
-        private void GetVerticalAndHorizontalInput()
+        private void GetMovementValues()
         {
             _verticalMovement = PlayerInputManager.Instance.verticalInput;
             _horizontalMovement = PlayerInputManager.Instance.horizontalInput;
@@ -41,7 +55,7 @@ namespace Character.Player.Player_States
 
         private void HandleGroundedMovement()
         {
-            GetVerticalAndHorizontalInput();
+            GetMovementValues();
             
             _moveDirection = PlayerCamera.Instance.transform.forward * _verticalMovement;
             _moveDirection += PlayerCamera.Instance.transform.right * _horizontalMovement;
@@ -51,10 +65,10 @@ namespace Character.Player.Player_States
             switch (PlayerInputManager.Instance.moveAmount)
             {
                 case > 0.5f:
-                    StateMachine.characterController.Move(_moveDirection * (StateMachine.RunningSpeed * Time.deltaTime));
+                    PlayerStateMachine.characterController.Move(_moveDirection * (PlayerStateMachine.RunningSpeed * Time.deltaTime));
                     break;
                 case <= 0.5f:
-                    StateMachine.characterController.Move(_moveDirection * (StateMachine.WalkingSpeed * Time.deltaTime));
+                    PlayerStateMachine.characterController.Move(_moveDirection * (PlayerStateMachine.WalkingSpeed * Time.deltaTime));
                     break;
             }
         }
@@ -68,14 +82,14 @@ namespace Character.Player.Player_States
             _targetRotationDirection.y = 0;
             
             if(_targetRotationDirection == Vector3.zero) 
-                _targetRotationDirection = StateMachine.transform.forward;
+                _targetRotationDirection = PlayerStateMachine.transform.forward;
             
             var newRotation = Quaternion.LookRotation(_targetRotationDirection);
             var targetRotation = Quaternion.Slerp(
-                StateMachine.transform.rotation, 
-                newRotation, StateMachine.RotationSpeed * Time.deltaTime);
+                PlayerStateMachine.transform.rotation, 
+                newRotation, PlayerStateMachine.RotationSpeed * Time.deltaTime);
             
-            StateMachine.transform.rotation = targetRotation;
+            PlayerStateMachine.transform.rotation = targetRotation;
         }
     }
 }

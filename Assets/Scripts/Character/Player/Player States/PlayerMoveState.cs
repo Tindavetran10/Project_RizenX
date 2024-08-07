@@ -4,7 +4,7 @@ namespace Character.Player.Player_States
 {
     public class PlayerMoveState : PlayerBaseState
     {
-        public PlayerMoveState(PlayerStateMachine stateMachine) : base(stateMachine) {}
+        public PlayerMoveState(PlayerStateMachine playerStateMachine) : base(playerStateMachine) {}
 
         public override void Awake() {}
 
@@ -12,20 +12,20 @@ namespace Character.Player.Player_States
 
         public override void Update()
         {
-            if(!StateMachine.IsOwner)
+            if(!PlayerStateMachine.IsOwner)
                 return;
             if(PlayerInputManager.Instance.moveAmount == 0f)
-                StateMachine.SwitchState(new PlayerIdleState(StateMachine));
+                PlayerStateMachine.SwitchState(new PlayerIdleState(PlayerStateMachine));
             
             HandleAllMovement();
             
-            if(StateMachine == null) return;
+            if(PlayerStateMachine == null) return;
             
             // Why do we pass 0 as the first parameter? 
             // Because we only want non-strafe movement,
             
             // We only use the horizontal when we are strafing or locked on
-            StateMachine.playerAnimatorManager.UpdateAnimatorMovementParameters(0,  
+            PlayerStateMachine.playerAnimatorManager.UpdateAnimatorMovementParameters(0,  
                 moveAmount);
             
             // If we are locked on, pass the horizontal movement
