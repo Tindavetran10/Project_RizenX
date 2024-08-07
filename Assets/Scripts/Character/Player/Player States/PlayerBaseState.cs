@@ -16,6 +16,16 @@ namespace Character.Player.Player_States
         protected readonly PlayerStateMachine StateMachine;
         protected PlayerBaseState(PlayerStateMachine stateMachine) => StateMachine = stateMachine;
 
+        public override void Update()
+        {
+            base.Update();
+            
+            if(StateMachine.IsOwner)
+            {
+                
+            }
+        }
+
         private void GetVerticalAndHorizontalInput()
         {
             _verticalMovement = PlayerInputManager.Instance.verticalInput;

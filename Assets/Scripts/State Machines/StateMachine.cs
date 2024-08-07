@@ -1,4 +1,3 @@
-using UnityEngine;
 using Unity.Netcode;
 
 namespace State_Machines
@@ -13,8 +12,7 @@ namespace State_Machines
             _currentState = newState;
             _currentState?.Enter();
         }
-        
-        // Calling the Tick method of the current state
-        private void Update() => _currentState?.Tick(Time.deltaTime);
+
+        private void Update() => _currentState?.Update();
     }
 }

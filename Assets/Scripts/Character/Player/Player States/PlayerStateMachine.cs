@@ -6,6 +6,7 @@ namespace Character.Player.Player_States
     public class PlayerStateMachine : CharacterStateMachine
     {
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
+        
         protected override void Start() => SwitchState(new PlayerIdleState(this));
 
         protected override void Awake()

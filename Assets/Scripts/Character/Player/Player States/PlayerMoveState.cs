@@ -10,7 +10,7 @@ namespace Character.Player.Player_States
 
         public override void Enter(){}
 
-        public override void Tick(float deltaTime)
+        public override void Update()
         {
             if(!StateMachine.IsOwner)
                 return;
@@ -20,8 +20,15 @@ namespace Character.Player.Player_States
             HandleAllMovement();
             
             if(StateMachine == null) return;
+            
+            // Why do we pass 0 as the first parameter? 
+            // Because we only want non-strafe movement,
+            
+            // We only use the horizontal when we are strafing or locked on
             StateMachine.playerAnimatorManager.UpdateAnimatorMovementParameters(0,  
                 moveAmount);
+            
+            // If we are locked on, pass the horizontal movement
         }
 
         public override void Exit() {}
