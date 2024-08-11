@@ -1,5 +1,4 @@
 using State_Machines;
-using Unity.Collections;
 using UnityEngine;
 using PlayerInputManager = Character.Player.Player_Manager.PlayerInputManager;
 
@@ -9,7 +8,7 @@ namespace Character.Player.Player_States
     {
         private float _verticalMovement;
         private float _horizontalMovement;
-        public float moveAmount;
+        protected float MoveAmount;
 
         private Vector3 _moveDirection;
         private Vector3 _targetRotationDirection;
@@ -25,16 +24,16 @@ namespace Character.Player.Player_States
             {
                 PlayerStateMachine.characterNetworkManager.verticalMovement.Value = _verticalMovement;
                 PlayerStateMachine.characterNetworkManager.horizontalMovement.Value = _horizontalMovement;
-                PlayerStateMachine.characterNetworkManager.moveAmount.Value = moveAmount;
+                PlayerStateMachine.characterNetworkManager.moveAmount.Value = MoveAmount;
             }
             else
             {
                 _verticalMovement = PlayerStateMachine.characterNetworkManager.verticalMovement.Value;
                 _horizontalMovement = PlayerStateMachine.characterNetworkManager.horizontalMovement.Value;
-                moveAmount = PlayerStateMachine.characterNetworkManager.moveAmount.Value;
+                MoveAmount = PlayerStateMachine.characterNetworkManager.moveAmount.Value;
                 
                 // If not locked on, pass 0 as the first parameter
-                PlayerStateMachine.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+                PlayerStateMachine.playerAnimatorManager.UpdateAnimatorMovementParameters(0, MoveAmount);
                 
                 // If locked on, pass the horizontal movement
             }
@@ -44,7 +43,7 @@ namespace Character.Player.Player_States
         {
             _verticalMovement = PlayerInputManager.Instance.verticalInput;
             _horizontalMovement = PlayerInputManager.Instance.horizontalInput;
-            moveAmount = PlayerInputManager.Instance.moveAmount;
+            MoveAmount = PlayerInputManager.Instance.moveAmount;
         }
 
         protected void HandleAllMovement()

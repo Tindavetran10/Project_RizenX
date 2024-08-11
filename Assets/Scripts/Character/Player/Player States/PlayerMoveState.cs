@@ -26,7 +26,7 @@ namespace Character.Player.Player_States
             
             // We only use the horizontal when we are strafing or locked on
             PlayerStateMachine.playerAnimatorManager.UpdateAnimatorMovementParameters(0,  
-                moveAmount);
+                MoveAmount);
             
             // If we are locked on, pass the horizontal movement
         }
