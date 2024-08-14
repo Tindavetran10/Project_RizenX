@@ -129,6 +129,45 @@
             ]
         },
         {
+            "name": "Player Actions",
+            "id": "c833c4ab-b51a-4514-ad46-a2f03d9f29ae",
+            "actions": [
+                {
+                    "name": "Dodge",
+                    "type": "Button",
+                    "id": "fda8f7d4-3074-4ec1-8e52-c30baa471b0c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "52c518bd-0713-4abe-bb40-513debf09e6d",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7dee7835-f5c7-4166-bcb1-4640d23d2304",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "Player Camera",
             "id": "baf1b5ae-08f1-4774-a375-c817849323e6",
             "actions": [

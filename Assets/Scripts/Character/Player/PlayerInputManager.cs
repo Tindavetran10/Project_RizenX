@@ -14,6 +14,11 @@ namespace Character.Player
         public PlayerManager PlayerManager { get; set; }
         private PlayerController _playerController;
 
+        [Header("Camera Movement Input")]
+        [SerializeField] private Vector2 cameraInput;
+        [SerializeField] public float cameraVerticalInput;
+        [SerializeField] public float cameraHorizontalInput;
+        
         [Header("Player Movement Input")]
         [SerializeField] private Vector2 movementInput;
         [SerializeField] public float verticalInput;
@@ -22,10 +27,9 @@ namespace Character.Player
         // Combine Vertical Input and Horizontal Input to get the move direction
         [SerializeField] public float moveAmount;
         
-        [Header("Camera Movement Input")]
-        [SerializeField] private Vector2 cameraInput;
-        [SerializeField] public float cameraVerticalInput;
-        [SerializeField] public float cameraHorizontalInput;
+        [Header("Player Actions Input")]
+        [SerializeField] private bool dodgeInput;
+        
         private void Awake()
         {
             if (Instance == null)
@@ -61,7 +65,7 @@ namespace Character.Player
                 // give the input value from the Movement in the PlayerController to the movementInput
                 _playerController.PlayerMovement.Movement.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
                 _playerController.PlayerCamera.Movement.performed += ctx => cameraInput = ctx.ReadValue<Vector2>();
-
+                _playerController.PlayerActions.Dodge.performed += ctx => dodgeInput = true;
             }
             _playerController.Enable();
         }
@@ -82,10 +86,13 @@ namespace Character.Player
             }
         }
 
-        private void Update()
+        private void Update() => HandleALLInput();
+
+        private void HandleALLInput()
         {
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
+            HandleDodgeInput();
         }
 
         // This method will handle the movement input from the player,
@@ -123,6 +130,19 @@ namespace Character.Player
         {
             cameraVerticalInput = cameraInput.y;
             cameraHorizontalInput = cameraInput.x;
+        }
+        
+        private void HandleDodgeInput()
+        {
+            // If the player presses the dodge button, dodge
+            if (dodgeInput)
+            {
+                dodgeInput = false;
+                
+                // Future  note: do nothing if UI is open
+                // Perform the dodge action
+                PlayerManager.playerLocomotionManager.AttemptToPerformDodge();
+            }
         }
     }
 }

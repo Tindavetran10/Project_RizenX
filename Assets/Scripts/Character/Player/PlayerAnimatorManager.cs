@@ -1,19 +1,26 @@
+using System;
 using UnityEngine;
 
 namespace Character.Player
 {
     public class PlayerAnimatorManager : CharacterAnimatorManager
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        private PlayerManager _playerManager;
         
+        protected override void Awake()
+        {
+            base.Awake();
+            _playerManager = GetComponent<PlayerManager>();
         }
-
-        // Update is called once per frame
-        void Update()
-        {
         
+        private void OnAnimatorMove()
+        {
+            if (_playerManager.applyRootMotion)
+            {
+                Vector3 velocity = _playerManager.animator.deltaPosition ;
+                _playerManager.characterController.Move(velocity);
+                _playerManager.transform.rotation *= _playerManager.animator.deltaRotation;
+            }
         }
     }
 }
