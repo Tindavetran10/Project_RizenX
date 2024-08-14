@@ -119,7 +119,7 @@ namespace Character.Player
             if(PlayerInputManager.Instance.moveAmount > 0)
             {
                 _rollDirection = PlayerCamera.Instance.cameraObject.transform.forward * PlayerInputManager.Instance.verticalInput;
-                _rollDirection = PlayerCamera.Instance.cameraObject.transform.forward * PlayerInputManager.Instance.horizontalInput;
+                _rollDirection += PlayerCamera.Instance.cameraObject.transform.right * PlayerInputManager.Instance.horizontalInput;
                 _rollDirection.y = 0;
                 _rollDirection.Normalize();
                 
