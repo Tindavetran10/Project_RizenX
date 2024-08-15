@@ -17,7 +17,7 @@ namespace Character.Player
         {
             if (_playerManager.applyRootMotion)
             {
-                Vector3 velocity = _playerManager.animator.deltaPosition ;
+                var velocity = _playerManager.animator.deltaPosition;
                 _playerManager.characterController.Move(velocity);
                 _playerManager.transform.rotation *= _playerManager.animator.deltaRotation;
             }

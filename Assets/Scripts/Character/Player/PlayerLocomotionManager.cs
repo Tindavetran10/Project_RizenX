@@ -69,10 +69,10 @@ namespace Character.Player
 
         private void HandleGroundedMovement()
         {
+            if(!_playerManager.canMove) return;
+            
             // Pass the vertical and horizontal movement to moveDirection
             GetMovementValues();
-            
-            if(_playerManager.canMove == false) return;
             
             // Move direction is based on the camera's perspective and movement input
             _moveDirection = PlayerCamera.Instance.transform.forward * verticalMovement;
@@ -95,7 +95,7 @@ namespace Character.Player
 
         private void HandleRotation()
         {
-            if(_playerManager.canRotate == false) return;
+            if(!_playerManager.canRotate) return;
             
             _targetRotationDirection = Vector3.zero;
             _targetRotationDirection = PlayerCamera.Instance.cameraObject.transform.forward * verticalMovement;
@@ -127,12 +127,14 @@ namespace Character.Player
                 _playerManager.transform.rotation = playerRotation;
                 
                 // Perform a roll animation
-                _playerManager.playerAnimatorManager.PlayTargetActionAnimation("Roll_Forward_01", true, true);
+                _playerManager.playerAnimatorManager.PlayTargetActionAnimation("Roll_Forward", true);
             }
             // If we are not moving, we perform a backstep
             else
             {
                 // Perform a backstep animation
+                _playerManager.playerAnimatorManager.PlayTargetActionAnimation("Back_Step", true);
+
             }
         }
     }

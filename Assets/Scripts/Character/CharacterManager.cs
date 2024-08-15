@@ -1,5 +1,5 @@
-using UnityEngine;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace Character
 {
@@ -11,8 +11,8 @@ namespace Character
         [HideInInspector] public CharacterNetworkManager characterNetworkManager;
         
         [Header("Flags")]
-        public bool isPerformingAction = false;
-        public bool applyRootMotion = false;
+        public bool isPerformingAction;
+        public bool applyRootMotion;
         public bool canRotate = true;
         public bool canMove = true;
         

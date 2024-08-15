@@ -964,10 +964,10 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'thigh_l'
-      : position error = 19.810356 mm\n\t'calf_l' : position error = 5.017297 mm\n\t'foot_l'
-      : position error = 9.396389 mm\n\t'ball_l' : position error = 6.786925 mm\n\t'thigh_r'
-      : position error = 19.440449 mm\n\t'calf_r' : position error = 15.772810 mm\n\t'foot_r'
-      : position error = 13.162928 mm\n\t'ball_r' : position error = 8.922382 mm\n"
+      : position error = 28.552668 mm\n\t'calf_l' : position error = 9.276932 mm\n\t'foot_l'
+      : position error = 44.780300 mm\n\t'ball_l' : position error = 6.993584 mm\n\t'thigh_r'
+      : position error = 6.111123 mm\n\t'calf_r' : position error = 20.622490 mm\n\t'foot_r'
+      : position error = 46.272152 mm\n\t'ball_r' : position error = 9.193929 mm\n"
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar
