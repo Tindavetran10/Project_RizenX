@@ -52,7 +52,6 @@ namespace Character.Player
                 playerNetworkManager.currentStamina.OnValueChanged +=
                     playerStatManager.ResetStaminaRegenTimer;
                 
-                
                 // This will be moved when saving and loading is added
                 playerNetworkManager.maxStamina.Value = playerStatManager.CalculateStaminaBasedOnLevel(playerNetworkManager.endurance.Value);
                 playerNetworkManager.currentStamina.Value = playerStatManager.CalculateStaminaBasedOnLevel(playerNetworkManager.endurance.Value);

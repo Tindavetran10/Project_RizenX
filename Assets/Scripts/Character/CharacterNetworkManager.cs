@@ -46,10 +46,7 @@ namespace Character
         public void NotifyTheServerOfActionAnimationServerRpc(ulong clientID, string animationID, bool applyRootMotion)
         {
             // If this is the server, play the action animation for all clients
-            if (IsServer)
-            {
-                PlayActionAnimationForAllClientsClientRpc(clientID, animationID, applyRootMotion);
-            }
+            if (IsServer) PlayActionAnimationForAllClientsClientRpc(clientID, animationID, applyRootMotion);
         }
         
         // A client RPC is a method that is called on the client and executed on the server
@@ -57,10 +54,7 @@ namespace Character
         public void PlayActionAnimationForAllClientsClientRpc(ulong clientID, string animationID, bool applyRootMotion)
         {
             // We make sure to not run the function on the character who sent it (so we don't play the animation twice)
-            if (clientID != NetworkManager.Singleton.LocalClientId)
-            {
-                PerformActionAnimationFromServer(animationID, applyRootMotion);
-            }
+            if (clientID != NetworkManager.Singleton.LocalClientId) PerformActionAnimationFromServer(animationID, applyRootMotion);
         }
         
         private void PerformActionAnimationFromServer(string animationID, bool applyRootMotion)

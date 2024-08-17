@@ -16,7 +16,7 @@ namespace Character
 
         public int CalculateStaminaBasedOnLevel(int endurance)
         {
-                // Calculate stamina based on level
+            // Calculate stamina based on level
             float stamina = endurance * 10;
             return Mathf.RoundToInt(stamina);
         }

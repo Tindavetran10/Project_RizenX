@@ -21,8 +21,8 @@ namespace Character
         {
             DontDestroyOnLoad(this);
             
-            characterController = GetComponent<CharacterController>();
             animator = GetComponent<Animator>();
+            characterController = GetComponent<CharacterController>();
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
         }
         

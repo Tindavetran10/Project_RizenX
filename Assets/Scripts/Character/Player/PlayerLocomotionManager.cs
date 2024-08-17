@@ -84,11 +84,9 @@ namespace Character.Player
             _moveDirection.Normalize();
             _moveDirection.y = 0;
             
-            if(_playerManager.playerNetworkManager.isSprinting.Value)
-            {
+            if (_playerManager.playerNetworkManager.isSprinting.Value)
                 // Move the player at the running speed
                 _playerManager.characterController.Move(_moveDirection * (sprintingSpeed * Time.deltaTime));
-            }
             else
             {
                 switch (PlayerInputManager.Instance.moveAmount)
@@ -103,7 +101,6 @@ namespace Character.Player
                         break;
                 }
             }
-
         }
 
         private void HandleRotation()
@@ -127,33 +124,27 @@ namespace Character.Player
         public void HandleSprinting()
         {
             if (_playerManager.isPerformingAction)
-            {
                 // Set sprinting to false   
                 _playerManager.playerNetworkManager.isSprinting.Value = false;
-            }
             
+            // If we are out of stamina, set sprinting to false
             if(_playerManager.playerNetworkManager.currentStamina.Value <= 0)
             {
                 _playerManager.playerNetworkManager.isSprinting.Value = false;
                 return;
             }
-
-            // If we are out of stamina, set sprinting to false
             
-            // If we are moving, set sprinting to true
+            // If we are moving fast enough, set sprinting to true
             if(moveAmount >= 0.5f)
                 _playerManager.playerNetworkManager.isSprinting.Value = true;
             else
-            {
                 // If we are not moving, set sprinting to false
                 _playerManager.playerNetworkManager.isSprinting.Value = false;
-            }
             
+            // Reduce stamina if we are sprinting
             if(_playerManager.playerNetworkManager.isSprinting.Value)
-            {
                 // Drain stamina
                 _playerManager.playerNetworkManager.currentStamina.Value -= sprintingStaminaCost * Time.deltaTime;
-            }
             
             
             // If we are stationary, set sprinting to false
@@ -181,12 +172,10 @@ namespace Character.Player
             }
             // If we are not moving, we perform a backstep
             else
-            {
                 // Perform a backstep animation
                 _playerManager.playerAnimatorManager.PlayTargetActionAnimation("Back_Step", true);
-
-            }
             
+            // Drain stamina on dodge
             _playerManager.playerNetworkManager.currentStamina.Value -= dodgeStaminaCost;
         }
     }
