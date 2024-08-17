@@ -27,6 +27,18 @@ namespace Character
         public NetworkVariable<float> moveAmount = new(0, 
             NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
+        [Header("Flags")]
+        public NetworkVariable<bool> isSprinting = new(false, 
+            NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        
+        [Header("Stats")]
+        public NetworkVariable<int> endurance = new(1, 
+            NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<float> currentStamina = new(1f, 
+            NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<int> maxStamina = new(1, 
+            NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        
         protected virtual void Awake() => _characterManager = GetComponent<CharacterManager>();
 
         // A server RPC is a method that is called on the server and executed on the clients

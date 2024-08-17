@@ -16,10 +16,13 @@ namespace Character.Player
         private Vector3 _targetRotationDirection;
         [SerializeField] private float walkingSpeed;
         [SerializeField] private float runningSpeed;
+        [SerializeField] private float sprintingSpeed;
         [SerializeField] private float rotationSpeed;
+        [SerializeField] private float sprintingStaminaCost;
         
         [Header("Dodge Settings")]
         private Vector3 _rollDirection;
+        [SerializeField] private float dodgeStaminaCost;
         
         protected override void Awake()
         {
@@ -44,7 +47,8 @@ namespace Character.Player
                 moveAmount = _playerManager.characterNetworkManager.moveAmount.Value;
                 
                 // If not locked on, pass the moveAmount
-                _playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+                _playerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, 
+                    moveAmount, _playerManager.playerNetworkManager.isSprinting.Value);
                 
                 // If locked on, pass the horizontal and vertical movement
             }
@@ -79,18 +83,27 @@ namespace Character.Player
             _moveDirection += PlayerCamera.Instance.transform.right * horizontalMovement;
             _moveDirection.Normalize();
             _moveDirection.y = 0;
-
-            switch (PlayerInputManager.Instance.moveAmount)
+            
+            if(_playerManager.playerNetworkManager.isSprinting.Value)
             {
-                case > 0.5f:
-                    // Move the player at the running speed
-                    _playerManager.characterController.Move(_moveDirection * (runningSpeed * Time.deltaTime));
-                    break;
-                case <= 0.5f:
-                    // Move the player at the walking speed
-                    _playerManager.characterController.Move(_moveDirection * (walkingSpeed * Time.deltaTime));
-                    break;
+                // Move the player at the running speed
+                _playerManager.characterController.Move(_moveDirection * (sprintingSpeed * Time.deltaTime));
             }
+            else
+            {
+                switch (PlayerInputManager.Instance.moveAmount)
+                {
+                    case > 0.5f:
+                        // Move the player at the running speed
+                        _playerManager.characterController.Move(_moveDirection * (runningSpeed * Time.deltaTime));
+                        break;
+                    case <= 0.5f:
+                        // Move the player at the walking speed
+                        _playerManager.characterController.Move(_moveDirection * (walkingSpeed * Time.deltaTime));
+                        break;
+                }
+            }
+
         }
 
         private void HandleRotation()
@@ -111,9 +124,46 @@ namespace Character.Player
             transform.rotation = targetRotation;
         }
 
+        public void HandleSprinting()
+        {
+            if (_playerManager.isPerformingAction)
+            {
+                // Set sprinting to false   
+                _playerManager.playerNetworkManager.isSprinting.Value = false;
+            }
+            
+            if(_playerManager.playerNetworkManager.currentStamina.Value <= 0)
+            {
+                _playerManager.playerNetworkManager.isSprinting.Value = false;
+                return;
+            }
+
+            // If we are out of stamina, set sprinting to false
+            
+            // If we are moving, set sprinting to true
+            if(moveAmount >= 0.5f)
+                _playerManager.playerNetworkManager.isSprinting.Value = true;
+            else
+            {
+                // If we are not moving, set sprinting to false
+                _playerManager.playerNetworkManager.isSprinting.Value = false;
+            }
+            
+            if(_playerManager.playerNetworkManager.isSprinting.Value)
+            {
+                // Drain stamina
+                _playerManager.playerNetworkManager.currentStamina.Value -= sprintingStaminaCost * Time.deltaTime;
+            }
+            
+            
+            // If we are stationary, set sprinting to false
+        }
+        
         public void AttemptToPerformDodge()
         {
             if(_playerManager.isPerformingAction) return;
+            
+            if(_playerManager.playerNetworkManager.currentStamina.Value <= 0) return;
             
             // If we are moving and the dodge input is true, we perform a roll
             if(PlayerInputManager.Instance.moveAmount > 0)
@@ -136,6 +186,8 @@ namespace Character.Player
                 _playerManager.playerAnimatorManager.PlayTargetActionAnimation("Back_Step", true);
 
             }
+            
+            _playerManager.playerNetworkManager.currentStamina.Value -= dodgeStaminaCost;
         }
     }
 }

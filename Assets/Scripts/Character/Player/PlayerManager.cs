@@ -1,3 +1,4 @@
+using Character.Player.Player_UI;
 using UnityEngine;
 
 namespace Character.Player
@@ -6,11 +7,15 @@ namespace Character.Player
     {
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
+        [HideInInspector] public PlayerNetworkManager playerNetworkManager;
+        [HideInInspector] public PlayerStatManager playerStatManager;
         protected override void Awake()
         {
             base.Awake();
             playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+            playerNetworkManager = GetComponent<PlayerNetworkManager>();
+            playerStatManager = GetComponent<PlayerStatManager>();
         }
         
         protected override void Update()
@@ -22,6 +27,9 @@ namespace Character.Player
          
             // Handle all player related methods
             playerLocomotionManager.HandleAllMovement();
+            
+            // Regenerate stamina
+            playerStatManager.RegenerateStamina();
         }
 
         protected override void LateUpdate()
@@ -38,6 +46,17 @@ namespace Character.Player
             {
                 PlayerCamera.Instance.playerManager = this;
                 PlayerInputManager.Instance.PlayerManager = this;
+
+                playerNetworkManager.currentStamina.OnValueChanged +=
+                    PlayerUIManager.Instance.playerUIHudManager.SetNewStaminaValue;
+                playerNetworkManager.currentStamina.OnValueChanged +=
+                    playerStatManager.ResetStaminaRegenTimer;
+                
+                
+                // This will be moved when saving and loading is added
+                playerNetworkManager.maxStamina.Value = playerStatManager.CalculateStaminaBasedOnLevel(playerNetworkManager.endurance.Value);
+                playerNetworkManager.currentStamina.Value = playerStatManager.CalculateStaminaBasedOnLevel(playerNetworkManager.endurance.Value);
+                PlayerUIManager.Instance.playerUIHudManager.SetMaxStaminaValue(playerNetworkManager.maxStamina.Value);
             }
         }
     }

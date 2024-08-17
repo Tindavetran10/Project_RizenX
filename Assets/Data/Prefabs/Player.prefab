@@ -305,8 +305,9 @@ GameObject:
   - component: {fileID: 2986157143484960009}
   - component: {fileID: 258661638950286003}
   - component: {fileID: 17347725282868985}
-  - component: {fileID: 3506501358106247873}
   - component: {fileID: 3033423106471134583}
+  - component: {fileID: 1542708351961786710}
+  - component: {fileID: 3506501358106247873}
   - component: {fileID: 2852494887956121610}
   - component: {fileID: 1504337089888263262}
   - component: {fileID: 8781963894303378290}
@@ -398,24 +399,8 @@ MonoBehaviour:
   canMove: 1
   playerAnimatorManager: {fileID: 0}
   playerLocomotionManager: {fileID: 0}
---- !u!114 &3506501358106247873
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1237325356218626359}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 485525e6d50b49b6b73c982baa362c78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  verticalMovement: 0
-  horizontalMovement: 0
-  moveAmount: 0
-  walkingSpeed: 3.5
-  runningSpeed: 7.5
-  rotationSpeed: 8.5
+  playerNetworkManager: {fileID: 0}
+  playerStatManager: {fileID: 0}
 --- !u!114 &3033423106471134583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,6 +426,49 @@ MonoBehaviour:
     m_InternalValue: 0
   moveAmount:
     m_InternalValue: 0
+  isSprinting:
+    m_InternalValue: 0
+  endurance:
+    m_InternalValue: 10
+  currentStamina:
+    m_InternalValue: 1
+  maxStamina:
+    m_InternalValue: 1
+--- !u!114 &1542708351961786710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237325356218626359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be210b28440f45cb87546021b6df8b6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  staminaRegenerationAmount: 2
+  staminaRegenerationDelay: 3
+--- !u!114 &3506501358106247873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237325356218626359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 485525e6d50b49b6b73c982baa362c78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  verticalMovement: 0
+  horizontalMovement: 0
+  moveAmount: 0
+  walkingSpeed: 3.5
+  runningSpeed: 7.5
+  sprintingSpeed: 10
+  rotationSpeed: 8.5
+  sprintingStaminaCost: 10
+  dodgeStaminaCost: 5
 --- !u!114 &2852494887956121610
 MonoBehaviour:
   m_ObjectHideFlags: 0

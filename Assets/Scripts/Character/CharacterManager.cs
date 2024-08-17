@@ -16,6 +16,7 @@ namespace Character
         public bool canRotate = true;
         public bool canMove = true;
         
+        
         protected virtual void Awake()
         {
             DontDestroyOnLoad(this);
@@ -50,5 +51,7 @@ namespace Character
         }
 
         protected virtual void LateUpdate() {}
+        
+        
     }
 }

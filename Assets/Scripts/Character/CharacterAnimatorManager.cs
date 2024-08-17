@@ -6,17 +6,26 @@ namespace Character
     public class CharacterAnimatorManager : MonoBehaviour
     {
         private CharacterManager _characterManager;
-        private float _vertical;
-        private float _horizontal;
         private static readonly int Horizontal = Animator.StringToHash("Horizontal");
         private static readonly int Vertical = Animator.StringToHash("Vertical");
 
         protected virtual void Awake() => _characterManager = GetComponent<CharacterManager>();
-        public void UpdateAnimatorMovementParameters(float horizontalMovement, float verticalMovement)
+
+
+        public void UpdateAnimatorMovementParameters(float horizontalMovement, float verticalMovement, bool isSprinting)
         {
+            float horizontalAmount = horizontalMovement;
+            float verticalAmount = verticalMovement;
+            
+            if (isSprinting)
+            {
+                verticalAmount = 2;
+            }
+            
             const float dampTime = 0.075f;
-            _characterManager.animator.SetFloat(Horizontal, horizontalMovement, dampTime, Time.deltaTime);
-            _characterManager.animator.SetFloat(Vertical, verticalMovement,dampTime, Time.deltaTime);
+            _characterManager.animator.SetFloat(Horizontal, horizontalAmount, dampTime, Time.deltaTime);
+            _characterManager.animator.SetFloat(Vertical, verticalAmount,dampTime, Time.deltaTime);
+
         }
 
         public virtual void PlayTargetActionAnimation(

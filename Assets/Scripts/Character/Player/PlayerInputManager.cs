@@ -29,6 +29,7 @@ namespace Character.Player
         
         [Header("Player Actions Input")]
         [SerializeField] private bool dodgeInput;
+        [SerializeField] private bool sprintInput;
         
         private void Awake()
         {
@@ -66,6 +67,11 @@ namespace Character.Player
                 _playerController.PlayerMovement.Movement.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
                 _playerController.PlayerCamera.Movement.performed += ctx => cameraInput = ctx.ReadValue<Vector2>();
                 _playerController.PlayerActions.Dodge.performed += ctx => dodgeInput = true;
+                
+                // Holding the sprint button, set sprintInput to true
+                _playerController.PlayerActions.Sprint.performed += ctx => sprintInput = true;
+                // When the sprint button is released, set sprintInput to false
+                _playerController.PlayerActions.Sprint.canceled += ctx => sprintInput = false;
             }
             _playerController.Enable();
         }
@@ -93,6 +99,7 @@ namespace Character.Player
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
             HandleDodgeInput();
+            HandleSprinting();
         }
 
         // This method will handle the movement input from the player,
@@ -121,7 +128,8 @@ namespace Character.Player
             if(PlayerManager == null) return;
             
             // If we are not strafing or locked on to an enemy, we only use the moveAmount
-            PlayerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+            PlayerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, 
+                moveAmount, PlayerManager.playerNetworkManager.isSprinting.Value);
             
             // If we are strafing or locked on to an enemy, we use the horizontal input as well
         }
@@ -142,6 +150,18 @@ namespace Character.Player
                 // Future  note: do nothing if UI is open
                 // Perform the dodge action
                 PlayerManager.playerLocomotionManager.AttemptToPerformDodge();
+            }
+        }
+
+        private void HandleSprinting()
+        {
+            if (sprintInput)
+            {
+                PlayerManager.playerLocomotionManager.HandleSprinting();
+            }
+            else
+            {
+                PlayerManager.playerNetworkManager.isSprinting.Value = false;
             }
         }
     }
