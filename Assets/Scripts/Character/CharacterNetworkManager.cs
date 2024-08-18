@@ -8,14 +8,14 @@ namespace Character
         private CharacterManager _characterManager;
         
         [Header("Position")]
-        public NetworkVariable<Vector3> networkPosition = new(Vector3.zero, 
+        [HideInInspector] public NetworkVariable<Vector3> networkPosition = new(Vector3.zero, 
             NetworkVariableReadPermission.Everyone, 
             NetworkVariableWritePermission.Owner);
-        public NetworkVariable<Quaternion> networkRotation = new(Quaternion.identity, 
+        [HideInInspector] public NetworkVariable<Quaternion> networkRotation = new(Quaternion.identity, 
             NetworkVariableReadPermission.Everyone, 
             NetworkVariableWritePermission.Owner);
         
-        public Vector3 networkPositionVelocity;
+        [HideInInspector] public Vector3 networkPositionVelocity;
         public float networkPositionSmoothTime = 0.1f;
         public float networkRotationSmoothTime = 0.1f;
     
