@@ -1,6 +1,7 @@
 using Character.Player.Player_UI;
 using Game_Saving;
 using UnityEngine;
+using World_Manager;
 
 namespace Character.Player
 {
@@ -47,7 +48,9 @@ namespace Character.Player
             {
                 PlayerCamera.Instance.playerManager = this;
                 PlayerInputManager.Instance.PlayerManager = this;
-
+                WorldSaveGameManager.Instance.playerManager = this;
+                
+                
                 playerNetworkManager.currentStamina.OnValueChanged +=
                     PlayerUIManager.Instance.playerUIHudManager.SetNewStaminaValue;
                 playerNetworkManager.currentStamina.OnValueChanged +=

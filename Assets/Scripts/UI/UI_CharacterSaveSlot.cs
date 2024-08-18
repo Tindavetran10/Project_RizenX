@@ -17,10 +17,7 @@ namespace UI
         public TextMeshProUGUI characterName;
         public TextMeshProUGUI timedPlayed;
 
-        private void OnEnable()
-        {
-            LoadSaveSlots();
-        }
+        private void OnEnable() => LoadSaveSlots();
 
         private void LoadSaveSlots()
         {
@@ -156,6 +153,12 @@ namespace UI
                 }
                 default: throw new ArgumentOutOfRangeException();
             }
+        }
+
+        public void LoadGameFromCharacterSlot()
+        {
+            WorldSaveGameManager.Instance.currentCharacterSlotBeingUsed = characterSlot;
+            WorldSaveGameManager.Instance.LoadGame();
         }
     }
 }

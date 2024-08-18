@@ -7,7 +7,7 @@ namespace Game_Saving
     // This script is not a mono behavior script and serializable instead.
     public class CharacterSaveData
     {
-        [Header("Character Name")] public string characterName;
+        [Header("Character Name")] public string characterName = "Character";
         [Header("Time Played")] public float secondsPlayed;
         
         // We can only save basic variables, so no vector3 or quaternion.
