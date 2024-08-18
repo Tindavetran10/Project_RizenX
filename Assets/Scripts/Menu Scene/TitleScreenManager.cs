@@ -1,4 +1,3 @@
-using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,10 +17,15 @@ namespace Menu_Scene
         [SerializeField] private Button loadMenuReturnButton;
         [SerializeField] private Button mainMenuLoadGameButton;
         [SerializeField] private Button mainMenuNewGameButton;
-
+        [SerializeField] private Button deleteCharacterPopUpConfirmButton;
+        
         [Header("Pop Ups")]
         [SerializeField] private GameObject noCharacterSlotsPopUp;
         [SerializeField] private Button noCharacterSlotsOkayButton;
+        [SerializeField] public GameObject deleteCharacterSlotPopUp;
+        
+        [Header("Character Slots")]
+        public CharacterSlot currentSelectedSlot = CharacterSlot.NO_SLOT;
         
         private void Awake()
         {
@@ -65,10 +69,43 @@ namespace Menu_Scene
         
         public void CloseNoFreeCharacterSlotsPopUp()
         {
-            // Close the pop up
+            // Close the pop-up
             noCharacterSlotsPopUp.SetActive(false);
             // Select the return button
             mainMenuNewGameButton.Select();
+        }
+        
+        // Character Slots
+        public void SelectCharacterSlot(CharacterSlot characterSlot) => currentSelectedSlot = characterSlot;
+
+        public void SelectNoSlot() => currentSelectedSlot = CharacterSlot.NO_SLOT;
+        
+        public void AttemptToDeleteCharacterSlot()
+        {
+            if (currentSelectedSlot != CharacterSlot.NO_SLOT)
+            {
+                deleteCharacterSlotPopUp.SetActive(true);
+                deleteCharacterPopUpConfirmButton.Select();
+            }
+        }
+        
+        public void DeleteCharacterSlot()
+        {
+            deleteCharacterSlotPopUp.SetActive(false);
+            WorldSaveGameManager.Instance.DeleteGame(currentSelectedSlot);
+            
+            // we disable and then enable the load menu to refresh the character slots
+            // (The deleted slots will now become inactive)
+            titleScreenLoadMenu.SetActive(false);
+            titleScreenLoadMenu.SetActive(true);
+            
+            loadMenuReturnButton.Select();
+        }
+        
+        public void CloseDeleteCharacterSlotPopUp()
+        {
+            deleteCharacterSlotPopUp.SetActive(false);
+            loadMenuReturnButton.Select();
         }
     }
 }

@@ -275,6 +275,17 @@ namespace World_Manager
             _saveFileDataWriter.CreateNewCharacterSaveFile(currentCharacterData);
         }
         
+        public void DeleteGame(CharacterSlot characterSlot)
+        {
+            // Choose the file based on name
+            _saveFileDataWriter = new SaveFileDataWriter();
+            // Generally works on multiple machine types
+            _saveFileDataWriter.SaveDataDirectoryPath = Application.persistentDataPath;
+            _saveFileDataWriter.SaveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
+            
+            _saveFileDataWriter.DeleteSaveFile();
+        }
+        
         // Load all character profiles on the device when starting the game
         private void LoadAllCharacterProfiles()
         {
@@ -326,7 +337,11 @@ namespace World_Manager
 
         private IEnumerator LoadWorldScene()
         {
+            // If you want to use the same scene for all levels in your project, use this
             var loadOperation = SceneManager.LoadSceneAsync(worldScreenIndex);
+            
+            // If you want to use different scenes for different levels in your project, use this
+            //var loadOperation = SceneManager.LoadSceneAsync(currentCharacterData.sceneIndex);
             
             playerManager.LoadGameDataFromCurrentCharacterData(ref currentCharacterData);
             yield return null;

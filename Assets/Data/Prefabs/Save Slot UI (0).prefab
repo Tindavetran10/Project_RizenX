@@ -283,6 +283,7 @@ GameObject:
   - component: {fileID: 7815153810226914629}
   - component: {fileID: 3503892841711981306}
   - component: {fileID: -4497111580221853668}
+  - component: {fileID: 9058809303372841777}
   m_Layer: 5
   m_Name: Save Slot UI (0)
   m_TagString: Untagged
@@ -371,9 +372,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.21568629, g: 0.3529412, b: 0.74509805, a: 1}
+    m_HighlightedColor: {r: 0.21015768, g: 0.41004503, b: 0.9685534, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.21568628, g: 0.3529412, b: 0.74509805, a: 1}
+    m_SelectedColor: {r: 0.21176471, g: 0.4117647, b: 0.96862745, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -420,6 +421,35 @@ MonoBehaviour:
   characterSlot: 0
   characterName: {fileID: 7181261554028682648}
   timedPlayed: {fileID: 7117438212276661517}
+--- !u!114 &9058809303372841777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2372600774949116803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: -4497111580221853668}
+          m_TargetAssemblyTypeName: UI.UI_CharacterSaveSlot, Assembly-CSharp
+          m_MethodName: SelectCurrentSlot
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &3551396296334168137
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,7 +579,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 3630d3aa488d3a443aaae71a64df0585, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

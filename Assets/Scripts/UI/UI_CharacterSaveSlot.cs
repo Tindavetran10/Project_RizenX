@@ -1,5 +1,6 @@
 using System;
 using Game_Saving;
+using Menu_Scene;
 using TMPro;
 using UnityEngine;
 using World_Manager;
@@ -159,6 +160,11 @@ namespace UI
         {
             WorldSaveGameManager.Instance.currentCharacterSlotBeingUsed = characterSlot;
             WorldSaveGameManager.Instance.LoadGame();
+        }
+
+        public void SelectCurrentSlot()
+        {
+            TitleScreenManager.Instance.SelectCharacterSlot(characterSlot);
         }
     }
 }

@@ -7,6 +7,8 @@ namespace Game_Saving
     // This script is not a mono behavior script and serializable instead.
     public class CharacterSaveData
     {
+        [Header("Scene Index")] public int sceneIndex;
+        
         [Header("Character Name")] public string characterName = "Character";
         [Header("Time Played")] public float secondsPlayed;
         

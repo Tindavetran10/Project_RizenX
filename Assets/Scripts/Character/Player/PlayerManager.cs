@@ -1,6 +1,7 @@
 using Character.Player.Player_UI;
 using Game_Saving;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using World_Manager;
 
 namespace Character.Player
@@ -76,7 +77,8 @@ namespace Character.Player
                 Debug.LogError("currentCharacterData is null.");
                 return;
             }
-            
+
+            currentCharacterData.sceneIndex = SceneManager.GetActiveScene().buildIndex;
             currentCharacterData.characterName = playerNetworkManager.characterName.Value.ToString();
             currentCharacterData.xPosition = transform.position.x;
             currentCharacterData.yPosition = transform.position.y;
