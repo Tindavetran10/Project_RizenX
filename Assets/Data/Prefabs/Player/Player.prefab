@@ -369,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 417069698
+  GlobalObjectIdHash: 1392562817
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -531,7 +531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 485525e6d50b49b6b73c982baa362c78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravityForce: -5.55
+  gravityForce: -40
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -542,6 +542,7 @@ MonoBehaviour:
   verticalMovement: 0
   horizontalMovement: 0
   moveAmount: 0
+  jumpHeight: 4
   walkingSpeed: 3.5
   runningSpeed: 7.5
   sprintingSpeed: 10
@@ -2548,7 +2549,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1989642428479975260
 Transform:
   m_ObjectHideFlags: 0

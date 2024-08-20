@@ -8,7 +8,7 @@ namespace Character
         private CharacterManager _characterManager;
 
         [Header("Ground Check & Jumping")]
-        [SerializeField] private float gravityForce = -5.55f; // The force at which our character is pulled down
+        [SerializeField] protected float gravityForce = -5.55f; // The force at which our character is pulled down
         [SerializeField] private LayerMask groundLayer;
         [SerializeField] private float groundCheckSphereRadius = 0.5f; // The radius of the sphere that checks if the character is grounded
         [SerializeField] protected Vector3 yVelocity; // The force at which our character is pulled up or down

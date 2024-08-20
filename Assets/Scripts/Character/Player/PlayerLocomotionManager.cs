@@ -14,6 +14,7 @@ namespace Character.Player
         [Header("Movement Settings")]
         private Vector3 _moveDirection;
         private Vector3 _targetRotationDirection;
+        [SerializeField] private float jumpHeight;
         [SerializeField] private float walkingSpeed;
         [SerializeField] private float runningSpeed;
         [SerializeField] private float sprintingSpeed;
@@ -193,7 +194,7 @@ namespace Character.Player
             if(_playerManager.isJumping) return;
             
             // If we are not grounded, we don't want to allow a jump
-            if(_playerManager.isGrounded) return;
+            if(!_playerManager.isGrounded) return;
             
             // If we are two handing a weapon, play the two-handed jump animation instead
             // Otherwise, play the one-handed jump animation
@@ -208,7 +209,7 @@ namespace Character.Player
         public void ApplyJumpingVelocity()
         {
             // Apply the upward velocity to the character controller
-            
+            yVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravityForce);
         }
     }
 }
