@@ -30,6 +30,7 @@ namespace Character.Player
         [Header("Player Actions Input")]
         [SerializeField] private bool dodgeInput;
         [SerializeField] private bool sprintInput;
+        [SerializeField] private bool jumpInput;
         
         private void Awake()
         {
@@ -67,11 +68,13 @@ namespace Character.Player
                 _playerController.PlayerMovement.Movement.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
                 _playerController.PlayerCamera.Movement.performed += ctx => cameraInput = ctx.ReadValue<Vector2>();
                 _playerController.PlayerActions.Dodge.performed += ctx => dodgeInput = true;
+                _playerController.PlayerActions.Jump.performed += ctx => jumpInput = true;
                 
                 // Holding the sprint button, set sprintInput to true
                 _playerController.PlayerActions.Sprint.performed += ctx => sprintInput = true;
                 // When the sprint button is released, set sprintInput to false
                 _playerController.PlayerActions.Sprint.canceled += ctx => sprintInput = false;
+                
             }
             _playerController.Enable();
         }
@@ -99,7 +102,8 @@ namespace Character.Player
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
             HandleDodgeInput();
-            HandleSprinting();
+            HandleSprintInput();
+            HandleJumpInput();
         }
 
         // This method will handle the movement input from the player,
@@ -153,15 +157,22 @@ namespace Character.Player
             }
         }
 
-        private void HandleSprinting()
+        private void HandleSprintInput()
         {
-            if (sprintInput)
+            if (sprintInput) PlayerManager.playerLocomotionManager.HandleSprinting();
+            else PlayerManager.playerNetworkManager.isSprinting.Value = false;
+        }
+        
+        public void HandleJumpInput()
+        {
+            if (jumpInput)
             {
-                PlayerManager.playerLocomotionManager.HandleSprinting();
-            }
-            else
-            {
-                PlayerManager.playerNetworkManager.isSprinting.Value = false;
+                jumpInput = false;
+                
+                // If we have an UI open, do nothing
+                
+                // attempt to perform the jump action
+                PlayerManager.playerLocomotionManager.AttemptToPerformJump();
             }
         }
     }

@@ -23,6 +23,7 @@ namespace Character.Player
         [Header("Dodge Settings")]
         private Vector3 _rollDirection;
         [SerializeField] private float dodgeStaminaCost;
+        [SerializeField] private float jumpStaminaCost;
         
         protected override void Awake()
         {
@@ -177,6 +178,37 @@ namespace Character.Player
             
             // Drain stamina on dodge
             _playerManager.playerNetworkManager.currentStamina.Value -= dodgeStaminaCost;
+        }
+        
+        public void AttemptToPerformJump()
+        {
+            // If we are performing a general action, we don't want to allow a jump
+            // (will change if combat actions are added)
+            if(_playerManager.isPerformingAction) return;
+            
+            // If we are out of stamina, we don't want to allow a jump
+            if(_playerManager.playerNetworkManager.currentStamina.Value <= 0) return;
+            
+            // If we are jumping, we don't want to allow another jump until the current jump is finished
+            if(_playerManager.isJumping) return;
+            
+            // If we are not grounded, we don't want to allow a jump
+            if(_playerManager.isGrounded) return;
+            
+            // If we are two handing a weapon, play the two-handed jump animation instead
+            // Otherwise, play the one-handed jump animation
+            _playerManager.playerAnimatorManager.PlayTargetActionAnimation("Main_Jump_01", false);
+            
+            _playerManager.isJumping = true;
+            
+            // Drain stamina on dodge
+            _playerManager.playerNetworkManager.currentStamina.Value -= jumpStaminaCost;
+        }
+
+        public void ApplyJumpingVelocity()
+        {
+            // Apply the upward velocity to the character controller
+            
         }
     }
 }

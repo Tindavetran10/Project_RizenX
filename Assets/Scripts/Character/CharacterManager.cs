@@ -12,11 +12,15 @@ namespace Character
         
         [Header("Flags")]
         public bool isPerformingAction;
+        public bool isJumping;
+        public bool isGrounded;
         public bool applyRootMotion;
         public bool canRotate = true;
         public bool canMove = true;
         
-        
+        private static readonly int IsGrounded = Animator.StringToHash("isGrounded");
+
+
         protected virtual void Awake()
         {
             DontDestroyOnLoad(this);
@@ -28,6 +32,8 @@ namespace Character
         
         protected virtual void Update()
         {
+            animator.SetBool(IsGrounded, isGrounded);
+            
             // If this is the owner of the character, update the network position
             if (IsOwner)
             {
@@ -51,7 +57,5 @@ namespace Character
         }
 
         protected virtual void LateUpdate() {}
-        
-        
     }
 }
