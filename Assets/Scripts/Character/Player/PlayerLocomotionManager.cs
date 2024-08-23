@@ -246,11 +246,6 @@ namespace Character.Player
                     case <= 0.5f: _jumpDirection *= 0.25f; break;
                 }
             }
-            
-            /*if(PlayerInputManager.Instance.verticalInput > 0 && !_playerManager.isJumping && _playerManager.isGrounded)
-            {
-                _playerManager.playerAnimatorManager.PlayTargetActionAnimation("Empty", true);
-            }*/
         }
 
         public void ApplyJumpingVelocity()

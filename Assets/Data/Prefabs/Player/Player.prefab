@@ -431,12 +431,18 @@ MonoBehaviour:
     m_InternalValue: 0
   isSprinting:
     m_InternalValue: 0
-  endurance:
-    m_InternalValue: 50
+  currentHealth:
+    m_InternalValue: 0
+  maxHealth:
+    m_InternalValue: 0
   currentStamina:
-    m_InternalValue: 1
+    m_InternalValue: 0
   maxStamina:
-    m_InternalValue: 1
+    m_InternalValue: 0
+  endurance:
+    m_InternalValue: 10
+  vitality:
+    m_InternalValue: 10
   characterName:
     m_InternalValue:
       utf8LengthInBytes: 9
@@ -549,7 +555,7 @@ MonoBehaviour:
   rotationSpeed: 8.5
   sprintingStaminaCost: 10
   jumpStaminaCost: 0
-  jumpHeight: 4
+  jumpHeight: 6
   jumpForwardSpeed: 7.5
   freeFallSpeed: 2
   dodgeStaminaCost: 5
