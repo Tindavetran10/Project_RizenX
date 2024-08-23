@@ -1,6 +1,3 @@
-using System;
-using UnityEngine;
-
 namespace Character.Player
 {
     public class PlayerAnimatorManager : CharacterAnimatorManager

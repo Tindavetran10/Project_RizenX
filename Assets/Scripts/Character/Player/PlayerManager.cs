@@ -51,57 +51,53 @@ namespace Character.Player
                 PlayerInputManager.Instance.PlayerManager = this;
                 WorldSaveGameManager.Instance.playerManager = this;
                 
+                // Update the total amount of health and stamina based on the changes of vitality and endurance level
+                playerNetworkManager.vitality.OnValueChanged += playerNetworkManager.SetNewMaxHealthValue;
+                playerNetworkManager.endurance.OnValueChanged += playerNetworkManager.SetNewMaxStaminaValue;
                 
-                playerNetworkManager.currentStamina.OnValueChanged +=
-                    PlayerUIManager.Instance.playerUIHudManager.SetNewStaminaValue;
-                playerNetworkManager.currentStamina.OnValueChanged +=
-                    playerStatManager.ResetStaminaRegenTimer;
-                
-                // This will be moved when saving and loading is added
-                playerNetworkManager.maxStamina.Value = playerStatManager.CalculateStaminaBasedOnLevel(playerNetworkManager.endurance.Value);
-                playerNetworkManager.currentStamina.Value = playerStatManager.CalculateStaminaBasedOnLevel(playerNetworkManager.endurance.Value);
-                PlayerUIManager.Instance.playerUIHudManager.SetMaxStaminaValue(playerNetworkManager.maxStamina.Value);
+                // Update the UI stat bars when a stat changes (Health or Stamina)
+                playerNetworkManager.currentHealth.OnValueChanged += PlayerUIManager.Instance.playerUIHudManager.SetNewHealthValue;
+                playerNetworkManager.currentStamina.OnValueChanged += PlayerUIManager.Instance.playerUIHudManager.SetNewStaminaValue;
+                playerNetworkManager.currentStamina.OnValueChanged += playerStatManager.ResetStaminaRegenTimer;
             }
         }
 
         public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
         {
-            if (playerNetworkManager == null)
-            {
-                Debug.LogError("PlayerNetworkManager is not initialized.");
-                return;
-            }
-
-            if (currentCharacterData == null)
-            {
-                Debug.LogError("currentCharacterData is null.");
-                return;
-            }
-
             currentCharacterData.sceneIndex = SceneManager.GetActiveScene().buildIndex;
+            
             currentCharacterData.characterName = playerNetworkManager.characterName.Value.ToString();
             currentCharacterData.xPosition = transform.position.x;
             currentCharacterData.yPosition = transform.position.y;
             currentCharacterData.zPosition = transform.position.z;
+            
+            currentCharacterData.currentHealth = playerNetworkManager.currentHealth.Value;
+            currentCharacterData.currentStamina = playerNetworkManager.currentStamina.Value ;
+            
+            currentCharacterData.vitality = playerNetworkManager.vitality.Value;
+            currentCharacterData.endurance = playerNetworkManager.endurance.Value;
         }
         
         public void LoadGameDataFromCurrentCharacterData(ref CharacterSaveData currentCharacterData)
         {
-            if (playerNetworkManager == null)
-            {
-                Debug.LogError("PlayerNetworkManager is not initialized.");
-                return;
-            }
-
-            if (currentCharacterData == null)
-            {
-                Debug.LogError("currentCharacterData is null.");
-                return;
-            }
-            
             playerNetworkManager.characterName.Value = currentCharacterData.characterName;
-            var myPosition = new Vector3(currentCharacterData.xPosition, currentCharacterData.yPosition, currentCharacterData.zPosition);
+            var myPosition = new Vector3 (currentCharacterData.xPosition, currentCharacterData.yPosition, currentCharacterData.zPosition);
             transform.position = myPosition;
+            
+            playerNetworkManager.vitality.Value = currentCharacterData.vitality;
+            playerNetworkManager.endurance.Value = currentCharacterData.endurance;
+            
+            // This will be moved when saving and loading is added
+            // Set max health and stamina based on the loaded values
+            playerNetworkManager.maxHealth.Value = playerStatManager.CalculateHealthBasedOnVitalityLevel(playerNetworkManager.vitality.Value);
+            playerNetworkManager.maxStamina.Value = playerStatManager.CalculateStaminaBasedOnEnduranceLevel(playerNetworkManager.endurance.Value);
+            
+            // Set the current health and stamina after max values are set
+            playerNetworkManager.currentHealth.Value = currentCharacterData.currentHealth;
+            playerNetworkManager.currentStamina.Value = currentCharacterData.currentStamina;
+            
+            PlayerUIManager.Instance.playerUIHudManager.SetMaxHealthValue(playerNetworkManager.maxHealth.Value);
+            PlayerUIManager.Instance.playerUIHudManager.SetMaxStaminaValue(playerNetworkManager.maxStamina.Value);
         }
     }
 }

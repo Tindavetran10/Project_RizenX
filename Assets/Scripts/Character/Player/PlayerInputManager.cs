@@ -162,8 +162,8 @@ namespace Character.Player
             if (sprintInput) PlayerManager.playerLocomotionManager.HandleSprinting();
             else PlayerManager.playerNetworkManager.isSprinting.Value = false;
         }
-        
-        public void HandleJumpInput()
+
+        private void HandleJumpInput()
         {
             if (jumpInput)
             {

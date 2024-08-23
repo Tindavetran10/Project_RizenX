@@ -11,16 +11,14 @@ namespace Character
 
         protected virtual void Awake() => _characterManager = GetComponent<CharacterManager>();
 
+       
 
         public void UpdateAnimatorMovementParameters(float horizontalMovement, float verticalMovement, bool isSprinting)
         {
             var horizontalAmount = horizontalMovement;
             var verticalAmount = verticalMovement;
             
-            if (isSprinting)
-            {
-                verticalAmount = 2;
-            }
+            if (isSprinting) verticalAmount = 2;
             
             const float dampTime = 0.075f;
             _characterManager.animator.SetFloat(Horizontal, horizontalAmount, dampTime, Time.deltaTime);

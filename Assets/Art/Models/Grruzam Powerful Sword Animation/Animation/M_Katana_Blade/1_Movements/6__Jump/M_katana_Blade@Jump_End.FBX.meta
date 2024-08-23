@@ -1010,7 +1010,23 @@ ModelImporter:
       to improve retargeting quality.\n\t'calf_r' has translation animation that
       will be discarded.\n\t'foot_r' has translation animation that will be discarded.\n\t'ball_r'
       has translation animation that will be discarded.\n"
-    animationRetargetingWarnings: 
+    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftLowerLeg
+      average position error 27.2 mm and maximum position error 34.3 mm at time 0:15
+      (100.0%) Frame 15\n\tLeftFoot average position error 34.9 mm and maximum position
+      error 48.1 mm at time 0:15 (100.0%) Frame 15\n\tRightLowerLeg average position
+      error 33.2 mm and maximum position error 37.9 mm at time 0:15 (100.0%) Frame
+      15\n\tRightFoot average position error 45.7 mm and maximum position error 58.8
+      mm at time 0: 9 (60.0%) Frame 9\n\tLeftUpperArm average position error 52.5
+      mm and maximum position error 60.4 mm at time 0: 4 (26.7%) Frame 4\n\tLeftLowerArm
+      average position error 50.3 mm and maximum position error 75.1 mm at time 0:
+      4 (26.7%) Frame 4\n\tLeftHand average position error 51.0 mm and maximum position
+      error 73.7 mm at time 0: 4 (26.7%) Frame 4\n\tRightUpperArm average position
+      error 53.9 mm and maximum position error 59.6 mm at time 0: 5 (33.3%) Frame
+      5\n\tRightLowerArm average position error 34.2 mm and maximum position error
+      55.6 mm at time 0: 3 (20.0%) Frame 3\n\tRightHand average position error 32.9
+      mm and maximum position error 54.2 mm at time 0: 3 (20.0%) Frame 3\n\tHead
+      average position error 55.7 mm and maximum position error 59.6 mm at time 0:
+      5 (33.3%) Frame 5\n"
     animationDoRetargetingWarnings: 1
     importAnimatedCustomProperties: 0
     importConstraints: 0
@@ -1030,14 +1046,14 @@ ModelImporter:
       lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
-      level: 0
+      level: 1.1
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
-      loopBlendPositionY: 0
+      loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1

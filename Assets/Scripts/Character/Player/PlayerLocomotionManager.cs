@@ -14,17 +14,23 @@ namespace Character.Player
         [Header("Movement Settings")]
         private Vector3 _moveDirection;
         private Vector3 _targetRotationDirection;
-        [SerializeField] private float jumpHeight;
         [SerializeField] private float walkingSpeed;
         [SerializeField] private float runningSpeed;
         [SerializeField] private float sprintingSpeed;
         [SerializeField] private float rotationSpeed;
         [SerializeField] private float sprintingStaminaCost;
         
+        [Header("Jump Settings")]
+        [SerializeField] private float jumpStaminaCost;
+        [SerializeField] private float jumpHeight;
+        [SerializeField] private float jumpForwardSpeed;
+        [SerializeField] private float freeFallSpeed;
+        private Vector3 _jumpDirection;
+        
+        
         [Header("Dodge Settings")]
         private Vector3 _rollDirection;
         [SerializeField] private float dodgeStaminaCost;
-        [SerializeField] private float jumpStaminaCost;
         
         protected override void Awake()
         {
@@ -63,6 +69,8 @@ namespace Character.Player
             HandleGroundedMovement();
             HandleRotation();
             // Airborne Movement
+            HandleJumpingMovement();
+            HandleFreeFallMovement();
         }
         
         // Get the vertical and horizontal movement from the PlayerInputManager
@@ -105,6 +113,24 @@ namespace Character.Player
             }
         }
 
+        private void HandleJumpingMovement()
+        {
+            if(_playerManager.isJumping)
+                _playerManager.characterController.Move(_jumpDirection * (jumpForwardSpeed * Time.deltaTime));
+        }
+
+        private void HandleFreeFallMovement()
+        {
+            if (!_playerManager.isGrounded)
+            {
+                var freeFallDirection = PlayerCamera.Instance.transform.forward * PlayerInputManager.Instance.verticalInput;
+                freeFallDirection += PlayerCamera.Instance.transform.right * PlayerInputManager.Instance.horizontalInput;
+                freeFallDirection.y = 0;
+                
+                _playerManager.characterController.Move(freeFallDirection * (freeFallSpeed * Time.deltaTime));
+            }
+        }
+        
         private void HandleRotation()
         {
             if(!_playerManager.canRotate) return;
@@ -136,12 +162,9 @@ namespace Character.Player
                 return;
             }
             
-            // If we are moving fast enough, set sprinting to true
-            if(moveAmount >= 0.5f)
-                _playerManager.playerNetworkManager.isSprinting.Value = true;
-            else
-                // If we are not moving, set sprinting to false
-                _playerManager.playerNetworkManager.isSprinting.Value = false;
+            // If we are moving fast enough (> 0.5f), set sprinting to true
+            // If we are not moving, set sprinting to false
+            _playerManager.playerNetworkManager.isSprinting.Value = moveAmount >= 0.5f;
             
             // Reduce stamina if we are sprinting
             if(_playerManager.playerNetworkManager.isSprinting.Value)
@@ -204,6 +227,30 @@ namespace Character.Player
             
             // Drain stamina on dodge
             _playerManager.playerNetworkManager.currentStamina.Value -= jumpStaminaCost;
+            
+            _jumpDirection = PlayerCamera.Instance.cameraObject.transform.forward * PlayerInputManager.Instance.verticalInput;
+            _jumpDirection += PlayerCamera.Instance.cameraObject.transform.right * PlayerInputManager.Instance.horizontalInput;
+            
+            _jumpDirection.y = 0;
+
+            if (_jumpDirection != Vector3.zero)
+            {
+                // if we are sprinting, the jump direction is at full speed
+                if (_playerManager.playerNetworkManager.isSprinting.Value)
+                    _jumpDirection *= 1;
+                else switch (PlayerInputManager.Instance.moveAmount)
+                {
+                    // if we are running, the jump direction is at half-speed
+                    case > 0.5f: _jumpDirection *= 0.5f; break;
+                    // if we are walking, the jump direction is at quarter speed
+                    case <= 0.5f: _jumpDirection *= 0.25f; break;
+                }
+            }
+            
+            /*if(PlayerInputManager.Instance.verticalInput > 0 && !_playerManager.isJumping && _playerManager.isGrounded)
+            {
+                _playerManager.playerAnimatorManager.PlayTargetActionAnimation("Empty", true);
+            }*/
         }
 
         public void ApplyJumpingVelocity()

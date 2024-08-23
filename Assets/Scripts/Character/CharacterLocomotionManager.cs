@@ -14,8 +14,8 @@ namespace Character
         [SerializeField] protected Vector3 yVelocity; // The force at which our character is pulled up or down
         [SerializeField] protected float groundedYVelocity = -20f; // The force at which our character is sticking to the ground whilst they are grounded
         [SerializeField] protected float fallStartYVelocity = -5f; // The force at which our character starts falling
-        protected bool fallingVelocityHasBeenSet = false;
-        protected float inAirTimer;
+        private bool _fallingVelocityHasBeenSet = false;
+        private float _inAirTimer;
         
         private static readonly int InAirTimer = Animator.StringToHash("InAirTimer");
 
@@ -32,22 +32,22 @@ namespace Character
                 // set the yVelocity to the groundedVelocity
                 if(yVelocity.y < 0f)
                 {
-                    inAirTimer = 0f;
-                    fallingVelocityHasBeenSet = false;
+                    _inAirTimer = 0f;
+                    _fallingVelocityHasBeenSet = false;
                     yVelocity.y = groundedYVelocity;
                 }
             }
             else
             {
                 // If we are not jumping and our falling velocity has not been set,
-                if(!_characterManager.isJumping && !fallingVelocityHasBeenSet)
+                if(!_characterManager.isJumping && !_fallingVelocityHasBeenSet)
                 {
-                    fallingVelocityHasBeenSet = true;
+                    _fallingVelocityHasBeenSet = true;
                     yVelocity.y = fallStartYVelocity;
                 }
 
-                inAirTimer += Time.deltaTime;
-                _characterManager.animator.SetFloat(InAirTimer, inAirTimer);
+                _inAirTimer += Time.deltaTime;
+                _characterManager.animator.SetFloat(InAirTimer, _inAirTimer);
                 yVelocity.y += gravityForce * Time.deltaTime;
             }
             
@@ -55,7 +55,7 @@ namespace Character
             _characterManager.characterController.Move(yVelocity * Time.deltaTime);
         }
 
-        protected void HandleGroundCheck()
+        private void HandleGroundCheck()
         {
             _characterManager.isGrounded = Physics.CheckSphere(_characterManager.transform.position, 
                 groundCheckSphereRadius, groundLayer);

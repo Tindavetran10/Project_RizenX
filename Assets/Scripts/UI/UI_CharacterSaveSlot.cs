@@ -162,9 +162,6 @@ namespace UI
             WorldSaveGameManager.Instance.LoadGame();
         }
 
-        public void SelectCurrentSlot()
-        {
-            TitleScreenManager.Instance.SelectCharacterSlot(characterSlot);
-        }
+        public void SelectCurrentSlot() => TitleScreenManager.Instance.SelectCharacterSlot(characterSlot);
     }
 }

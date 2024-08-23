@@ -310,6 +310,7 @@ GameObject:
   - component: {fileID: 3506501358106247873}
   - component: {fileID: 2852494887956121610}
   - component: {fileID: 1504337089888263262}
+  - component: {fileID: -7451003241634069816}
   - component: {fileID: 8781963894303378290}
   - component: {fileID: 5271900146696201064}
   m_Layer: 10
@@ -369,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1392562817
+  GlobalObjectIdHash: 417069698
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -431,7 +432,7 @@ MonoBehaviour:
   isSprinting:
     m_InternalValue: 0
   endurance:
-    m_InternalValue: 10
+    m_InternalValue: 50
   currentStamina:
     m_InternalValue: 1
   maxStamina:
@@ -542,14 +543,16 @@ MonoBehaviour:
   verticalMovement: 0
   horizontalMovement: 0
   moveAmount: 0
-  jumpHeight: 4
   walkingSpeed: 3.5
   runningSpeed: 7.5
   sprintingSpeed: 10
   rotationSpeed: 8.5
   sprintingStaminaCost: 10
-  dodgeStaminaCost: 5
   jumpStaminaCost: 0
+  jumpHeight: 4
+  jumpForwardSpeed: 7.5
+  freeFallSpeed: 2
+  dodgeStaminaCost: 5
 --- !u!114 &2852494887956121610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,6 +577,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ba05bafad7421280941dec56a99d83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7451003241634069816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237325356218626359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 210be3b443504558952527e2e1243120, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectToTest: {fileID: 11400000, guid: 758599e0f618ed340b20fcff1eb23bfb, type: 2}
+  processEffect: 0
 --- !u!143 &8781963894303378290
 CharacterController:
   m_ObjectHideFlags: 0

@@ -160,7 +160,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""id"": ""fda8f7d4-3074-4ec1-8e52-c30baa471b0c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Tap"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -169,7 +169,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""id"": ""38d6d22b-0796-4911-97a5-75a6cd0297d3"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Tap"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {

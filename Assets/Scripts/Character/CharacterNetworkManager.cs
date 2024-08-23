@@ -11,6 +11,7 @@ namespace Character
         [HideInInspector] public NetworkVariable<Vector3> networkPosition = new(Vector3.zero, 
             NetworkVariableReadPermission.Everyone, 
             NetworkVariableWritePermission.Owner);
+        
         [HideInInspector] public NetworkVariable<Quaternion> networkRotation = new(Quaternion.identity, 
             NetworkVariableReadPermission.Everyone, 
             NetworkVariableWritePermission.Owner);
@@ -20,24 +21,23 @@ namespace Character
         public float networkRotationSmoothTime = 0.1f;
     
         [Header("Animator")]
-        public NetworkVariable<float> horizontalMovement = new(0, 
-            NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-        public NetworkVariable<float> verticalMovement = new(0, 
-            NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-        public NetworkVariable<float> moveAmount = new(0, 
-            NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<float> horizontalMovement = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<float> verticalMovement = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<float> moveAmount = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
         [Header("Flags")]
-        public NetworkVariable<bool> isSprinting = new(false, 
-            NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<bool> isSprinting = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         
         [Header("Stats")]
-        public NetworkVariable<int> endurance = new(1, 
-            NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-        public NetworkVariable<float> currentStamina = new(1f, 
-            NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-        public NetworkVariable<int> maxStamina = new(1, 
-            NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<float> currentHealth = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<int> maxHealth = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        
+        public NetworkVariable<float> currentStamina = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<int> maxStamina = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        
+        [Header("Resources")]
+        public NetworkVariable<int> endurance = new(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<int> vitality = new(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         
         protected virtual void Awake() => _characterManager = GetComponent<CharacterManager>();
 
@@ -51,7 +51,7 @@ namespace Character
         
         // A client RPC is a method that is called on the client and executed on the server
         [ClientRpc]
-        public void PlayActionAnimationForAllClientsClientRpc(ulong clientID, string animationID, bool applyRootMotion)
+        private void PlayActionAnimationForAllClientsClientRpc(ulong clientID, string animationID, bool applyRootMotion)
         {
             // We make sure to not run the function on the character who sent it (so we don't play the animation twice)
             if (clientID != NetworkManager.Singleton.LocalClientId) PerformActionAnimationFromServer(animationID, applyRootMotion);

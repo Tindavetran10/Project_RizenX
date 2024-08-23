@@ -12,9 +12,18 @@ namespace Character
         private float _staminaTickTimer;
         [SerializeField] private float staminaRegenerationDelay = 3f;
 
-        protected void Awake() => _characterManager = GetComponent<CharacterManager>();
+        protected virtual void Awake() => _characterManager = GetComponent<CharacterManager>();
 
-        public int CalculateStaminaBasedOnLevel(int endurance)
+        protected virtual void Start() {}
+
+        public int CalculateHealthBasedOnVitalityLevel(int vitality)
+        {
+            // Calculate health based on level
+            float health = vitality * 15;
+            return Mathf.RoundToInt(health);
+        }
+        
+        public int CalculateStaminaBasedOnEnduranceLevel(int endurance)
         {
             // Calculate stamina based on level
             float stamina = endurance * 10;
