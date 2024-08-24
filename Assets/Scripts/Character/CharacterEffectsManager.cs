@@ -15,7 +15,7 @@ namespace Character
 
         protected virtual void Awake() => _characterManager = GetComponent<CharacterManager>();
 
-        protected virtual void ProcessInstantEffect(InstantCharacterEffect effect)
+        public virtual void ProcessInstantEffect(InstantCharacterEffect effect)
         {
             // Take in an effect, and apply it to the character   
             

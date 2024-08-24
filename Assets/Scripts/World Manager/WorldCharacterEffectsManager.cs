@@ -6,13 +6,16 @@ namespace World_Manager
 {
     public class WorldCharacterEffectsManager : MonoBehaviour
     {
-        public static WorldCharacterEffectsManager _instance;
+        public static WorldCharacterEffectsManager instance;
     
+        [Header("Damage")]
+        public TakeDamageEffect takeDamageEffect;
+        
         [SerializeField] private List<InstantCharacterEffect> instantEffects;
         private void Awake()
         {
-            if (_instance == null)
-                _instance = this;
+            if (instance == null)
+                instance = this;
             else Destroy(gameObject);
         
             GenerateEffectIDs();

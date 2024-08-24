@@ -242,6 +242,9 @@ namespace World_Manager
         private void NewGame()
         {
             // Saves the newly created character stats, and items (when creation screen is added)
+            playerManager.playerNetworkManager.vitality.Value = 10;
+            playerManager.playerNetworkManager.endurance.Value = 10;
+            
             SaveGame();
             StartCoroutine(LoadWorldScene());
         }
@@ -285,11 +288,13 @@ namespace World_Manager
         public void DeleteGame(CharacterSlot characterSlot)
         {
             // Choose the file based on name
-            _saveFileDataWriter = new SaveFileDataWriter();
-            // Generally works on multiple machine types
-            _saveFileDataWriter.SaveDataDirectoryPath = Application.persistentDataPath;
-            _saveFileDataWriter.SaveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
-            
+            _saveFileDataWriter = new SaveFileDataWriter
+            {
+                // Generally works on multiple machine types
+                SaveDataDirectoryPath = Application.persistentDataPath,
+                SaveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot)
+            };
+
             _saveFileDataWriter.DeleteSaveFile();
         }
         

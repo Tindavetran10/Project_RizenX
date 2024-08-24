@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -5,10 +6,15 @@ namespace Character
 {
     public class CharacterManager : NetworkBehaviour
     {
+        [Header("Status")]
+        public NetworkVariable<bool> isDead = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        
         [HideInInspector] public CharacterController characterController;
         [HideInInspector] public Animator animator;
         
         [HideInInspector] public CharacterNetworkManager characterNetworkManager;
+        [HideInInspector] public CharacterEffectsManager characterEffectsManager;
+        [HideInInspector] public CharacterAnimatorManager characterAnimatorManager;
         
         [Header("Flags")]
         public bool isPerformingAction;
@@ -20,7 +26,6 @@ namespace Character
         
         private static readonly int IsGrounded = Animator.StringToHash("isGrounded");
 
-
         protected virtual void Awake()
         {
             DontDestroyOnLoad(this);
@@ -28,6 +33,8 @@ namespace Character
             animator = GetComponent<Animator>();
             characterController = GetComponent<CharacterController>();
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
+            characterEffectsManager = GetComponent<CharacterEffectsManager>();
+            characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
         }
         
         protected virtual void Update()
@@ -57,5 +64,30 @@ namespace Character
         }
 
         protected virtual void LateUpdate() {}
+
+        public virtual IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
+        {
+            if (IsOwner)
+            {
+                characterNetworkManager.currentHealth.Value = 0;
+                isDead.Value = true;
+                
+                // Reset any flags here that need to be reset
+                
+                // If we are not grounded, play ariel death animation
+
+                if (!manuallySelectDeathAnimation)
+                {
+                    characterAnimatorManager.PlayTargetActionAnimation("Dead_01", true);
+                }
+            }
+            
+            // Play some death sfx
+            yield return new WaitForSeconds(1);
+            
+            // award players with runes
+            
+            // disable the character
+        }
     }
 }

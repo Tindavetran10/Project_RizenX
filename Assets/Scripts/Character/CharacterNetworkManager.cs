@@ -29,7 +29,7 @@ namespace Character
         public NetworkVariable<bool> isSprinting = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         
         [Header("Stats")]
-        public NetworkVariable<float> currentHealth = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<int> currentHealth = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<int> maxHealth = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         
         public NetworkVariable<float> currentStamina = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -41,6 +41,19 @@ namespace Character
         
         protected virtual void Awake() => _characterManager = GetComponent<CharacterManager>();
 
+        public void CheckHP(int oldValue, int newValue)
+        {
+            if (currentHealth.Value == 0)
+                StartCoroutine(_characterManager.ProcessDeathEvent());
+
+            // Prevent us over healing
+            if (_characterManager.IsOwner)
+            {
+                if(currentHealth.Value > maxHealth.Value)
+                    currentHealth.Value = maxHealth.Value;
+            }
+        }
+        
         // A server RPC is a method that is called on the server and executed on the clients
         [ServerRpc]
         public void NotifyTheServerOfActionAnimationServerRpc(ulong clientID, string animationID, bool applyRootMotion)
