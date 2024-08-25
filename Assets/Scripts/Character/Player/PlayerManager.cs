@@ -1,3 +1,4 @@
+using System.Collections;
 using Character.Player.Player_UI;
 using Game_Saving;
 using UnityEngine;
@@ -8,6 +9,9 @@ namespace Character.Player
 {
     public class PlayerManager : CharacterManager
     {
+        [Header("Debug Menu")]
+        [SerializeField] private bool respawnCharacter;
+        
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
         [HideInInspector] public PlayerNetworkManager playerNetworkManager;
@@ -33,6 +37,9 @@ namespace Character.Player
             
             // Regenerate stamina
             playerStatManager.RegenerateStamina();
+            
+            // Debug Menu
+            DebugMenu();
         }
 
         protected override void LateUpdate()
@@ -62,6 +69,32 @@ namespace Character.Player
             }
             
             playerNetworkManager.currentHealth.OnValueChanged += playerNetworkManager.CheckHP;
+        }
+
+        public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
+        {
+            if (IsOwner) 
+                PlayerUIManager.Instance.playerUIPopUpManager.SendYouDiedPopUp();
+            
+            // Check for Players that are alive, if 0 then end the game
+            
+            return base.ProcessDeathEvent(manuallySelectDeathAnimation);
+
+        }
+
+        protected override void ReviveCharacter()
+        {
+            base.ReviveCharacter();
+            
+            if(IsOwner)
+            {
+                playerNetworkManager.currentHealth.Value = playerNetworkManager.maxHealth.Value;
+                playerNetworkManager.currentStamina.Value = playerNetworkManager.maxStamina.Value;
+                // Restore Focus points
+                
+                // Player respawn effect
+                playerAnimatorManager.PlayTargetActionAnimation("Empty", true);
+            }
         }
 
         public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
@@ -100,6 +133,16 @@ namespace Character.Player
             playerNetworkManager.currentStamina.Value = currentCharacterData.currentStamina;
             
             PlayerUIManager.Instance.playerUIHudManager.SetMaxStaminaValue(playerNetworkManager.maxStamina.Value);
+        }
+
+        // Debug Delete Later
+        private void DebugMenu()
+        {
+            if (respawnCharacter)
+            {
+                respawnCharacter = false;
+                ReviveCharacter();
+            }
         }
     }
 }

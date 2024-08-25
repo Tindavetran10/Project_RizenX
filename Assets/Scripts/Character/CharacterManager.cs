@@ -76,18 +76,22 @@ namespace Character
                 
                 // If we are not grounded, play ariel death animation
 
-                if (!manuallySelectDeathAnimation)
-                {
+                if (!manuallySelectDeathAnimation) 
                     characterAnimatorManager.PlayTargetActionAnimation("Dead_01", true);
-                }
             }
             
             // Play some death sfx
-            yield return new WaitForSeconds(1);
+            
+            yield return new WaitForSeconds(5);
             
             // award players with runes
             
             // disable the character
+        }
+
+        protected virtual void ReviveCharacter()
+        {
+            if(IsOwner) isDead.Value = false;
         }
     }
 }

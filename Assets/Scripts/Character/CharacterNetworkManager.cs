@@ -43,7 +43,7 @@ namespace Character
 
         public void CheckHP(int oldValue, int newValue)
         {
-            if (currentHealth.Value == 0)
+            if (currentHealth.Value <= 0)
                 StartCoroutine(_characterManager.ProcessDeathEvent());
 
             // Prevent us over healing

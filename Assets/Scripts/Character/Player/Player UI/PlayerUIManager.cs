@@ -10,6 +10,7 @@ namespace Character.Player.Player_UI
         [SerializeField] private bool startGameAsClient;
 
         [HideInInspector] public PlayerUIHudManager playerUIHudManager;
+        [HideInInspector] public PlayerUIPopUpManager playerUIPopUpManager;
         
         private void Awake()
         {
@@ -18,6 +19,7 @@ namespace Character.Player.Player_UI
             else Destroy(gameObject);
             
             playerUIHudManager = GetComponentInChildren<PlayerUIHudManager>();
+            playerUIPopUpManager = GetComponentInChildren<PlayerUIPopUpManager>();
         }
 
         private void Start() => DontDestroyOnLoad(gameObject);
