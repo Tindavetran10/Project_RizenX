@@ -2,13 +2,16 @@ using System.Collections.Generic;
 using Character;
 using Effects;
 using UnityEngine;
+using UnityEngine.Serialization;
 using World_Manager;
 
 public class DamageCollider : MonoBehaviour
 {
+    [Header("Collider")] protected Collider _damageCollider;
+    
     [Header("Damage")]
     public float physicalDamage = 0; // (In the future, we can add more types of damage like Standard, Strike, Slash and Pierce)
-    public float magicalDamage = 0;
+    public float magicDamage = 0;
     public float fireDamage = 0;
     public float lightningDamage = 0;
     public float holyDamage = 0;
@@ -47,10 +50,10 @@ public class DamageCollider : MonoBehaviour
 
         _charactersDamaged.Add(damageTarget);
 
-        TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeDamageEffect);
+        var damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeDamageEffect);
 
         damageEffect.physicalDamage = physicalDamage;
-        damageEffect.magicalDamage = magicalDamage;
+        damageEffect.magicalDamage = magicDamage;
         damageEffect.fireDamage = fireDamage;
         damageEffect.lightningDamage = lightningDamage;
         damageEffect.holyDamage = holyDamage;
@@ -58,5 +61,17 @@ public class DamageCollider : MonoBehaviour
         damageEffect.contactPoint = _contactPoint;
 
         damageTarget.characterEffectsManager.ProcessInstantEffect(damageEffect);
+    }
+
+    public virtual void EnableDamageCollider()
+    {
+        _damageCollider.enabled = true;
+    }
+    
+    public virtual void DisableDamageCollider()
+    {
+        _damageCollider.enabled = false;
+        // We reset the characters that have been hit when we reset the collider, so they may be hit again
+        _charactersDamaged.Clear();
     }
 }

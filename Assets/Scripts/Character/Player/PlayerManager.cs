@@ -11,11 +11,15 @@ namespace Character.Player
     {
         [Header("Debug Menu")]
         [SerializeField] private bool respawnCharacter;
+        [SerializeField] private bool switchRightWeapon;
         
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
         [HideInInspector] public PlayerNetworkManager playerNetworkManager;
         [HideInInspector] public PlayerStatManager playerStatManager;
+        [HideInInspector] public PlayerInventoryManager playerInventoryManager;
+        [HideInInspector] public PlayerEquipmentManager playerEquipmentManager;
+        
         protected override void Awake()
         {
             base.Awake();
@@ -23,6 +27,8 @@ namespace Character.Player
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             playerNetworkManager = GetComponent<PlayerNetworkManager>();
             playerStatManager = GetComponent<PlayerStatManager>();
+            playerInventoryManager = GetComponent<PlayerInventoryManager>();
+            playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
         }
         
         protected override void Update()
@@ -68,7 +74,12 @@ namespace Character.Player
                 playerNetworkManager.currentStamina.OnValueChanged += playerStatManager.ResetStaminaRegenTimer;
             }
             
+            // Stats
             playerNetworkManager.currentHealth.OnValueChanged += playerNetworkManager.CheckHP;
+            
+            // Equipment
+            playerNetworkManager.currentRightHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentRightHandWeaponIDChange;
+            playerNetworkManager.currentLeftHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
         }
 
         public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
@@ -79,7 +90,6 @@ namespace Character.Player
             // Check for Players that are alive, if 0 then end the game
             
             return base.ProcessDeathEvent(manuallySelectDeathAnimation);
-
         }
 
         protected override void ReviveCharacter()
@@ -142,6 +152,12 @@ namespace Character.Player
             {
                 respawnCharacter = false;
                 ReviveCharacter();
+            }
+            
+            if (switchRightWeapon)
+            {
+                switchRightWeapon = false;
+                playerEquipmentManager.SwitchRightWeapon();
             }
         }
     }
