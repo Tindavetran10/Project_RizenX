@@ -23,9 +23,7 @@ namespace Character.Player
             }
         }
         
-        public void UpdateAnimatorWeaponParameters(bool isUsingWeapon)
-        {
+        public void UpdateAnimatorWeaponParameters(bool isUsingWeapon) => 
             _playerManager.animator.SetBool(IsUsingWeapon, isUsingWeapon);
-        }
     }
 }

@@ -1,4 +1,6 @@
+using System;
 using Items;
+using Items.Weapons;
 using UnityEngine;
 
 namespace Character.Player
@@ -9,6 +11,9 @@ namespace Character.Player
         
         public WeaponModelInstantiationSlot rightHandSlot;
         public WeaponModelInstantiationSlot leftHandSlot;
+        public WeaponModelInstantiationSlot rightHipSlot;
+        public WeaponModelInstantiationSlot leftHipSlot;
+        public WeaponModelInstantiationSlot backSlot;
 
         [SerializeField] private WeaponManager rightHandWeaponManager;
         [SerializeField] private WeaponManager leftHandWeaponManager;
@@ -38,10 +43,25 @@ namespace Character.Player
             
             foreach (var weaponSlot in weaponSlots)
             {
-                if (weaponSlot.weaponSlot == WeaponModelSlot.RightHand)
-                    rightHandSlot = weaponSlot;
-                else if (weaponSlot.weaponSlot == WeaponModelSlot.LeftHand)
-                    leftHandSlot = weaponSlot;
+                switch (weaponSlot.weaponSlot)
+                {
+                    case WeaponModelSlot.RightHand:
+                        rightHandSlot = weaponSlot;
+                        break;
+                    case WeaponModelSlot.LeftHand:
+                        leftHandSlot = weaponSlot;
+                        break;
+                    case WeaponModelSlot.RightHip:
+                        rightHipSlot = weaponSlot;
+                        break;
+                    case WeaponModelSlot.LeftHip:
+                        leftHipSlot = weaponSlot;
+                        break;
+                    case WeaponModelSlot.Back:
+                        backSlot = weaponSlot;
+                        break;
+                    default: throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -52,7 +72,6 @@ namespace Character.Player
         }
 
         #region Right Weapon
-
         public void LoadRightWeapon()
         {
             if (_playerManager.playerInventoryManager.currentRightHandWeapon != null)
@@ -148,7 +167,6 @@ namespace Character.Player
         #endregion
         
         #region Left Weapon
-
         public void LoadLeftWeapon()
         {
             if (_playerManager.playerInventoryManager.currentLeftHandWeapon != null)
@@ -169,5 +187,6 @@ namespace Character.Player
             
         }
         #endregion
+        
     }
 }

@@ -222,7 +222,7 @@ namespace Climbing
 
         public void FindAheadPoints(ref List<HandlePoints> list)
         {
-            Collider[] cols = Physics.OverlapSphere(transform.position, 5);
+            UnityEngine.Collider[] cols = Physics.OverlapSphere(transform.position, 5);
 
             foreach (var item in cols)
             {

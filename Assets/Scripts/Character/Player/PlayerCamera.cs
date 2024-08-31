@@ -77,9 +77,9 @@ namespace Character.Player
             
             // Normal Rotations
             // Rotate left and right based on the horizontal input
-            leftAndRightLookAngle += (PlayerInputManager.Instance.cameraHorizontalInput * leftAndRightLookSpeed) * Time.deltaTime;
+            leftAndRightLookAngle += PlayerInputManager.Instance.cameraHorizontalInput * leftAndRightLookSpeed * Time.deltaTime;
             // Rotate up and down based on the vertical input
-            upAndDownLookAngle -= (PlayerInputManager.Instance.cameraVerticalInput * upAndDownLookSpeed) * Time.deltaTime;
+            upAndDownLookAngle -= PlayerInputManager.Instance.cameraVerticalInput * upAndDownLookSpeed * Time.deltaTime;
             // Clamp the up and down look angle to the minimum and maximum pivot
             upAndDownLookAngle = Mathf.Clamp(upAndDownLookAngle, minimumPivot, maximumPivot);
             

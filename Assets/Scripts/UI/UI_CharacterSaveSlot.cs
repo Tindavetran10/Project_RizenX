@@ -22,8 +22,10 @@ namespace UI
 
         private void LoadSaveSlots()
         {
-            _saveFileDataWriter = new SaveFileDataWriter();
-            _saveFileDataWriter.SaveDataDirectoryPath = Application.persistentDataPath;
+            _saveFileDataWriter = new SaveFileDataWriter
+            {
+                SaveDataDirectoryPath = Application.persistentDataPath
+            };
 
             switch (characterSlot)
             {
@@ -152,6 +154,7 @@ namespace UI
                     else gameObject.SetActive(false);
                     break;
                 }
+                case CharacterSlot.NO_SLOT: break;
                 default: throw new ArgumentOutOfRangeException();
             }
         }
