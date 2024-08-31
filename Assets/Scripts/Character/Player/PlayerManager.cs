@@ -12,6 +12,7 @@ namespace Character.Player
         [Header("Debug Menu")]
         [SerializeField] private bool respawnCharacter;
         [SerializeField] private bool switchRightWeapon;
+        [SerializeField] private bool isUsingWeapon;
         
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
@@ -29,6 +30,8 @@ namespace Character.Player
             playerStatManager = GetComponent<PlayerStatManager>();
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
             playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
+            
+            isUsingWeapon = false;
         }
         
         protected override void Update()
@@ -157,6 +160,11 @@ namespace Character.Player
             if (switchRightWeapon)
             {
                 switchRightWeapon = false;
+                
+                // Custom: Switch between using a weapon and not using a weapon
+                isUsingWeapon = !isUsingWeapon;
+                
+                playerAnimatorManager.UpdateAnimatorWeaponParameters(isUsingWeapon);
                 playerEquipmentManager.SwitchRightWeapon();
             }
         }

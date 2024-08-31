@@ -19,8 +19,5 @@ public class WeaponManager : MonoBehaviour
         meleeDamageCollider.fireDamage = weapon.fireDamage;
         meleeDamageCollider.lightningDamage = weapon.lightningDamage;
         meleeDamageCollider.holyDamage = weapon.holyDamage;
-        
-        
-        
     }
 }

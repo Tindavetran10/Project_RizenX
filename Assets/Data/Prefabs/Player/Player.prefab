@@ -422,6 +422,7 @@ MonoBehaviour:
   canMove: 1
   respawnCharacter: 0
   switchRightWeapon: 0
+  isUsingWeapon: 0
   playerLocomotionManager: {fileID: 0}
   playerAnimatorManager: {fileID: 0}
   playerNetworkManager: {fileID: 0}
@@ -606,12 +607,12 @@ MonoBehaviour:
   weaponsInRightHandSlots:
   - {fileID: 11400000, guid: d80eb0e7ccbb1cc45a90af4fb94f0d54, type: 2}
   - {fileID: 11400000, guid: d80eb0e7ccbb1cc45a90af4fb94f0d54, type: 2}
-  - {fileID: 11400000, guid: d80eb0e7ccbb1cc45a90af4fb94f0d54, type: 2}
+  - {fileID: 11400000, guid: a8c5ba4064806b14e8532a7e33ae0b8c, type: 2}
   rightHandWeaponIndex: 0
   weaponsInLeftHandSlots:
   - {fileID: 11400000, guid: d80eb0e7ccbb1cc45a90af4fb94f0d54, type: 2}
   - {fileID: 11400000, guid: d80eb0e7ccbb1cc45a90af4fb94f0d54, type: 2}
-  - {fileID: 11400000, guid: d80eb0e7ccbb1cc45a90af4fb94f0d54, type: 2}
+  - {fileID: 11400000, guid: a8c5ba4064806b14e8532a7e33ae0b8c, type: 2}
   leftHandWeaponIndex: 0
 --- !u!114 &-617016824235820828
 MonoBehaviour:

@@ -1,8 +1,11 @@
+using UnityEngine;
+
 namespace Character.Player
 {
     public class PlayerAnimatorManager : CharacterAnimatorManager
     {
         private PlayerManager _playerManager;
+        private static readonly int IsUsingWeapon = Animator.StringToHash("isUsingWeapon");
         
         protected override void Awake()
         {
@@ -18,6 +21,11 @@ namespace Character.Player
                 _playerManager.characterController.Move(velocity);
                 _playerManager.transform.rotation *= _playerManager.animator.deltaRotation;
             }
+        }
+        
+        public void UpdateAnimatorWeaponParameters(bool isUsingWeapon)
+        {
+            _playerManager.animator.SetBool(IsUsingWeapon, isUsingWeapon);
         }
     }
 }

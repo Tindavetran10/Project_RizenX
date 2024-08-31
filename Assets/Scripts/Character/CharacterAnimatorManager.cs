@@ -10,9 +10,7 @@ namespace Character
         private static readonly int Vertical = Animator.StringToHash("Vertical");
 
         protected virtual void Awake() => _characterManager = GetComponent<CharacterManager>();
-
-       
-
+        
         public void UpdateAnimatorMovementParameters(float horizontalMovement, float verticalMovement, bool isSprinting)
         {
             var horizontalAmount = horizontalMovement;
