@@ -25,8 +25,14 @@ namespace Collider
     
         private void OnTriggerEnter(UnityEngine.Collider other)
         {
-            var damageTarget = other.GetComponent<CharacterManager>();
-        
+            var damageTarget = other.GetComponentInParent<CharacterManager>();
+            
+            // If you want to search on both the damageable character colliders & the character controller collider,
+            // check for null here and do the following  
+            
+            /*if(damageTarget == null)
+                damageTarget = other.GetComponent<CharacterManager>();*/
+            
             if (damageTarget != null)
             {
                 _contactPoint = other.gameObject.GetComponent<UnityEngine.Collider>().ClosestPointOnBounds(transform.position);
@@ -39,6 +45,7 @@ namespace Collider
             
                 // damage the target
                 DamageTarget(damageTarget);
+                Debug.Log(other);
             }
         }
 
