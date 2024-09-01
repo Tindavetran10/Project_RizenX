@@ -1206,7 +1206,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2824224805714467616}
-  m_Layer: 10
+  - component: {fileID: 629329563428799096}
+  m_Layer: 7
   m_Name: thigh_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1230,6 +1231,29 @@ Transform:
   - {fileID: 2298106870452948431}
   m_Father: {fileID: 177311412559313814}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &629329563428799096
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2165710902077913639}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Height: 0.5
+  m_Direction: 0
+  m_Center: {x: -0.21399958, y: 0.025907498, z: 0.005341614}
 --- !u!1 &2191582526912803358
 GameObject:
   m_ObjectHideFlags: 0
@@ -1431,7 +1455,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2766362844596204140}
-  m_Layer: 10
+  - component: {fileID: 354749138048554920}
+  m_Layer: 7
   m_Name: calf_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1455,6 +1480,29 @@ Transform:
   - {fileID: 5057473300875112470}
   m_Father: {fileID: 2056986042849549572}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &354749138048554920
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3209691822207214004}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.07
+  m_Height: 0.5
+  m_Direction: 0
+  m_Center: {x: 0.2, y: 0.031625126, z: -0.008704209}
 --- !u!1 &3418359110601185731
 GameObject:
   m_ObjectHideFlags: 0
@@ -1615,7 +1663,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 305545785820263417}
-  m_Layer: 10
+  - component: {fileID: 1067939226464300708}
+  m_Layer: 7
   m_Name: calf_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1639,6 +1688,29 @@ Transform:
   - {fileID: 2024061446652692022}
   m_Father: {fileID: 2824224805714467616}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1067939226464300708
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4116490063937645222}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.07
+  m_Height: 0.5
+  m_Direction: 0
+  m_Center: {x: -0.2, y: 0.031625126, z: -0.008704209}
 --- !u!1 &4237181157819755534
 GameObject:
   m_ObjectHideFlags: 0
@@ -2037,7 +2109,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2056986042849549572}
-  m_Layer: 10
+  - component: {fileID: 5296567963523215401}
+  m_Layer: 7
   m_Name: thigh_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2061,6 +2134,29 @@ Transform:
   - {fileID: 4002463404633113514}
   m_Father: {fileID: 177311412559313814}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &5296567963523215401
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5082225932012818633}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Height: 0.5
+  m_Direction: 0
+  m_Center: {x: 0.21173856, y: -0.02148742, z: -0.010657989}
 --- !u!1 &5106007610791269433
 GameObject:
   m_ObjectHideFlags: 0

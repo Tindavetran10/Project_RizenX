@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -36,7 +38,9 @@ namespace Character
             characterEffectsManager = GetComponent<CharacterEffectsManager>();
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
         }
-        
+
+        protected virtual void Start() => IgnoreMyOwnColliders();
+
         protected virtual void Update()
         {
             animator.SetBool(IsGrounded, isGrounded);
@@ -92,6 +96,29 @@ namespace Character
         protected virtual void ReviveCharacter()
         {
             if(IsOwner) isDead.Value = false;
+        }
+        
+        protected virtual void IgnoreMyOwnColliders()
+        {
+            var characterControllerCollider = characterController.GetComponent<UnityEngine.Collider>();
+            var damageableCharacterColliders = GetComponentsInChildren<UnityEngine.Collider>();
+            var ignoredColliders = new List<UnityEngine.Collider>();
+            
+            if (ignoredColliders == null) throw new ArgumentNullException(nameof(ignoredColliders));
+
+            // Add all of our damageable character colliders, to the list that will be used to ignore collisions
+            ignoredColliders.AddRange(damageableCharacterColliders);
+
+            //Add our character controller collider to the list of ignored colliders
+            ignoredColliders.Add(characterControllerCollider);
+            
+            // Goes through all the colliders in the list and ignores collisions with each other
+            foreach (var item in ignoredColliders)
+            {
+                foreach (var otherCollider in ignoredColliders) 
+                    Physics.IgnoreCollision(item, otherCollider, true);
+            }
+            
         }
     }
 }
