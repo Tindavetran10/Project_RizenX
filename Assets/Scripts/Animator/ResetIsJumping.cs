@@ -9,7 +9,9 @@ public class ResetIsJumping : StateMachineBehaviour
     {
         if(_characterManager == null)
             _characterManager = animator.GetComponent<CharacterManager>();
-        _characterManager.isJumping = false;
+        
+        if(_characterManager.IsOwner)
+            _characterManager.characterNetworkManager.isJumping.Value = false;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

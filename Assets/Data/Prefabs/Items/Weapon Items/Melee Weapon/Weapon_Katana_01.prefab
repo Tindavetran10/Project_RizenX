@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 6393549809931130737}
   - component: {fileID: 1780924998487855947}
   - component: {fileID: 6197516103684187969}
-  m_Layer: 13
+  m_Layer: 7
   m_Name: Damage Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

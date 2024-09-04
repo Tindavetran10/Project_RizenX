@@ -151,6 +151,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "RB",
+                    "type": "Button",
+                    "id": "51e7c243-8f1d-4436-97de-e0ac2220cc4b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Sprint",
                     "type": "PassThrough",
                     "id": "a0e7b179-3581-445d-bb36-03a9feac4441",
@@ -224,6 +233,28 @@
                     "processors": "",
                     "groups": "Controller",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cc3d971f-3d02-4491-8a67-b26254bf2fe9",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "RB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a31846d9-e540-4b33-9c44-2fd63bb2927d",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "RB",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Items;
+using Items.Weapons;
 using UnityEngine;
 
 public class WorldItemDatabase : MonoBehaviour

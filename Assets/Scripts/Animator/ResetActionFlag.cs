@@ -15,7 +15,8 @@ public class ResetActionFlag : StateMachineBehaviour
        _characterManager.applyRootMotion = false;
        _characterManager.canRotate = true;
        _characterManager.canMove = true;
-       _characterManager.isJumping = false;
+       
+       if(_characterManager.IsOwner) _characterManager.characterNetworkManager.isJumping.Value = false;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

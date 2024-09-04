@@ -20,7 +20,6 @@ namespace Character
         
         [Header("Flags")]
         public bool isPerformingAction;
-        public bool isJumping;
         public bool isGrounded;
         public bool applyRootMotion;
         public bool canRotate = true;

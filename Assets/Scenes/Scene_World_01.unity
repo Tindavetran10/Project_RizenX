@@ -16604,7 +16604,7 @@ GameObject:
   - component: {fileID: 926232662}
   - component: {fileID: 926232661}
   - component: {fileID: 926232665}
-  m_Layer: 13
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16709,8 +16709,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec52ebabc7dea1449b7d90050a28263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  physicalDamage: 200
-  magicalDamage: 0
+  physicalDamage: 5
+  magicDamage: 0
   fireDamage: 0
   lightningDamage: 0
   holyDamage: 0

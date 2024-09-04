@@ -51,7 +51,7 @@ namespace Collider
 
         protected virtual void DamageTarget(CharacterManager damageTarget)
         {
-            // We don't want to damage the same target multiple times
+            // We don't want to damage the same target multiple times,
             // So we add them to a list that checks before applying damage 
 
             if (_charactersDamaged.Contains(damageTarget)) return;
