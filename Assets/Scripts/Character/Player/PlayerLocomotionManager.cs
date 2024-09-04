@@ -115,7 +115,7 @@ namespace Character.Player
 
         private void HandleJumpingMovement()
         {
-            if(_playerManager.isJumping)
+            if(_playerManager.playerNetworkManager.isJumping.Value)
                 _playerManager.characterController.Move(_jumpDirection * (jumpForwardSpeed * Time.deltaTime));
         }
 
@@ -177,7 +177,7 @@ namespace Character.Player
         
         public void AttemptToPerformDodge()
         {
-            if(_playerManager.isPerformingAction) return;
+            //if(_playerManager.isPerformingAction) return;
             
             if(_playerManager.playerNetworkManager.currentStamina.Value <= 0) return;
             
@@ -208,13 +208,13 @@ namespace Character.Player
         {
             // If we are performing a general action, we don't want to allow a jump
             // (will change if combat actions are added)
-            if(_playerManager.isPerformingAction) return;
+            //if(_playerManager.isPerformingAction) return;
             
             // If we are out of stamina, we don't want to allow a jump
             if(_playerManager.playerNetworkManager.currentStamina.Value <= 0) return;
             
             // If we are jumping, we don't want to allow another jump until the current jump is finished
-            if(_playerManager.isJumping) return;
+            if(_playerManager.playerNetworkManager.isJumping.Value) return;
             
             // If we are not grounded, we don't want to allow a jump
             if(!_playerManager.isGrounded) return;
@@ -223,7 +223,7 @@ namespace Character.Player
             // Otherwise, play the one-handed jump animation
             _playerManager.playerAnimatorManager.PlayTargetActionAnimation("Main_Jump_01", false);
             
-            _playerManager.isJumping = true;
+            _playerManager.playerNetworkManager.isJumping.Value = true;
             
             // Drain stamina on dodge
             _playerManager.playerNetworkManager.currentStamina.Value -= jumpStaminaCost;

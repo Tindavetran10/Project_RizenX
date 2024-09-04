@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Character
 {
@@ -40,7 +39,7 @@ namespace Character
             else
             {
                 // If we are not jumping and our falling velocity has not been set,
-                if(!_characterManager.isJumping && !_fallingVelocityHasBeenSet)
+                if(!_characterManager.characterNetworkManager.isJumping.Value && !_fallingVelocityHasBeenSet)
                 {
                     _fallingVelocityHasBeenSet = true;
                     yVelocity.y = fallStartYVelocity;

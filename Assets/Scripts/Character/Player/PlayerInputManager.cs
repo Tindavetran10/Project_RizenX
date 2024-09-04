@@ -31,6 +31,7 @@ namespace Character.Player
         [SerializeField] private bool dodgeInput;
         [SerializeField] private bool sprintInput;
         [SerializeField] private bool jumpInput;
+        [SerializeField] private bool rbInput;
         
         private void Awake()
         {
@@ -47,15 +48,25 @@ namespace Character.Player
             SceneManager.activeSceneChanged += OnSceneChanged;      
         
             Instance.enabled = false;
-        }
+
+            _playerController?.Disable();
+        }   
 
         private void OnSceneChanged(Scene oldScene, Scene newScene)
         {
             // If we load into the new scene, enable the PlayerInputManager
             if(newScene.buildIndex == WorldSaveGameManager.Instance.GetWorldSceneIndex())
+            {
                 Instance.enabled = true;
+
+                _playerController?.Enable();
+            }
             // Otherwise, disable the PlayerInputManager
-            else Instance.enabled = false;
+            else
+            {
+                Instance.enabled = false;
+                _playerController?.Disable();
+            }
         }
 
         private void OnEnable()
@@ -69,6 +80,8 @@ namespace Character.Player
                 _playerController.PlayerCamera.Movement.performed += ctx => cameraInput = ctx.ReadValue<Vector2>();
                 _playerController.PlayerActions.Dodge.performed += ctx => dodgeInput = true;
                 _playerController.PlayerActions.Jump.performed += ctx => jumpInput = true;
+                
+                _playerController.PlayerActions.RB.performed += ctx => rbInput = true;
                 
                 // Holding the sprint button, set sprintInput to true
                 _playerController.PlayerActions.Sprint.performed += ctx => sprintInput = true;
@@ -104,6 +117,8 @@ namespace Character.Player
             HandleDodgeInput();
             HandleSprintInput();
             HandleJumpInput();
+            
+            HandleRBInput();
         }
 
         // This method will handle the movement input from the player,
@@ -151,7 +166,7 @@ namespace Character.Player
             {
                 dodgeInput = false;
                 
-                // Future  note: do nothing if UI is open
+                // Future note: do nothing if UI is open
                 // Perform the dodge action
                 PlayerManager.playerLocomotionManager.AttemptToPerformDodge();
             }
@@ -169,10 +184,29 @@ namespace Character.Player
             {
                 jumpInput = false;
                 
-                // If we have an UI open, do nothing
+                // If we have a UI open, do nothing
                 
                 // attempt to perform the jump action
                 PlayerManager.playerLocomotionManager.AttemptToPerformJump();
+            }
+        }
+        
+        private void HandleRBInput()
+        {
+            if (rbInput)
+            {
+                rbInput = false;
+                
+                // If we have a UI open, do nothing
+                
+                // attempt to perform the right hand action
+                PlayerManager.playerNetworkManager.SetCharacterActionHand(true);
+                
+                // If we are two handing the weapon, use the two-handed action
+                
+                PlayerManager.playerCombatManager.PerformWeaponBaseAction(
+                    PlayerManager.playerInventoryManager.currentRightHandWeapon.oh_rb_Action, 
+                    PlayerManager.playerInventoryManager.currentRightHandWeapon);
             }
         }
     }

@@ -1,6 +1,7 @@
 using UnityEngine;
+using Weapon_Actions;
 
-namespace Items
+namespace Items.Weapons
 {
     public class WeaponItem : Item
     {
@@ -35,10 +36,12 @@ namespace Items
         
         [Header("Stamina Costs")]
         public int baseStaminaCost = 20;
-        
         // Running attack stamina cost modifier
         // Light attack stamina cost modifier
         // Heavy attack stamina cost modifier
+        
+        [Header("Actions")]
+        public WeaponItemActions oh_rb_Action;
         
         // Item Based Actions
         

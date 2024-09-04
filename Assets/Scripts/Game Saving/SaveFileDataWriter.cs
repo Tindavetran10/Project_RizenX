@@ -10,13 +10,8 @@ namespace Game_Saving
         public string SaveFileName = "";
         
         // Before we create a save file, we need to check if the file already exists. (Max 10 character slots)
-        public bool CheckToSeeIfFileExists()
-        {
-            if(File.Exists(Path.Combine(SaveDataDirectoryPath, SaveFileName)))
-                return true;
-            return false;
-        }
-        
+        public bool CheckToSeeIfFileExists() => File.Exists(Path.Combine(SaveDataDirectoryPath, SaveFileName));
+
         // Used to delete character save files
         public void DeleteSaveFile() => File.Delete(Path.Combine(SaveDataDirectoryPath, SaveFileName));
 

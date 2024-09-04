@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Katana
   itemIcon: {fileID: 21300000, guid: 51d719bed8dc7534b8833016e7694c76, type: 3}
   itemDescription: A Katana forged by will of the user
-  itemID: 0
+  itemID: 1
   weaponModel: {fileID: 7126787797230274896, guid: bb7d5323524f82d4098db5c3de4aae9b,
     type: 3}
   strengthRequirement: 10
@@ -29,3 +29,4 @@ MonoBehaviour:
   holyDamage: 0
   poiseDamage: 10
   baseStaminaCost: 20
+  oh_rb_Action: {fileID: 11400000, guid: f41b2e0c7d11b834c8619875f0f10619, type: 2}

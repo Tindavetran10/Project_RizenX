@@ -1,3 +1,4 @@
+using Items.Weapons;
 using UnityEngine;
 
 namespace Items

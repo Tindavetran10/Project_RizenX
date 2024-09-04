@@ -1,4 +1,6 @@
+using System;
 using Items;
+using Items.Weapons;
 using UnityEngine;
 
 namespace Character.Player
@@ -9,6 +11,9 @@ namespace Character.Player
         
         public WeaponModelInstantiationSlot rightHandSlot;
         public WeaponModelInstantiationSlot leftHandSlot;
+        public WeaponModelInstantiationSlot rightHipSlot;
+        public WeaponModelInstantiationSlot leftHipSlot;
+        public WeaponModelInstantiationSlot backSlot;
 
         [SerializeField] private WeaponManager rightHandWeaponManager;
         [SerializeField] private WeaponManager leftHandWeaponManager;
@@ -38,10 +43,25 @@ namespace Character.Player
             
             foreach (var weaponSlot in weaponSlots)
             {
-                if (weaponSlot.weaponSlot == WeaponModelSlot.RightHand)
-                    rightHandSlot = weaponSlot;
-                else if (weaponSlot.weaponSlot == WeaponModelSlot.LeftHand)
-                    leftHandSlot = weaponSlot;
+                switch (weaponSlot.weaponSlot)
+                {
+                    case WeaponModelSlot.RightHand:
+                        rightHandSlot = weaponSlot;
+                        break;
+                    case WeaponModelSlot.LeftHand:
+                        leftHandSlot = weaponSlot;
+                        break;
+                    case WeaponModelSlot.RightHip:
+                        rightHipSlot = weaponSlot;
+                        break;
+                    case WeaponModelSlot.LeftHip:
+                        leftHipSlot = weaponSlot;
+                        break;
+                    case WeaponModelSlot.Back:
+                        backSlot = weaponSlot;
+                        break;
+                    default: throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -52,11 +72,14 @@ namespace Character.Player
         }
 
         #region Right Weapon
-
         public void LoadRightWeapon()
         {
             if (_playerManager.playerInventoryManager.currentRightHandWeapon != null)
             {
+                // Remove the old weapon
+                rightHandSlot.UnloadWeapon();
+                
+                // Bring in the new weapon
                 rightHandWeaponModel = Instantiate(_playerManager.playerInventoryManager.currentRightHandWeapon.weaponModel);
                 rightHandSlot.LoadWeapon(rightHandWeaponModel);
                 rightHandWeaponManager = rightHandWeaponModel.GetComponent<WeaponManager>();
@@ -68,7 +91,8 @@ namespace Character.Player
         public void SwitchRightWeapon()
         {
             if(!_playerManager.IsOwner) return;
-            _playerManager.playerAnimatorManager.PlayTargetActionAnimation("Swap_Right_Weapon_01", true, true, true, true);
+            _playerManager.playerAnimatorManager.PlayTargetActionAnimation("Swap_Right_Weapon_01", 
+                true, true, true, true);
             
             // Elden Ring Weapon Swapping
             // 1. Check if we have another weapon besides our main weapon if we do, NEVER swap to unarmed, rotate between weapon 1 and weapon 2
@@ -85,36 +109,19 @@ namespace Character.Player
             
             // If our index is greater than 2, reset it to 0
             // If our index is out of bounds, reset it to position #1 (0)
-            if (_playerManager.playerInventoryManager.rightHandWeaponIndex < 0 || _playerManager.playerInventoryManager.rightHandWeaponIndex > 2)
+            if (_playerManager.playerInventoryManager.rightHandWeaponIndex is < 0 or > 2)
+            {
                 _playerManager.playerInventoryManager.rightHandWeaponIndex = 0;
-
-            foreach (var weapon in _playerManager.playerInventoryManager.weaponsInRightHandSlots)
-            {
-                // Check to see if this is not the "unarmed" weapon
-                // If the next potential weapon is not the unarmed weapon, select it
-                if(_playerManager.playerInventoryManager.weaponsInRightHandSlots[_playerManager.playerInventoryManager.rightHandWeaponIndex].itemID != WorldItemDatabase.instance.unarmedWeapon.itemID)
-                {
-                    selectedWeapon = _playerManager.playerInventoryManager.weaponsInRightHandSlots[_playerManager.playerInventoryManager.rightHandWeaponIndex];
-                    // Assign the network weapon id, so it switches for all connected clients
-                    
-                    _playerManager.playerNetworkManager.currentRightHandWeaponID.Value = _playerManager.playerInventoryManager.weaponsInRightHandSlots[_playerManager.playerInventoryManager.rightHandWeaponIndex].itemID;
-                    
-                }
-            }
-
-            if (selectedWeapon == null && _playerManager.playerInventoryManager.rightHandWeaponIndex < 2)
-            {
-                SwitchRightWeapon();
-            }
-            else
-            {
+                
+                // We check if we are holding more than one weapon
                 float weaponCount = 0;
                 WeaponItem firstWeapon = null;
-                int firstWeaponPosition = 0;
+                var firstWeaponPosition = 0;
 
-                for (int i = 0; i < _playerManager.playerInventoryManager.weaponsInRightHandSlots.Length; i++)
+                for (var i = 0; i < _playerManager.playerInventoryManager.weaponsInRightHandSlots.Length; i++)
                 {
-                    if(_playerManager.playerInventoryManager.weaponsInRightHandSlots[i].itemID != WorldItemDatabase.instance.unarmedWeapon.itemID)
+                    if(_playerManager.playerInventoryManager.weaponsInRightHandSlots[i].itemID != 
+                       WorldItemDatabase.instance.unarmedWeapon.itemID)
                     {
                         weaponCount++;
                         if (firstWeapon == null)
@@ -136,16 +143,38 @@ namespace Character.Player
                     _playerManager.playerInventoryManager.rightHandWeaponIndex = firstWeaponPosition;
                     _playerManager.playerNetworkManager.currentRightHandWeaponID.Value = firstWeapon.itemID;
                 }
+                return;
             }
+
+            foreach (var weapon in _playerManager.playerInventoryManager.weaponsInRightHandSlots)
+            {
+                // Check to see if this is not the "unarmed" weapon
+                // If the next potential weapon is not the unarmed weapon, select it
+                if(_playerManager.playerInventoryManager.weaponsInRightHandSlots[_playerManager.playerInventoryManager.rightHandWeaponIndex].itemID != WorldItemDatabase.instance.unarmedWeapon.itemID)
+                {
+                    selectedWeapon = _playerManager.playerInventoryManager.weaponsInRightHandSlots[_playerManager.playerInventoryManager.rightHandWeaponIndex];
+                    
+                    // Assign the network weapon id, so it switches for all connected clients
+                    _playerManager.playerNetworkManager.currentRightHandWeaponID.Value = 
+                        _playerManager.playerInventoryManager.weaponsInRightHandSlots[_playerManager.playerInventoryManager.rightHandWeaponIndex].itemID;
+                    return;
+                }
+            }
+
+            if (selectedWeapon == null && _playerManager.playerInventoryManager.rightHandWeaponIndex <= 2)
+                SwitchRightWeapon();
         }
         #endregion
         
         #region Left Weapon
-
         public void LoadLeftWeapon()
         {
             if (_playerManager.playerInventoryManager.currentLeftHandWeapon != null)
             {
+                // Remove the old weapon
+                leftHandSlot.UnloadWeapon();
+                
+                // Bring in the new weapon
                 leftHandWeaponModel = Instantiate(_playerManager.playerInventoryManager.currentLeftHandWeapon.weaponModel);
                 leftHandSlot.LoadWeapon(leftHandWeaponModel);
                 leftHandWeaponManager = leftHandWeaponModel.GetComponent<WeaponManager>();
@@ -158,5 +187,6 @@ namespace Character.Player
             
         }
         #endregion
+        
     }
 }

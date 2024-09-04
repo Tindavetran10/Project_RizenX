@@ -12,7 +12,7 @@ public class vPickupItem : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(UnityEngine.Collider other)
     {
         if(other.CompareTag("Player"))
         {

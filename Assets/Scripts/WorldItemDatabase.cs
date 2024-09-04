@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Items;
+using Items.Weapons;
 using UnityEngine;
 
 public class WorldItemDatabase : MonoBehaviour
@@ -10,11 +11,11 @@ public class WorldItemDatabase : MonoBehaviour
     public WeaponItem unarmedWeapon;
     
     [Header("Weapons")]
-    [SerializeField] private List<WeaponItem> weapons = new List<WeaponItem>();
+    [SerializeField] private List<WeaponItem> weapons = new();
     
     // A List of Every Item in the Game
     [Header("Items")]
-    [SerializeField] private List<Item> items = new List<Item>();
+    [SerializeField] private List<Item> items = new();
 
     private void Awake()
     {

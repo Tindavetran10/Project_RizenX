@@ -16,14 +16,14 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - Ledge
-  - Wall
-  - Player
-  - 
-  - 
+  - Character
+  - Damageable Character
   - Damage Collider
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 

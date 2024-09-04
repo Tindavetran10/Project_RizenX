@@ -12,6 +12,7 @@ namespace Character.Player
         [Header("Debug Menu")]
         [SerializeField] private bool respawnCharacter;
         [SerializeField] private bool switchRightWeapon;
+        [SerializeField] private bool isUsingWeapon;
         
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
@@ -19,6 +20,7 @@ namespace Character.Player
         [HideInInspector] public PlayerStatManager playerStatManager;
         [HideInInspector] public PlayerInventoryManager playerInventoryManager;
         [HideInInspector] public PlayerEquipmentManager playerEquipmentManager;
+        [HideInInspector] public PlayerCombatManager playerCombatManager;
         
         protected override void Awake()
         {
@@ -29,6 +31,9 @@ namespace Character.Player
             playerStatManager = GetComponent<PlayerStatManager>();
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
             playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
+            playerCombatManager = GetComponent<PlayerCombatManager>();
+            
+            isUsingWeapon = false;
         }
         
         protected override void Update()
@@ -80,6 +85,12 @@ namespace Character.Player
             // Equipment
             playerNetworkManager.currentRightHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentRightHandWeaponIDChange;
             playerNetworkManager.currentLeftHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
+            playerNetworkManager.currentWeaponBeingUsed.OnValueChanged += playerNetworkManager.OnCurrentWeaponBeingUsedIDChange;
+
+            // Upon connecting, if we are the owner of this character,
+            // But we are not the server, reload our character data to this newly instantiated character,
+            // We don't run this if we are the server, because since they are the host, they are already loaded in and don't need to reload their data
+            if (IsOwner && !IsServer) LoadGameDataFromCurrentCharacterData(ref WorldSaveGameManager.Instance.currentCharacterData);
         }
 
         public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
@@ -157,6 +168,11 @@ namespace Character.Player
             if (switchRightWeapon)
             {
                 switchRightWeapon = false;
+                
+                // Custom: Switch between using a weapon and not using a weapon
+                isUsingWeapon = !isUsingWeapon;
+                
+                playerAnimatorManager.UpdateAnimatorWeaponParameters(isUsingWeapon);
                 playerEquipmentManager.SwitchRightWeapon();
             }
         }
