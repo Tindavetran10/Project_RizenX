@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4209192541794782113}
-  - component: {fileID: 4949585642641476827}
   - component: {fileID: 1582529172805205817}
+  - component: {fileID: 4949585642641476827}
   m_Layer: 7
   m_Name: Damage Collider
   m_TagString: Untagged
@@ -33,24 +33,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4654284405088895132}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4949585642641476827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1914954149745620505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cf91c1a0b6d20149b264a3956c57d8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  physicalDamage: 0
-  magicDamage: 0
-  fireDamage: 0
-  lightningDamage: 0
-  holyDamage: 0
-  characterCausingDamage: {fileID: 0}
 --- !u!135 &1582529172805205817
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -72,6 +54,26 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.08
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4949585642641476827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1914954149745620505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cf91c1a0b6d20149b264a3956c57d8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damageCollider: {fileID: 1582529172805205817}
+  physicalDamage: 0
+  magicDamage: 0
+  fireDamage: 0
+  lightningDamage: 0
+  holyDamage: 0
+  characterCausingDamage: {fileID: 0}
+  lightAttack_01_Modifier: 1
 --- !u!1 &7675328158143064250
 GameObject:
   m_ObjectHideFlags: 0

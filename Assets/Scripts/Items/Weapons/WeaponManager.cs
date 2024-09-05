@@ -6,7 +6,7 @@ namespace Items.Weapons
 {
     public class WeaponManager : MonoBehaviour
     {
-        [SerializeField] private MeleeWeaponDamageCollider meleeDamageCollider;
+        public MeleeWeaponDamageCollider meleeDamageCollider;
 
         private void Awake()
         {
@@ -21,6 +21,8 @@ namespace Items.Weapons
             meleeDamageCollider.fireDamage = weapon.fireDamage;
             meleeDamageCollider.lightningDamage = weapon.lightningDamage;
             meleeDamageCollider.holyDamage = weapon.holyDamage;
+            
+            meleeDamageCollider.lightAttack_01_Modifier = weapon.lightAttack_01_Modifier;
         }
     }
 }

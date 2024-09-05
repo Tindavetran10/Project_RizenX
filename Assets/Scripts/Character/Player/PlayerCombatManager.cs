@@ -22,6 +22,8 @@ namespace Character.Player
         {
             if (_playerManager.IsOwner)
             {
+                if(weaponAction == null)
+                    return;
                 // Perform the weapon action
                 weaponAction.AttemptToPerformAction(_playerManager, weaponPerformingAction);
                 
