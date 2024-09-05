@@ -30,14 +30,17 @@ namespace Items.Weapons
         // Offensive Poise Bonus When Attacking
         
         // Weapon Modifiers
+        [Header("Attack Modifiers")]
         // Light Attack Modifiers
+        public float lightAttack_01_Modifier = 1.0f;
         // Heavy Attack Modifiers
         // Critical Attack Modifiers
         
-        [Header("Stamina Costs")]
+        [Header("Stamina Costs Modifiers")]
         public int baseStaminaCost = 20;
-        // Running attack stamina cost modifier
         // Light attack stamina cost modifier
+        public float lightAttackStaminaCostMultiplier = 1.0f;
+        // Running attack stamina cost modifier
         // Heavy attack stamina cost modifier
         
         [Header("Actions")]

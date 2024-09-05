@@ -6470,6 +6470,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1728811909694310202, guid: 6770ef8e52d7e7d40aef06ef9b173405,
+        type: 3}
+      propertyPath: weaponItemActions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1728811909694310202, guid: 6770ef8e52d7e7d40aef06ef9b173405,
+        type: 3}
+      propertyPath: weaponItemActions.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8d0c3a8fb40e4df4ea71f9daffe93eb7,
+        type: 2}
     - target: {fileID: 1867911265662027181, guid: 6770ef8e52d7e7d40aef06ef9b173405,
         type: 3}
       propertyPath: m_Name
@@ -6729,6 +6740,6 @@ SceneRoots:
   - {fileID: 445670112537993761}
   - {fileID: 2283000455298817586}
   - {fileID: 2334862428092525506}
+  - {fileID: 8724879262288484717}
   - {fileID: 797786542}
   - {fileID: 1405118722}
-  - {fileID: 8724879262288484717}

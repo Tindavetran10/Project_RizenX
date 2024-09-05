@@ -43,5 +43,33 @@ namespace Character
             _characterManager.characterNetworkManager.NotifyTheServerOfActionAnimationServerRpc(
                 NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);
         }
+
+        public virtual void PlayTargetAttackActionAnimation(
+            AttackType attackType,
+            string targetAnimation,
+            bool isPerformingAction,
+            bool applyRootMotion = true,
+            bool canRotate = false,
+            bool canMove = false)
+        {
+            // Keep track the last attack performed (for combos)
+            // Keep track of the current attack type (light, heavy, critical)
+            // Update the animation set to the current weapons animations
+            // Decide if out attack can be parried or not
+            // Tell the network our "isAttacking" flag is active (for counter damage, etc.)
+            
+            
+            _characterManager.applyRootMotion = applyRootMotion;
+            _characterManager.animator.CrossFade(targetAnimation, 0.2f);
+            
+            // Can be used to prevent the character from performing other actions while performing an action
+            _characterManager.isPerformingAction = isPerformingAction;
+            _characterManager.canRotate = canRotate;
+            _characterManager.canMove = canMove;
+            
+            // Tell the sever/host we played an animation, and to play it on the clients
+            _characterManager.characterNetworkManager.NotifyTheServerOfAttackActionAnimationServerRpc(
+                NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);
+        }
     }
 }
