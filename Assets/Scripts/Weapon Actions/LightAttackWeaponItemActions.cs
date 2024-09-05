@@ -31,7 +31,8 @@ namespace Weapon_Actions
                 
             if (playerPerformingAction.playerNetworkManager.isUsingRightHand.Value)
             {
-                playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(lightAttack01, true);
+                playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.LightAttack01, 
+                    lightAttack01, true);
             }
             if(playerPerformingAction.playerNetworkManager.isUsingLeftHand.Value)
             {

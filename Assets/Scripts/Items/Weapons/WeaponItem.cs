@@ -32,14 +32,14 @@ namespace Items.Weapons
         // Weapon Modifiers
         [Header("Attack Modifiers")]
         // Light Attack Modifiers
-        public float lightAttack_01_Modifier = 1.0f;
+        public float lightAttack_01_Modifier = 1.1f;
         // Heavy Attack Modifiers
         // Critical Attack Modifiers
         
         [Header("Stamina Costs Modifiers")]
         public int baseStaminaCost = 20;
         // Light attack stamina cost modifier
-        public float lightAttackStaminaCostMultiplier = 1.0f;
+        public float lightAttackStaminaCostMultiplier = 0.9f;
         // Running attack stamina cost modifier
         // Heavy attack stamina cost modifier
         
