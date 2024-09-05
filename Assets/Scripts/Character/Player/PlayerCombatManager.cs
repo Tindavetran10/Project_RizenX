@@ -1,6 +1,6 @@
-using Items;
 using Items.Weapons;
 using Unity.Netcode;
+using UnityEngine;
 using Weapon_Actions;
 
 namespace Character.Player
@@ -8,7 +8,9 @@ namespace Character.Player
     public class PlayerCombatManager : CharacterCombatManager
     {
         private PlayerManager _playerManager;
+        
         public WeaponItem currentWeaponBeingUsed;
+        
         
         protected override void Awake()
         {
@@ -28,6 +30,27 @@ namespace Character.Player
                     NetworkManager.Singleton.LocalClientId, weaponAction.actionId, weaponPerformingAction.itemID);
             }
             
+        }
+
+        public virtual void DrainStaminaBasesOnAttack()
+        {
+            if (!_playerManager.IsOwner)
+                return;
+            
+            if(currentWeaponBeingUsed == null)
+                return;
+
+            float staminaDeducted = 0;
+            switch (currentAttackType)
+            {
+                case AttackType.LightAttack01:
+                    staminaDeducted = currentWeaponBeingUsed.baseStaminaCost * currentWeaponBeingUsed.lightAttackStaminaCostMultiplier;
+                    break;
+                default:
+                    break;
+            }
+            
+            _playerManager.playerNetworkManager.currentStamina.Value -= Mathf.RoundToInt(staminaDeducted);
         }
     }
 }

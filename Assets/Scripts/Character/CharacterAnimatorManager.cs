@@ -58,7 +58,7 @@ namespace Character
             // Decide if out attack can be parried or not
             // Tell the network our "isAttacking" flag is active (for counter damage, etc.)
             
-            
+            _characterManager.characterCombatManager.currentAttackType = attackType;
             _characterManager.applyRootMotion = applyRootMotion;
             _characterManager.animator.CrossFade(targetAnimation, 0.2f);
             
