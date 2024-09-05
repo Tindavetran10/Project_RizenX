@@ -187,6 +187,40 @@ namespace Character.Player
             
         }
         #endregion
-        
+
+        #region Damage Colliders
+
+        public void OpenDamageCollider()
+        {
+            // Open right weapon damage collider
+            if (_playerManager.playerNetworkManager.isUsingRightHand.Value)
+            {
+                rightHandWeaponManager.meleeDamageCollider.EnableDamageCollider();
+            }
+            // Open left weapon damage collider
+            else if (_playerManager.playerNetworkManager.isUsingLeftHand.Value)
+            {
+                leftHandWeaponManager.meleeDamageCollider.EnableDamageCollider();
+            }
+            
+            // Play whoosh sfx
+        }
+
+        public void CloseDamageCollider()
+        {
+            // Open right weapon damage collider
+            if (_playerManager.playerNetworkManager.isUsingRightHand.Value)
+            {
+                rightHandWeaponManager.meleeDamageCollider.DisableDamageCollider();
+            }
+            // Open left weapon damage collider
+            else if (_playerManager.playerNetworkManager.isUsingLeftHand.Value)
+            {
+                leftHandWeaponManager.meleeDamageCollider.DisableDamageCollider();
+            }
+            
+            // Play whoosh sfx
+        }
+        #endregion
     }
 }

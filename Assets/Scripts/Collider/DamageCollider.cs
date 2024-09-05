@@ -8,7 +8,7 @@ namespace Collider
     public class DamageCollider : MonoBehaviour
     {
         [Header("Collider")] 
-        protected UnityEngine.Collider _damageCollider;
+        [SerializeField] protected UnityEngine.Collider _damageCollider;
     
         [Header("Damage")]
         public float physicalDamage = 0; // (In the future, we can add more types of damage like Standard, Strike, Slash and Pierce)
@@ -17,13 +17,13 @@ namespace Collider
         public float lightningDamage = 0;
         public float holyDamage = 0;
     
-        [Header("Contact Point")]
-        private Vector3 _contactPoint; // Used to determine where the blood FX instantiate
+        [Header("Contact Point")] protected Vector3 ContactPoint; // Used to determine where the blood FX instantiate
 
-        [Header("Characters Damaged")]
-        private readonly List<CharacterManager> _charactersDamaged = new();
+        [Header("Characters Damaged")] protected readonly List<CharacterManager> CharactersDamaged = new();
     
-        private void OnTriggerEnter(UnityEngine.Collider other)
+        protected virtual void Awake() {}
+        
+        protected virtual void OnTriggerEnter(UnityEngine.Collider other)
         {
             var damageTarget = other.GetComponentInParent<CharacterManager>();
             
@@ -35,7 +35,7 @@ namespace Collider
             
             if (damageTarget != null)
             {
-                _contactPoint = other.gameObject.GetComponent<UnityEngine.Collider>().ClosestPointOnBounds(transform.position);
+                ContactPoint = other.gameObject.GetComponent<UnityEngine.Collider>().ClosestPointOnBounds(transform.position);
             
                 // check if we can damage this target based on friendly fire settings
             
@@ -45,7 +45,6 @@ namespace Collider
             
                 // damage the target
                 DamageTarget(damageTarget);
-                Debug.Log(other);
             }
         }
 
@@ -54,9 +53,9 @@ namespace Collider
             // We don't want to damage the same target multiple times,
             // So we add them to a list that checks before applying damage 
 
-            if (_charactersDamaged.Contains(damageTarget)) return;
+            if (CharactersDamaged.Contains(damageTarget)) return;
 
-            _charactersDamaged.Add(damageTarget);
+            CharactersDamaged.Add(damageTarget);
 
             var damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeDamageEffect);
 
@@ -66,7 +65,7 @@ namespace Collider
             damageEffect.lightningDamage = lightningDamage;
             damageEffect.holyDamage = holyDamage;
 
-            damageEffect.contactPoint = _contactPoint;
+            damageEffect.contactPoint = ContactPoint;
 
             damageTarget.characterEffectsManager.ProcessInstantEffect(damageEffect);
         }
@@ -77,7 +76,7 @@ namespace Collider
         {
             _damageCollider.enabled = false;
             // We reset the characters that have been hit when we reset the collider, so they may be hit again
-            _charactersDamaged.Clear();
+            CharactersDamaged.Clear();
         }
     }
 }

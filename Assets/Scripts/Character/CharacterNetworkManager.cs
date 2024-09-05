@@ -1,5 +1,7 @@
+using Effects;
 using UnityEngine;
 using Unity.Netcode;
+using World_Manager;
 
 namespace Character
 {
@@ -54,7 +56,8 @@ namespace Character
                     currentHealth.Value = maxHealth.Value;
             }
         }
-        
+
+        #region Action Animation
         // A server RPC is a method that is called on the server and executed on the clients
         [ServerRpc]
         public void NotifyTheServerOfActionAnimationServerRpc(ulong clientID, string animationID, bool applyRootMotion)
@@ -63,23 +66,9 @@ namespace Character
             if (IsServer) PlayActionAnimationForAllClientsClientRpc(clientID, animationID, applyRootMotion);
         }
         
-        [ServerRpc]
-        public void NotifyTheServerOfAttackActionAnimationServerRpc(ulong clientID, string animationID, bool applyRootMotion)
-        {
-            // If this is the server, play the action animation for all clients
-            if (IsServer) PlayAttackActionAnimationForAllClientsClientRpc(clientID, animationID, applyRootMotion);
-        }
-        
         // A client RPC is a method that is called on the client and executed on the server
         [ClientRpc]
         private void PlayActionAnimationForAllClientsClientRpc(ulong clientID, string animationID, bool applyRootMotion)
-        {
-            // We make sure to not run the function on the character who sent it (so we don't play the animation twice)
-            if (clientID != NetworkManager.Singleton.LocalClientId) PerformActionAnimationFromServer(animationID, applyRootMotion);
-        }
-        
-        [ClientRpc]
-        private void PlayAttackActionAnimationForAllClientsClientRpc(ulong clientID, string animationID, bool applyRootMotion)
         {
             // We make sure to not run the function on the character who sent it (so we don't play the animation twice)
             if (clientID != NetworkManager.Singleton.LocalClientId) PerformActionAnimationFromServer(animationID, applyRootMotion);
@@ -91,5 +80,110 @@ namespace Character
             _characterManager.applyRootMotion = applyRootMotion;
             _characterManager.animator.CrossFade(animationID, 0.2f);
         }
+        #endregion
+        
+        #region Attack Animation
+        [ServerRpc]
+        public void NotifyTheServerOfAttackActionAnimationServerRpc(ulong clientID, string animationID, bool applyRootMotion)
+        {
+            // If this is the server, play the action animation for all clients
+            if (IsServer) PlayAttackActionAnimationForAllClientsClientRpc(clientID, animationID, applyRootMotion);
+        }
+        
+        [ClientRpc]
+        private void PlayAttackActionAnimationForAllClientsClientRpc(ulong clientID, string animationID, bool applyRootMotion)
+        {
+            // We make sure to not run the function on the character who sent it (so we don't play the animation twice)
+            if (clientID != NetworkManager.Singleton.LocalClientId) PerformAttackActionAnimationFromServer(animationID, applyRootMotion);
+        }
+        
+        private void PerformAttackActionAnimationFromServer(string animationID, bool applyRootMotion)
+        {
+            // Play the action animation on the server
+            _characterManager.applyRootMotion = applyRootMotion;
+            _characterManager.animator.CrossFade(animationID, 0.2f);
+        }
+        #endregion
+
+        #region Damage
+        [ServerRpc(RequireOwnership = false)]
+        public void NotifyTheServerOfCharacterDamageServerRpc(
+            ulong damagedCharacterID,
+            ulong characterCausingDamageID,
+            float physicalDamage,
+            float magicDamage,
+            float fireDamage,
+            float lightningDamage,
+            float holyDamage,
+            float poisonDamage,
+            float angleHitFrom,
+            float contactPointX,
+            float contactPointY,
+            float contactPointZ)
+        {
+            if (IsServer)
+            {
+                NotifyTheServerOfCharacterDamageClientRpc(damagedCharacterID, characterCausingDamageID, 
+                    physicalDamage, magicDamage, fireDamage, lightningDamage, holyDamage, poisonDamage, 
+                    angleHitFrom, contactPointX, contactPointY, contactPointZ);
+            }
+        }
+        
+        [ClientRpc]
+        private void NotifyTheServerOfCharacterDamageClientRpc(
+            ulong damagedCharacterID,
+            ulong characterCausingDamageID,
+            float physicalDamage,
+            float magicDamage,
+            float fireDamage,
+            float lightningDamage,
+            float holyDamage,
+            float poisonDamage,
+            float angleHitFrom,
+            float contactPointX,
+            float contactPointY,
+            float contactPointZ)
+        {
+            ProcessCharacterDamageFromServer(damagedCharacterID, characterCausingDamageID, 
+                physicalDamage, magicDamage, fireDamage, lightningDamage, holyDamage, poisonDamage, 
+                angleHitFrom, contactPointX, contactPointY, contactPointZ);
+        }
+        
+        private void ProcessCharacterDamageFromServer(
+            ulong damagedCharacterID,
+            ulong characterCausingDamageID,
+            float physicalDamage,
+            float magicDamage,
+            float fireDamage,
+            float lightningDamage,
+            float holyDamage,
+            float poisonDamage,
+            float angleHitFrom,
+            float contactPointX,
+            float contactPointY,
+            float contactPointZ)
+        {
+            var damagedCharacterManager = NetworkManager.Singleton.SpawnManager.SpawnedObjects[damagedCharacterID]
+                .gameObject.GetComponent<CharacterManager>();
+            
+            var characterCausingDamage = NetworkManager.Singleton.SpawnManager.SpawnedObjects[characterCausingDamageID]
+                .gameObject.GetComponent<CharacterManager>();
+            
+            var damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeDamageEffect);
+            
+            damageEffect.physicalDamage = physicalDamage;
+            damageEffect.magicalDamage = magicDamage;
+            damageEffect.fireDamage = fireDamage;
+            damageEffect.lightningDamage = lightningDamage;
+            damageEffect.holyDamage = holyDamage;
+            damageEffect.poiseDamage = poisonDamage;
+            damageEffect.angleHitFrom = angleHitFrom;
+            damageEffect.contactPoint = new Vector3(contactPointX, contactPointY, contactPointZ);
+            damageEffect.characterCausingDamage = characterCausingDamage;
+            
+            damagedCharacterManager.characterEffectsManager.ProcessInstantEffect(damageEffect); 
+        }
+
+        #endregion
     }
 }
