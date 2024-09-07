@@ -29,11 +29,15 @@ namespace Character.Player
         public NetworkVariable<bool> isUsingLeftHand = 
             new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         
+        public NetworkVariable<bool> isUsingWeapon = 
+            new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         
         protected override void Awake()
         {
             base.Awake();
             _playerManager = GetComponent<PlayerManager>();
+
+            isUsingWeapon.OnValueChanged += OnIsUsingWeaponChange;
         }
 
         public void SetCharacterActionHand(bool rightHandAction)
@@ -64,6 +68,8 @@ namespace Character.Player
             currentStamina.Value = maxStamina.Value;
         }
         
+        public void SetIsUsingWeapon(bool value) => isUsingWeapon.Value = value;
+
         public void OnCurrentRightHandWeaponIDChange(int oldID, int newID)
         {
             var newWeapon = Instantiate(WorldItemDatabase.instance.GetWeaponItemByID(newID));
@@ -84,6 +90,9 @@ namespace Character.Player
             _playerManager.playerCombatManager.currentWeaponBeingUsed = newWeapon;
         }
         
+        private void OnIsUsingWeaponChange(bool oldValue, bool newValue) => 
+            _playerManager.playerAnimatorManager.UpdateAnimatorWeaponParameters(newValue);
+
         // Item Actions
         [ServerRpc]
         public void NotifyTheServerOfWeaponActionServerRpc(ulong clientId , int actionID, int weaponID)
