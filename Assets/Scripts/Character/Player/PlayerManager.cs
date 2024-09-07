@@ -176,6 +176,8 @@ namespace Character.Player
 
         private void LoadOtherPlayerCharacterWhenJoiningServer()
         {
+            playerNetworkManager.OnIsUsingWeaponChange(playerNetworkManager.isUsingWeapon.Value);
+            
             // Sync the other player's weapon ID's
             playerNetworkManager.OnCurrentRightHandWeaponIDChange(0, playerNetworkManager.currentRightHandWeaponID.Value);
             playerNetworkManager.OnCurrentLeftHandWeaponIDChange(0, playerNetworkManager.currentLeftHandWeaponID.Value);

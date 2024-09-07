@@ -36,8 +36,6 @@ namespace Character.Player
         {
             base.Awake();
             _playerManager = GetComponent<PlayerManager>();
-
-            isUsingWeapon.OnValueChanged += OnIsUsingWeaponChange;
         }
 
         public void SetCharacterActionHand(bool rightHandAction)
@@ -90,7 +88,7 @@ namespace Character.Player
             _playerManager.playerCombatManager.currentWeaponBeingUsed = newWeapon;
         }
         
-        private void OnIsUsingWeaponChange(bool oldValue, bool newValue) => 
+        public void OnIsUsingWeaponChange(bool newValue) => 
             _playerManager.playerAnimatorManager.UpdateAnimatorWeaponParameters(newValue);
 
         // Item Actions
