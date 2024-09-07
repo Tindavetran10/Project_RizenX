@@ -1,7 +1,6 @@
-using Items.Weapons;
 using UnityEngine;
 
-namespace Items
+namespace Items.Weapons
 {
     [CreateAssetMenu(fileName = "New Melee Weapon", menuName = "Items/Weapons/Melee Weapon")]
     public class MeleeWeaponItem : WeaponItem

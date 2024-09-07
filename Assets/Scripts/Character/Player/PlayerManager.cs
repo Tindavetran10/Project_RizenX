@@ -1,7 +1,9 @@
 using System.Collections;
+using System.Linq;
 using Character.Player.Player_UI;
 using Game_Saving;
 using UnityEngine;
+using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using World_Manager;
 
@@ -63,6 +65,8 @@ namespace Character.Player
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
+            
             if (IsOwner)
             {
                 PlayerCamera.Instance.playerManager = this;
@@ -93,6 +97,20 @@ namespace Character.Player
             if (IsOwner && !IsServer) LoadGameDataFromCurrentCharacterData(ref WorldSaveGameManager.Instance.currentCharacterData);
         }
 
+        private void OnClientConnectedCallback(ulong clientID)
+        {
+            // keep a list of active players in the games
+            WorldGameSessionManager.instance.AddPlayerToActivePlayerList(this);
+            
+            // If we are the server, we are the host, so we don't need to load in our character data, we are already loaded in
+            // You only need to load in your character data if you are a client
+            if (!IsServer && IsOwner)
+            {
+                foreach (var player in WorldGameSessionManager.instance.players.Where(player => player != this)) 
+                    player.LoadOtherPlayerCharacterWhenJoiningServer();
+            }
+        }
+        
         public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
         {
             if (IsOwner) 
@@ -156,6 +174,15 @@ namespace Character.Player
             PlayerUIManager.Instance.playerUIHudManager.SetMaxStaminaValue(playerNetworkManager.maxStamina.Value);
         }
 
+        private void LoadOtherPlayerCharacterWhenJoiningServer()
+        {
+            // Sync the other player's weapon ID's
+            playerNetworkManager.OnCurrentRightHandWeaponIDChange(0, playerNetworkManager.currentRightHandWeaponID.Value);
+            playerNetworkManager.OnCurrentLeftHandWeaponIDChange(0, playerNetworkManager.currentLeftHandWeaponID.Value);
+            
+            // Sync the other player's amor ID's 
+        }
+        
         // Debug Delete Later
         private void DebugMenu()
         {

@@ -61,6 +61,7 @@ namespace Effects
             // Play sound FX
             
             // Play damage FX (blood, etc.)
+            PlayDamageVFX(characterManager);
             
             // If character is AI, check for new target if character causing damage is present
         }
@@ -87,6 +88,14 @@ namespace Effects
             characterManager.characterNetworkManager.currentHealth.Value -= _finalDamageDealt; 
             
             // Calculate poise damage to determine if the character will be stunned
+        }
+
+        private void PlayDamageVFX(CharacterManager characterManager)
+        {
+            // if we have fire damage, play fire VFX
+            // if we have lightning damage, play lightning VFX etc.
+            
+            characterManager.characterEffectsManager.PlayBloodSplatterVFX(contactPoint);
         }
     }
 }

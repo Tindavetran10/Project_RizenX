@@ -2,7 +2,7 @@ using Character.Player.Player_UI;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using Weapon_Actions;
+using World_Manager;
 
 namespace Character.Player
 {
@@ -28,6 +28,7 @@ namespace Character.Player
         
         public NetworkVariable<bool> isUsingLeftHand = 
             new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        
         
         protected override void Awake()
         {
@@ -100,7 +101,7 @@ namespace Character.Player
 
         private void PerformWeaponBaseAction(int actionID, int weaponID)
         {
-            WeaponItemActions weaponAction = WorldActionManager.instance.GetWeaponItemActionByID(actionID);
+            var weaponAction = WorldActionManager.instance.GetWeaponItemActionByID(actionID);
 
             if (weaponAction != null)
             {

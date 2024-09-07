@@ -1,5 +1,6 @@
 using Effects;
 using UnityEngine;
+using World_Manager;
 
 namespace Character
 {
@@ -13,6 +14,9 @@ namespace Character
         
         private CharacterManager _characterManager;
 
+        [Header("VFX")] 
+        [SerializeField] private GameObject bloodSplatterVFX;
+        
         protected virtual void Awake() => _characterManager = GetComponent<CharacterManager>();
 
         public virtual void ProcessInstantEffect(InstantCharacterEffect effect)
@@ -21,6 +25,19 @@ namespace Character
             
             // Process it
             effect.ProcessEffect(_characterManager);
+        }
+        
+        public void PlayBloodSplatterVFX(Vector3 contactPoint)
+        {
+            // if we have a blood splatter VFX, play it
+            if(bloodSplatterVFX != null)
+            {
+                GameObject bloodSplatter = Instantiate(bloodSplatterVFX, contactPoint, Quaternion.identity);
+            }
+            else
+            {
+                GameObject bloodSplatter = Instantiate(WorldCharacterEffectsManager.instance.bloodSplatterVFX, contactPoint, Quaternion.identity);
+            }
         }
     }
 }

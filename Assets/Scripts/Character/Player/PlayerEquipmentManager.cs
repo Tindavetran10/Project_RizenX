@@ -1,5 +1,4 @@
 using System;
-using Items;
 using Items.Weapons;
 using UnityEngine;
 
@@ -141,7 +140,8 @@ namespace Character.Player
                 else
                 {
                     _playerManager.playerInventoryManager.rightHandWeaponIndex = firstWeaponPosition;
-                    _playerManager.playerNetworkManager.currentRightHandWeaponID.Value = firstWeapon.itemID;
+                    if (firstWeapon != null) _playerManager.playerNetworkManager.currentRightHandWeaponID.Value 
+                        = firstWeapon.itemID;
                 }
                 return;
             }
@@ -194,14 +194,10 @@ namespace Character.Player
         {
             // Open right weapon damage collider
             if (_playerManager.playerNetworkManager.isUsingRightHand.Value)
-            {
                 rightHandWeaponManager.meleeDamageCollider.EnableDamageCollider();
-            }
             // Open left weapon damage collider
-            else if (_playerManager.playerNetworkManager.isUsingLeftHand.Value)
-            {
+            else if (_playerManager.playerNetworkManager.isUsingLeftHand.Value) 
                 leftHandWeaponManager.meleeDamageCollider.EnableDamageCollider();
-            }
             
             // Play whoosh sfx
         }
@@ -210,14 +206,10 @@ namespace Character.Player
         {
             // Open right weapon damage collider
             if (_playerManager.playerNetworkManager.isUsingRightHand.Value)
-            {
                 rightHandWeaponManager.meleeDamageCollider.DisableDamageCollider();
-            }
             // Open left weapon damage collider
-            else if (_playerManager.playerNetworkManager.isUsingLeftHand.Value)
-            {
+            else if (_playerManager.playerNetworkManager.isUsingLeftHand.Value) 
                 leftHandWeaponManager.meleeDamageCollider.DisableDamageCollider();
-            }
             
             // Play whoosh sfx
         }

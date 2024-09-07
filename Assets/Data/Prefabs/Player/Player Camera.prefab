@@ -186,14 +186,14 @@ MonoBehaviour:
     type: 3}
   cameraObject: {fileID: 2690041010968773337}
   cameraPivotTransform: {fileID: 579848263675029420}
-  leftAndRightLookSpeed: 80
-  upAndDownLookSpeed: 80
+  leftAndRightLookSpeed: 50
+  upAndDownLookSpeed: 50
   minimumPivot: -30
   maximumPivot: 60
   cameraCollisionRadius: 0.15
   collideWithLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   leftAndRightLookAngle: 0
   upAndDownLookAngle: 0
 --- !u!1 &8805489887063760296
