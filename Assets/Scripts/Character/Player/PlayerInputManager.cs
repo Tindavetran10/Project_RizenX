@@ -19,6 +19,9 @@ namespace Character.Player
         [SerializeField] public float cameraVerticalInput;
         [SerializeField] public float cameraHorizontalInput;
         
+        [Header("Lock On Input")]
+        [SerializeField] private bool lockOnInput;
+        
         [Header("Player Movement Input")]
         [SerializeField] private Vector2 movementInput;
         [SerializeField] public float verticalInput;
@@ -83,6 +86,9 @@ namespace Character.Player
                 
                 _playerController.PlayerActions.RB.performed += ctx => rbInput = true;
                 
+                // Lock on input
+                _playerController.PlayerActions.LockOn.performed += ctx => lockOnInput = true;
+                
                 // Holding the sprint button, set sprintInput to true
                 _playerController.PlayerActions.Sprint.performed += ctx => sprintInput = true;
                 // When the sprint button is released, set sprintInput to false
@@ -108,10 +114,11 @@ namespace Character.Player
             }
         }
 
-        private void Update() => HandleALLInput();
+        private void Update() => HandleAllInput();
 
-        private void HandleALLInput()
+        private void HandleAllInput()
         {
+            HandleLockOnInput();
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
             HandleDodgeInput();
@@ -119,6 +126,43 @@ namespace Character.Player
             HandleJumpInput();
             
             HandleRBInput();
+        }
+        
+        // Lock On
+        private void HandleLockOnInput()
+        {
+            // Is our current target still alive?
+            if (PlayerManager.playerNetworkManager.isLockedOn.Value)
+            {
+                if(PlayerManager.playerCombatManager.currentTarget == null)
+                    return;
+                
+                if(PlayerManager.playerCombatManager.currentTarget.isDead.Value) 
+                    PlayerManager.playerNetworkManager.isLockedOn.Value = false;
+                
+                // Attempt to find new target
+            }
+            
+            if (lockOnInput && PlayerManager.playerNetworkManager.isLockedOn.Value)
+            {
+                lockOnInput = false;
+                
+                //Are we already locked on to an enemy?
+                
+                // Disable lock on
+                return;
+                
+            }
+            
+            if (lockOnInput && !PlayerManager.playerNetworkManager.isLockedOn.Value)
+            {
+                lockOnInput = false;
+                
+                //Are we already locked on to an enemy?
+                
+                //Enable lock on
+                PlayerCamera.Instance.HandleLocationLockOnTarget();
+            }
         }
 
         // This method will handle the movement input from the player,

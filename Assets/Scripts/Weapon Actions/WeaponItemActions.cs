@@ -19,7 +19,7 @@ namespace Weapon_Actions
                     weaponPerformingAction.itemID;
             }
             
-            Debug.Log("AttemptToPerformAction");
+            //Debug.Log("AttemptToPerformAction");
         }
     }
 }

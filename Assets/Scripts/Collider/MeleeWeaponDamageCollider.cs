@@ -11,7 +11,7 @@ namespace Collider
         public CharacterManager characterCausingDamage; // When calculating damage, this is used to check for attacker damage modifiers, effects, etc.
     
         [Header("Weapon Attack Modifiers")]
-        public float lightAttack_01_Modifier = 1.0f;
+        public float lightAttack_01_Modifier = 2.0f;
 
         protected override void Awake()
         {
@@ -69,13 +69,23 @@ namespace Collider
             damageEffect.holyDamage = holyDamage;
 
             damageEffect.contactPoint = ContactPoint;
+            damageEffect.angleHitFrom =
+                Vector3.SignedAngle(characterCausingDamage.transform.forward, damageTarget.transform.forward, Vector3.up);
 
             switch (characterCausingDamage.characterCombatManager.currentAttackType)
             {
                 case AttackType.LightAttack01:
                     ApplyAttackDamageModifiers(lightAttack_01_Modifier, damageEffect);
                     break;
-                default:
+                case AttackType.HeavyAttack:
+                    break;
+                case AttackType.SpecialAttack:
+                    break;
+                case AttackType.Block:
+                    break;
+                case AttackType.Parry:
+                    break;
+                case AttackType.NO_ATTACK:
                     break;
             }
 

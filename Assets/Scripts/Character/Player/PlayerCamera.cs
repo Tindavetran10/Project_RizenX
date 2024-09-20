@@ -1,4 +1,5 @@
 using UnityEngine;
+using World_Manager;
 
 namespace Character.Player
 {
@@ -33,6 +34,12 @@ namespace Character.Player
         
         private float _cameraZPosition; // The value used for camera collision
         private float _targetCameraZPosition; // The value used for camera collision
+        
+        [Header("Lock On")]
+        [SerializeField] private float lockOnRadius = 26f;
+        [SerializeField] private float minimumViewableAngle = -50f;
+        [SerializeField] private float maximumViewableAngle = 50f;
+        [SerializeField] private float maximumLockOnDistance = 30f;
         
         private void Awake()
         {
@@ -126,6 +133,51 @@ namespace Character.Player
             // we then apply our final position using lerp over a time of 0.2f
             _cameraObjectPosition.z = Mathf.Lerp(cameraObject.transform.localPosition.z, _targetCameraZPosition, 0.2f);
             cameraObject.transform.localPosition = _cameraObjectPosition;
+        }
+
+        public void HandleLocationLockOnTarget()
+        {
+            float shortestDistance = Mathf.Infinity; // will be used to find the closest target
+            float shortestDistanceOfRightTarget = Mathf.Infinity; // will be used to find the closest target on one axis to the right of the current target
+            float shortestDistanceOfLeftTarget = -Mathf.Infinity; // will be used to find the closest target on one axis to the left of the current target
+            
+            var colliders = Physics.OverlapSphere(playerManager.transform.position, lockOnRadius, 
+                WorldUtilityManager.Instance.GetCharacterLayers());
+
+            foreach (var character in colliders)
+            {
+                var lockOnTargets = character.GetComponent<CharacterManager>();
+
+                if (lockOnTargets != null)
+                {
+                    // Check if they are within our field of view
+                    var lockOnTargetDirection = lockOnTargets.transform.position - playerManager.transform.position;
+                    var distanceFromTarget = Vector3.Distance(playerManager.transform.position, 
+                        lockOnTargets.transform.position);
+                    var viewableAngle = Vector3.Angle(lockOnTargetDirection, cameraObject.transform.forward);
+                    
+                    if(lockOnTargets.isDead.Value) continue; // Skip dead targets
+                    
+                    if(lockOnTargets.transform.root == playerManager.transform.root) continue; // Accidentally lock on to yourself
+                    
+                    if(distanceFromTarget > maximumLockOnDistance) continue; // Skip targets that are too far away
+                    
+                    if(viewableAngle > minimumViewableAngle && viewableAngle < maximumViewableAngle)
+                    {
+                        // TODO: add player mask for environment layer only
+                        
+                        if(Physics.Linecast(
+                               playerManager.playerCombatManager.lockOnTransform.position, 
+                               lockOnTargets.characterCombatManager.lockOnTransform.position, 
+                               out var hit, WorldUtilityManager.Instance.GetEnviroLayers()))
+                        {
+                            // We hit something, we cannot see out lock on target
+                            continue;
+                        }
+                        else Debug.Log("Locking on to target");
+                    }
+                }
+            }
         }
     }
 }

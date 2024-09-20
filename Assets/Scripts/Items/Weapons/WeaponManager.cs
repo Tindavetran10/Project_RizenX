@@ -8,10 +8,7 @@ namespace Items.Weapons
     {
         public MeleeWeaponDamageCollider meleeDamageCollider;
 
-        private void Awake()
-        {
-            meleeDamageCollider = GetComponentInChildren<MeleeWeaponDamageCollider>();
-        }
+        private void Awake() => meleeDamageCollider = GetComponentInChildren<MeleeWeaponDamageCollider>();
 
         public void SetWeaponDamage(CharacterManager characterWieldingWeapon, WeaponItem weapon)
         {

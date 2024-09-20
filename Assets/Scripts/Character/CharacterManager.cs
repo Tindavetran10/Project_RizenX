@@ -18,6 +18,7 @@ namespace Character
         [HideInInspector] public CharacterEffectsManager characterEffectsManager;
         [HideInInspector] public CharacterAnimatorManager characterAnimatorManager;
         [HideInInspector] public CharacterCombatManager characterCombatManager;
+        [HideInInspector] public CharacterSoundFxManager characterSoundFxManager;
         
         [Header("Flags")]
         public bool isPerformingAction;
@@ -38,6 +39,7 @@ namespace Character
             characterEffectsManager = GetComponent<CharacterEffectsManager>();
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
             characterCombatManager = GetComponent<CharacterCombatManager>();
+            characterSoundFxManager = GetComponent<CharacterSoundFxManager>();
         }
 
         protected virtual void Start() => IgnoreMyOwnColliders();

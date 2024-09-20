@@ -167,6 +167,15 @@
                     "processors": "",
                     "interactions": "Hold(duration=1.401298E-45,pressPoint=1.401298E-45)",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Lock On",
+                    "type": "Button",
+                    "id": "2c8ad79c-7dfb-48a8-9110-10177be9c884",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -255,6 +264,28 @@
                     "processors": "",
                     "groups": "Controller",
                     "action": "RB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d13aa1a6-5898-4c10-974c-d0f503dc1eb6",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Lock On",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7a64feb8-0f8a-46ae-a642-dfa28b5a43d8",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Lock On",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

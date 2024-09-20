@@ -29,11 +29,12 @@ namespace Character
         
         public void PlayBloodSplatterVFX(Vector3 contactPoint)
         {
-            // if we have a blood splatter VFX, play it
+            // if we have a custom blood splatter VFX on this model, play it
             if(bloodSplatterVFX != null)
             {
                 GameObject bloodSplatter = Instantiate(bloodSplatterVFX, contactPoint, Quaternion.identity);
             }
+            // else, use the generic (default) blood splatter VFX
             else
             {
                 GameObject bloodSplatter = Instantiate(WorldCharacterEffectsManager.instance.bloodSplatterVFX, contactPoint, Quaternion.identity);

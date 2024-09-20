@@ -176,6 +176,7 @@ namespace Character.Player
 
         private void LoadOtherPlayerCharacterWhenJoiningServer()
         {
+            // Make sure when the player joins the server, they load in the other player's using weapon status
             playerNetworkManager.OnIsUsingWeaponChange(playerNetworkManager.isUsingWeapon.Value);
             
             // Sync the other player's weapon ID's

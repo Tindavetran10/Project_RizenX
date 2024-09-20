@@ -1,18 +1,30 @@
 using UnityEngine;
 
-public class WorldSoundFxManager : MonoBehaviour
+namespace World_Manager
 {
-    public static WorldSoundFxManager instance;
-
-    [Header("Action SFX")]
-    public AudioClip rollSfx;
-    
-    private void Awake()
+    public class WorldSoundFxManager : MonoBehaviour
     {
-        if (instance == null)
-            instance = this;
-        else Destroy(gameObject);
-    }
+        public static WorldSoundFxManager instance;
 
-    private void Start() => DontDestroyOnLoad(gameObject);
+        [Header("Damage SFX")]
+        public AudioClip[] physicalDamageSfx;
+    
+        [Header("Action SFX")]
+        public AudioClip rollSfx;
+    
+        private void Awake()
+        {
+            if (instance == null)
+                instance = this;
+            else Destroy(gameObject);
+        }
+
+        private void Start() => DontDestroyOnLoad(gameObject);
+
+        public static AudioClip ChooseRandomSFXFromArray(AudioClip[] array)
+        {
+            var index = Random.Range(0, array.Length);
+            return array[index];
+        }
+    }
 }
