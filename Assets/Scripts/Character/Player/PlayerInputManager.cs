@@ -146,6 +146,8 @@ namespace Character.Player
             if (lockOnInput && PlayerManager.playerNetworkManager.isLockedOn.Value)
             {
                 lockOnInput = false;
+                PlayerCamera.Instance.ClearLockOnTargets();
+                PlayerManager.playerNetworkManager.isLockedOn.Value = false;
                 
                 //Are we already locked on to an enemy?
                 
@@ -162,6 +164,14 @@ namespace Character.Player
                 
                 //Enable lock on
                 PlayerCamera.Instance.HandleLocationLockOnTarget();
+                
+                if(PlayerCamera.Instance.nearestLockOnTarget != null)
+                {
+                    // Set the target as our current target
+                    PlayerManager.playerCombatManager.SetTarget(PlayerCamera.Instance.nearestLockOnTarget);
+                    PlayerManager.playerNetworkManager.isLockedOn.Value = true;
+                    
+                }
             }
         }
 

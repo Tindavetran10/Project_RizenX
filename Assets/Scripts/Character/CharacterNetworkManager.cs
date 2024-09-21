@@ -27,6 +27,9 @@ namespace Character
         public NetworkVariable<float> verticalMovement = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<float> moveAmount = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
+        [Header("Target")]
+        public NetworkVariable<ulong> currentTargetNetworkObjectID = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        
         [Header("Flags")]
         public NetworkVariable<bool> isLockedOn = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<bool> isSprinting = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -58,6 +61,21 @@ namespace Character
             }
         }
 
+        public void OnLockTargetIDChange(ulong oldId, ulong nextId)
+        {
+            if (!IsOwner)
+            {
+                _characterManager.characterCombatManager.currentTarget = NetworkManager.Singleton.SpawnManager.SpawnedObjects[nextId]
+                    .gameObject.GetComponent<CharacterManager>();
+            }
+        }
+
+        public void OnIsLockedOnChange(bool old, bool isLockedOn)
+        {
+            if(!isLockedOn)
+                _characterManager.characterCombatManager.currentTarget = null;
+        }
+        
         #region Action Animation
         // A server RPC is a method that is called on the server and executed on the clients
         [ServerRpc]

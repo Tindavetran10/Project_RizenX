@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 using World_Manager;
 
 namespace Character.Player
@@ -39,7 +42,8 @@ namespace Character.Player
         [SerializeField] private float lockOnRadius = 26f;
         [SerializeField] private float minimumViewableAngle = -50f;
         [SerializeField] private float maximumViewableAngle = 50f;
-        [SerializeField] private float maximumLockOnDistance = 30f;
+        private readonly List<CharacterManager> _availableTargets = new List<CharacterManager>();
+        public CharacterManager nearestLockOnTarget;
         
         private void Awake()
         {
@@ -160,8 +164,7 @@ namespace Character.Player
                     
                     if(lockOnTargets.transform.root == playerManager.transform.root) continue; // Accidentally lock on to yourself
                     
-                    if(distanceFromTarget > maximumLockOnDistance) continue; // Skip targets that are too far away
-                    
+                    // Lastly, if the target is outside of our viewable angle, skip it
                     if(viewableAngle > minimumViewableAngle && viewableAngle < maximumViewableAngle)
                     {
                         // TODO: add player mask for environment layer only
@@ -174,10 +177,41 @@ namespace Character.Player
                             // We hit something, we cannot see out lock on target
                             continue;
                         }
-                        else Debug.Log("Locking on to target");
+                        else _availableTargets.Add(lockOnTargets);
                     }
+                    
                 }
             }
+            
+            // We now sort through the available targets and find the closest one
+            foreach (var target in _availableTargets)
+            {
+                if (target != null)
+                {
+                    var distanceFromTarget = Vector3.Distance(playerManager.transform.position, 
+                        target.transform.position);
+                    
+                    var lockOnTargetDirection = target.transform.position - 
+                                                playerManager.transform.position;
+                    
+                    if(distanceFromTarget < shortestDistance)
+                    {
+                        shortestDistance = distanceFromTarget;
+                        nearestLockOnTarget = target;
+                    }
+                }
+                else
+                {
+                    ClearLockOnTargets();
+                    playerManager.playerNetworkManager.isLockedOn.Value = false;
+                }
+            }
+        }
+        
+        public void ClearLockOnTargets()
+        {
+            nearestLockOnTarget = null;
+            _availableTargets.Clear();
         }
     }
 }

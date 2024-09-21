@@ -86,6 +86,10 @@ namespace Character.Player
             // Stats
             playerNetworkManager.currentHealth.OnValueChanged += playerNetworkManager.CheckHP;
             
+            // Lock On
+            playerNetworkManager.isLockedOn.OnValueChanged += playerNetworkManager.OnIsLockedOnChange;
+            playerNetworkManager.currentTargetNetworkObjectID.OnValueChanged += playerNetworkManager.OnLockTargetIDChange;
+            
             // Equipment
             playerNetworkManager.currentRightHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentRightHandWeaponIDChange;
             playerNetworkManager.currentLeftHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
@@ -127,6 +131,7 @@ namespace Character.Player
             
             if(IsOwner)
             {
+                isDead.Value = false;
                 playerNetworkManager.currentHealth.Value = playerNetworkManager.maxHealth.Value;
                 playerNetworkManager.currentStamina.Value = playerNetworkManager.maxStamina.Value;
                 // Restore Focus points
@@ -184,6 +189,10 @@ namespace Character.Player
             playerNetworkManager.OnCurrentLeftHandWeaponIDChange(0, playerNetworkManager.currentLeftHandWeaponID.Value);
             
             // Sync the other player's amor ID's 
+            
+            // Lock on status
+            if(playerNetworkManager.isLockedOn.Value) 
+                playerNetworkManager.OnLockTargetIDChange(0, playerNetworkManager.currentTargetNetworkObjectID.Value);
         }
         
         // Debug Delete Later
