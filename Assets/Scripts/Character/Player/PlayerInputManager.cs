@@ -21,6 +21,9 @@ namespace Character.Player
         
         [Header("Lock On Input")]
         [SerializeField] private bool lockOnInput;
+        [SerializeField] private bool lockOnLeftInput;
+        [SerializeField] private bool lockOnRightInput;
+        private Coroutine _lockOnCoroutine;
         
         [Header("Player Movement Input")]
         [SerializeField] private Vector2 movementInput;
@@ -88,6 +91,8 @@ namespace Character.Player
                 
                 // Lock on input
                 _playerController.PlayerActions.LockOn.performed += ctx => lockOnInput = true;
+                _playerController.PlayerActions.SeekLeftLockOnTarget.performed += ctx => lockOnLeftInput = true;
+                _playerController.PlayerActions.SeekRightLockOnTarget.performed += ctx => lockOnRightInput = true;
                 
                 // Holding the sprint button, set sprintInput to true
                 _playerController.PlayerActions.Sprint.performed += ctx => sprintInput = true;
@@ -119,6 +124,7 @@ namespace Character.Player
         private void HandleAllInput()
         {
             HandleLockOnInput();
+            HandleLockOnSwitchTargetInput();
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
             HandleDodgeInput();
@@ -141,6 +147,11 @@ namespace Character.Player
                     PlayerManager.playerNetworkManager.isLockedOn.Value = false;
                 
                 // Attempt to find new target
+                
+                // This assures us that the coroutine is not running multiple times overlapping itself
+                if(_lockOnCoroutine != null) StopCoroutine(_lockOnCoroutine);
+                
+                _lockOnCoroutine = StartCoroutine(PlayerCamera.Instance.WaitThenFindNewTarget());
             }
             
             if (lockOnInput && PlayerManager.playerNetworkManager.isLockedOn.Value)
@@ -175,6 +186,35 @@ namespace Character.Player
             }
         }
 
+        private void HandleLockOnSwitchTargetInput()
+        {
+            if (lockOnLeftInput)
+            {
+                lockOnLeftInput = false;
+                
+                if(PlayerManager.playerNetworkManager.isLockedOn.Value)
+                {
+                    PlayerCamera.Instance.HandleLocationLockOnTarget();
+                    
+                    if(PlayerCamera.Instance.leftLockOnTarget != null) 
+                        PlayerManager.playerCombatManager.SetTarget(PlayerCamera.Instance.leftLockOnTarget);
+                }
+            }
+            
+            if (lockOnRightInput)
+            {
+                lockOnRightInput = false;
+                
+                if(PlayerManager.playerNetworkManager.isLockedOn.Value)
+                {
+                    PlayerCamera.Instance.HandleLocationLockOnTarget();
+                    
+                    if(PlayerCamera.Instance.rightLockOnTarget != null) 
+                        PlayerManager.playerCombatManager.SetTarget(PlayerCamera.Instance.rightLockOnTarget);
+                }
+            }
+        }
+        
         // This method will handle the movement input from the player,
         // not the movement speed
         private void HandlePlayerMovementInput()
@@ -201,9 +241,15 @@ namespace Character.Player
             if(PlayerManager == null) return;
             
             // If we are not strafing or locked on to an enemy, we only use the moveAmount
-            PlayerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, 
+            if(!PlayerManager.playerNetworkManager.isLockedOn.Value || PlayerManager.playerNetworkManager.isSprinting.Value)
+                PlayerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(0, 
                 moveAmount, PlayerManager.playerNetworkManager.isSprinting.Value);
-            
+            else
+            {
+                // If we are strafing or locked on to an enemy, we use the horizontal input as well
+                PlayerManager.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalInput, 
+                    verticalInput, PlayerManager.playerNetworkManager.isSprinting.Value);
+            }
             // If we are strafing or locked on to an enemy, we use the horizontal input as well
         }
 
