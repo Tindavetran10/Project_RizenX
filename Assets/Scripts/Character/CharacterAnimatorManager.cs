@@ -69,14 +69,32 @@ namespace Character
         
         public void UpdateAnimatorMovementParameters(float horizontalMovement, float verticalMovement, bool isSprinting)
         {
-            var horizontalAmount = horizontalMovement;
-            var verticalAmount = verticalMovement;
-            
-            if (isSprinting) verticalAmount = 2;
+            var snappedHorizontal = horizontalMovement;
+            var snappedVertical = verticalMovement;
+
+            snappedHorizontal = horizontalMovement switch
+            {
+                > 0 and <= 0.5f => 0.5f,
+                > 0.5f and <= 1 => 1,
+                < 0 and >= -0.5f => -0.5f,
+                < -0.5f and >= -1 => -1,
+                _ => 0
+            };
+
+            snappedVertical = verticalMovement switch
+            {
+                > 0 and <= 0.5f => 0.5f,
+                > 0.5f and <= 1 => 1,
+                < 0 and >= -0.5f => -0.5f,
+                < -0.5f and >= -1 => -1,
+                _ => 0
+            };
+
+            if (isSprinting) snappedVertical = 2;
             
             const float dampTime = 0.075f;
-            _characterManager.animator.SetFloat(Horizontal, horizontalAmount, dampTime, Time.deltaTime);
-            _characterManager.animator.SetFloat(Vertical, verticalAmount,dampTime, Time.deltaTime);
+            _characterManager.animator.SetFloat(Horizontal, snappedHorizontal, dampTime, Time.deltaTime);
+            _characterManager.animator.SetFloat(Vertical, snappedVertical,dampTime, Time.deltaTime);
 
         }
 

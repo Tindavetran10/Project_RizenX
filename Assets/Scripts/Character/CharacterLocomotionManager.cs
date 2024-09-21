@@ -18,6 +18,9 @@ namespace Character
         
         private static readonly int InAirTimer = Animator.StringToHash("InAirTimer");
 
+        [Header("Flags")]
+        public bool isRolling;
+        
         protected virtual void Awake() => 
             _characterManager = GetComponent<CharacterManager>();
 

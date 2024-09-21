@@ -15,6 +15,7 @@ public class ResetActionFlag : StateMachineBehaviour
        _characterManager.applyRootMotion = false;
        _characterManager.canRotate = true;
        _characterManager.canMove = true;
+       _characterManager.characterLocomotionManager.isRolling = false;
        
        if(_characterManager.IsOwner) _characterManager.characterNetworkManager.isJumping.Value = false;
     }

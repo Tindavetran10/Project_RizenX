@@ -143,7 +143,7 @@ namespace Character.Player
 
             if (_playerManager.playerNetworkManager.isLockedOn.Value)
             {
-                if (_playerManager.playerNetworkManager.isSprinting.Value)
+                if (_playerManager.playerNetworkManager.isSprinting.Value || _playerManager.playerLocomotionManager.isRolling)
                 {
                     var targetDirection = PlayerCamera.Instance.cameraObject.transform.forward * verticalMovement;
                     targetDirection += PlayerCamera.Instance.cameraObject.transform.right * horizontalMovement;
@@ -232,6 +232,7 @@ namespace Character.Player
                 
                 // Perform a roll animation
                 _playerManager.playerAnimatorManager.PlayTargetActionAnimation("Roll_Forward", true);
+                _playerManager.playerLocomotionManager.isRolling = true;
             }
             // If we are not moving, we perform a backstep
             else
