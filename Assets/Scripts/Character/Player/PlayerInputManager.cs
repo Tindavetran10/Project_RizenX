@@ -143,15 +143,15 @@ namespace Character.Player
                 if(PlayerManager.playerCombatManager.currentTarget == null)
                     return;
                 
-                if(PlayerManager.playerCombatManager.currentTarget.isDead.Value) 
+                if(PlayerManager.playerCombatManager.currentTarget.isDead.Value)
+                {
                     PlayerManager.playerNetworkManager.isLockedOn.Value = false;
-                
-                // Attempt to find new target
-                
-                // This assures us that the coroutine is not running multiple times overlapping itself
-                if(_lockOnCoroutine != null) StopCoroutine(_lockOnCoroutine);
-                
-                _lockOnCoroutine = StartCoroutine(PlayerCamera.Instance.WaitThenFindNewTarget());
+                    // Attempt to find new target
+                    
+                    // This assures us that the coroutine is not running multiple times overlapping itself
+                    if(_lockOnCoroutine != null) StopCoroutine(_lockOnCoroutine);
+                    _lockOnCoroutine = StartCoroutine(PlayerCamera.Instance.WaitThenFindNewTarget());
+                }
             }
             
             if (lockOnInput && PlayerManager.playerNetworkManager.isLockedOn.Value)
