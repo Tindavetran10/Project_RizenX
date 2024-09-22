@@ -47,7 +47,7 @@ namespace Character.Player
 
         private Coroutine _cameraLockOnHeightCoroutine;
 
-        private readonly List<CharacterManager> _availableTargets = new List<CharacterManager>();
+        private readonly List<CharacterManager> _availableTargets = new();
         public CharacterManager nearestLockOnTarget;
         public CharacterManager leftLockOnTarget;
         public CharacterManager rightLockOnTarget;
@@ -180,13 +180,9 @@ namespace Character.Player
 
         public void HandleLocationLockOnTarget()
         {
-            float shortestDistance = Mathf.Infinity; // will be used to find the closest target
-            float
-                shortestDistanceOfRightTarget =
-                    Mathf.Infinity; // will be used to find the closest target on one axis to the right of the current target
-            float
-                shortestDistanceOfLeftTarget =
-                    -Mathf.Infinity; // will be used to find the closest target on one axis to the left of the current target
+            var shortestDistance = Mathf.Infinity; // will be used to find the closest target
+            var shortestDistanceOfRightTarget = Mathf.Infinity; // will be used to find the closest target on one axis to the right of the current target
+            var shortestDistanceOfLeftTarget = -Mathf.Infinity; // will be used to find the closest target on one axis to the left of the current target
 
             var colliders = Physics.OverlapSphere(playerManager.transform.position, lockOnRadius,
                 WorldUtilityManager.Instance.GetCharacterLayers());
@@ -205,8 +201,8 @@ namespace Character.Player
 
                     if (lockOnTargets.isDead.Value) continue; // Skip dead targets
 
-                    if (lockOnTargets.transform.root == playerManager.transform.root)
-                        continue; // Accidentally lock on to yourself
+                    if (lockOnTargets.transform.root == playerManager.transform.root) // Accidentally lock on to yourself
+                        continue; 
 
                     // Lastly, if the target is outside our viewable angle, skip it
                     if (viewableAngle > minimumViewableAngle && viewableAngle < maximumViewableAngle)
