@@ -344,10 +344,19 @@ namespace Character.Player
             {
                 if (playerManager.playerCombatManager.currentTarget != null)
                 {
+                    if (cameraPivotTransform.localPosition == newLockedCameraHeight)
+                        yield return null;
+                    
                     cameraPivotTransform.transform.localPosition = newLockedCameraHeight;
                     cameraPivotTransform.transform.localRotation = Quaternion.Euler(0,0,0);
                 }
-                else cameraPivotTransform.transform.localPosition = newUnlockedCameraHeight;
+                else
+                {
+                    if(cameraPivotTransform.localPosition == newUnlockedCameraHeight)
+                        yield return null;
+                    
+                    cameraPivotTransform.transform.localPosition = newUnlockedCameraHeight;
+                }
             }
             yield return null;
         }
